@@ -1,17 +1,50 @@
-canvas {
-  width: 100%!important;
-  background: #fff;
-}
+/* Global classes */
 .float-left {
   float: left;
 }
-.control-panel {
-  background-color: black;
-  width: 29%;
-} 
 .bg-primary {
 	background: #000;
 }
+.center-it {
+	text-align: center;
+}
+
+/* Layout */
+canvas {
+  background: #fff;
+}
+
 .wrapper {
 	padding: 1em;
+}
+
+/* 
+* Control Panel
+* 
+*/
+.canvas-clear {
+	margin-bottom: 2em;
+}
+.defence-title {
+	display: block;
+	color: #000;
+	padding-top: 0.2em;
+}
+
+/* Watch tower */
+.watch-tower {
+	cursor: pointer;
+	padding-top: 1.5em;
+	background-color: #fff;
+	border-radius: 50%;
+	width: 125px;
+	height: 125px;
+}
+.watch-tower:hover {
+	background-color: #888;
+}
+.watch-tower img {
+	width: 30%;
+	height: auto;
+	margin: 0 auto;
 }

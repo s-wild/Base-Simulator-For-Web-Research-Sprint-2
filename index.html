@@ -13,14 +13,19 @@
       <div class="bg-primary">
         <div class="row">
           <div class="col-sm-9">
-            <canvas class="float-left" id="battleField" width="1000" height="600" style="border:1px solid #d3d3d3;">
+            <canvas class="float-left" id="battleField" width="1050" height="600" style="border:1px solid #d3d3d3;">
               Your browser does not support the HTML5 canvas tag.
             </canvas>
           </div>
           <script src="/js/scripts.js"></script>
           <div class="col-sm-3">
             <div class="control-panel">
-              <p>My control panel</p>
+              <h2>Control panel</h2>
+              <button id="canvas-clear" class="canvas-clear btn btn-danger clear" ng-click="canvasClear()">Clear canvas</button>
+              <div id="defence-tower" class="watch-tower center-it">
+                <img src="images/watch-tower.png" alt="Watch Tower">
+                <span class="defence-title">Watch tower</span>
+              </div>
             </div>
           </div>
         </div>
