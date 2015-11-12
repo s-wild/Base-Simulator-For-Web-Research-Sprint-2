@@ -10,9 +10,6 @@
 }
 
 /* Layout */
-canvas {
-  background: #fff;
-}
 
 .wrapper {
 	padding: 1em;
@@ -47,4 +44,7 @@ canvas {
 	width: 30%;
 	height: auto;
 	margin: 0 auto;
+}
+#Canvas {
+	background-color: #fff;
 }
