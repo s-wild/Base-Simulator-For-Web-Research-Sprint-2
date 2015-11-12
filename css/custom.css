@@ -1,0 +1,10 @@
+canvas {
+  width: 70%;
+}
+.float-left {
+  float: left;
+}
+.controlPanel {
+  background-color: black;
+  width: 29%;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+ 
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+	  
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="150" height="150"></canvas>
+  </body>
+   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+      function draw(relX, relY){
+        var canvas = document.getElementById('canvas');
+        if (canvas.getContext){
+          var ctx = canvas.getContext('2d');
+            ctx.beginPath();
+    		ctx.moveTo(relX,relY);
+   			ctx.lineTo(relX+50,relY+25);
+    		ctx.lineTo(relX+50,relY-25);
+    		ctx.fill();
+        ctx.rotate((Math.PI/180)*25);
+        }
+      }
+	  $("#canvas" ).click(function( event ) {
+		var wrapper = $(this).parent();
+		var parentOffset = wrapper.offset(); 
+		var relX = event.pageX - this.offsetLeft; //- parentOffset.left + wrapper.scrollLeft();
+		var relY = event.pageY - this.offsetTop; //- parentOffset.top + wrapper.scrollTop();
+		draw(relX, relY);
+});
+	  
+	  
+    </script>
+</html>
