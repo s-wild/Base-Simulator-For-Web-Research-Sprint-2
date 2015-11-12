@@ -26,40 +26,50 @@
     display: block;
   }
   .arrow-up {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	position: absolute;
 	border-bottom: 50px solid black;
 	opacity: 0.5;
 }
-  
+
   </style>
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="/js/jquery-1.11.3.min.js"></script>
 </head>
 <body>
- 
+
 <p>
   <span>Move the mouse over the div.</span>
   <span>&nbsp;</span>
 </p>
 <div id="canvas" class="canvas"></div>
- 
+
 <script>
 $( "#canvas" ).click(function( event ) {
    var wrapper = $(this).parent();
-   var parentOffset = wrapper.offset(); 
+   var parentOffset = wrapper.offset();
    var relX = event.pageX; //- parentOffset.left + wrapper.scrollLeft();
    var relY = event.pageY; //- parentOffset.top + wrapper.scrollTop();
    var cursorPosition = relX-50;
 $(this).append($('<div/>').addClass('arrow-up').css({
         left: cursorPosition,
         top: relY
-    }));  
+    }));
+    $.ajax
+    ({
+        type: "GET",
+        dataType : 'json',
+        async: false,
+        url: '/php/save.php',
+        data: { data: JSON.stringify(cursorPosition) },
+        success: function () {alert("Thanks!"); },
+        failure: function() {alert("Error!");}
+    });
 });
 
 </script>
- 
+
 </body>
 </html>
