@@ -15,5 +15,4 @@
     });
   }
   animate();
-  console.log("working!!!!");
 })();

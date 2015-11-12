@@ -4,20 +4,33 @@
     <title>Page Title</title>
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/libraries/fabricjs/fabric.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
   </head>
   <body>
+    <div class="wrapper">
+      <h1>Base Vulnerability</h1>
+      <div class="bg-primary">
+        <div class="row">
+          <div class="col-sm-9">
+            <canvas class="float-left" id="battleField" width="1000" height="600" style="border:1px solid #d3d3d3;">
+              Your browser does not support the HTML5 canvas tag.
+            </canvas>
+          </div>
+          <script src="/js/scripts.js"></script>
+          <div class="col-sm-3">
+            <div class="control-panel">
+              <p>My control panel</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <h1>Base Vulnerability</h1>
-    <canvas class="float-left" id="battleField" width="1000" height="600" style="border:1px solid #d3d3d3;">
-      Your browser does not support the HTML5 canvas tag.
-    </canvas>
-    <script src="/js/scripts.js"></script>
-    <div class="float-left">
-      <p>My control panel</p>
-    <div>
-    <p>Testing shapes: <a href="text.html">triangles</a></p>
-
-
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Testing shapes: <a href="text.html">triangles</a></p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

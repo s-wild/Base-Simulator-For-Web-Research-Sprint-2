@@ -1,10 +1,17 @@
 canvas {
-  width: 70%;
+  width: 100%!important;
+  background: #fff;
 }
 .float-left {
   float: left;
 }
-.controlPanel {
+.control-panel {
   background-color: black;
   width: 29%;
+} 
+.bg-primary {
+	background: #000;
+}
+.wrapper {
+	padding: 1em;
 }
