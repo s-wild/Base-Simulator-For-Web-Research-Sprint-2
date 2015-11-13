@@ -15,9 +15,9 @@
 	padding: 1em;
 }
 
-/* 
+/*
 * Control Panel
-* 
+*
 */
 .canvas-clear {
 	margin-bottom: 2em;
@@ -47,4 +47,5 @@
 }
 #Canvas {
 	background-color: #fff;
+  background:url(../images/grass-map.jpg)
 }
