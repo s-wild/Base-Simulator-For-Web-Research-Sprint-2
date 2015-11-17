@@ -145,6 +145,7 @@ $(document).ready(function() {
       });
 
       canvas.add(patrolGroup); 
+      patrolGroup.animate('angle', '-50', { onChange: canvas.renderAll.bind(canvas) });
       locaSniper.lockUniScaling = true;
   });
 
