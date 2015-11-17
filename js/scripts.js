@@ -152,6 +152,18 @@ $(document).ready(function() {
   $("#canvas-clear").click(function() {
       canvas.clear();
   });
+  
+  $('#Canvas').addClass('grassBG');
+  $('#changeToGrass').click(function() 
+	{
+		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').addClass('grassBG');
+	});
+	$('#changeToSand').click(function() 
+	{
+		$('#Canvas').removeClass('grassBG');
+		$('#Canvas').addClass('sandBG');
+	});
 
 
 
