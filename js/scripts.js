@@ -45,16 +45,16 @@ $(document).ready(function() {
       var circle = new fabric.Circle({
          top: 140,
          left: 230,
-         radius: 75,
+         radius: 20,
          fill: 'green'
        });
 
       // Triangle for sniper vision.
       var triangle = new fabric.Triangle({
-        top: 300,
-        left: 210,
+        top: 190,
+        left: 195,
         width: 100,
-        height: 100,
+        height: 400,
         fill: 'blue'
       });
 
