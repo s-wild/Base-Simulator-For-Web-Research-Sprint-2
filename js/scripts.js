@@ -59,12 +59,12 @@ $(document).ready(function() {
       });
 
       var sniperGroup = new fabric.Group([ circle, triangle ], {
-        left: 150,
-        top: 100,
-        angle: -10
+        top: 300,
+        left: 210,
+        angle: -50
       });
 
-      canvas.add(group);
+      canvas.add(sniperGroup);
       locaSniper.lockUniScaling = true;
   });
 
