@@ -54,7 +54,7 @@ $(document).ready(function() {
         top: 190,
         left: 195,
         width: 100,
-        height: 800,
+        height: 700,
         fill: 'black',
         opacity: 0.3
       });
@@ -107,41 +107,41 @@ $(document).ready(function() {
   $("#patroller").click(function() {
       console.log("sniper clicked.");
 
+      // Circle for patrol vison.
+      var patrollerVison = new fabric.Triangle({
+        top: 300,
+        left: 110,
+        width: 200,
+        height: 400,
+        fill: 'black',
+        opacity: 0.7,
+        angle: 10
+      });
+
       // Circle for patrol man.
       var circleMan = new fabric.Circle({
-         top: 110,
-         left: 280,
+         top: 300,
+         left: 180,
          radius: 20,
          fill: 'black'
        });
 
       // Circle for patrol radius.
       var circlePatrolRadius = new fabric.Circle({
-         top: 110,
-         left: 280,
-         radius: 200 ,
+         top: 50,
+         left: 180,
+         radius: 400,
          fill: 'black',
          strokeWidth: 5,
-         radius: 12,
-         fill: 'rgba(0,0,200,0.5)',
+         fill: '#fff',
          stroke: '#666'
        });
 
-      // Circle for patrol radius.
-      var patrollerVison = new fabric.Triangle({
-        top: 150,
-        left: 150,
-        width: 300,
-        height: 200,
-        fill: 'black',
-        opacity: 0.7,
-      });
-
       // Group the shapes for the sniper.
-      var patrolGroup = new fabric.Group([ circleMan, circlePatrolRadius, patrollerVison], {
+      var patrolGroup = new fabric.Group([ circlePatrolRadius, patrollerVison ,circleMan ], {
         top: 300,
         left: 210,
-        angle: -50
+        
       });
 
       canvas.add(patrolGroup); 
