@@ -55,6 +55,17 @@
 	height: auto;
 	margin: 0 auto;
 }
+
+/* Sniper */
+.sniper {
+  margin-top: 1em;
+  cursor: pointer;
+	padding-top: 1.5em;
+	background-color: #fff;
+	width: 125px;
+	height: 125px;
+}
+
 #Canvas {
 	background-color: #fff;
   background:url(../images/grass-map.jpg)

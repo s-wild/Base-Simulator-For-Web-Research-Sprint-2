@@ -37,11 +37,42 @@ $(document).ready(function() {
       localCirle.lockUniScaling = true;
   });
 
+  // Add a sniper click function.
+  $("#sniper").click(function() {
+      console.log("sniper clicked.");
+
+      // Circle for sniper.
+      var circle = new fabric.Circle({
+         top: 140,
+         left: 230,
+         radius: 75,
+         fill: 'green'
+       });
+
+      // Triangle for sniper vision.
+      var triangle = new fabric.Triangle({
+        top: 300,
+        left: 210,
+        width: 100,
+        height: 100,
+        fill: 'blue'
+      });
+
+      var sniperGroup = new fabric.Group([ circle, triangle ], {
+        left: 150,
+        top: 100,
+        angle: -10
+      });
+
+      canvas.add(group);
+      locaSniper.lockUniScaling = true;
+  });
 
   // Clear canvas function
   $("#canvas-clear").click(function() {
       canvas.clear();
   });
+
 
 
 });
