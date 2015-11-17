@@ -35,7 +35,6 @@ $(document).ready(function() {
 
   // Add base click function.
   $("#base").click(function() {
-    newColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
       console.log("watch tower clicked.");
       localCirle = canvas.add(
         new fabric.Rect({
@@ -43,7 +42,7 @@ $(document).ready(function() {
 			left: 200,
 			width: 200, 
 			height: 200, 
-			fill: newColor, 
+			fill: '#FFF', 
 			opacity: 0.7, 
 			strokeWidth: 5, 
 			stroke: 'rgba(0,0,0,1)' })
