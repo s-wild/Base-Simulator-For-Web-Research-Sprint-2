@@ -66,6 +66,16 @@
 	height: 125px;
 }
 
+/* Machine Gun */
+.machineGun {
+  margin-top: 1em;
+  cursor: pointer;
+	padding-top: 1.5em;
+	background-color: #fff;
+	width: 125px;
+	height: 125px;
+}
+
 #Canvas {
 	background-color: #fff;
   background:url(../images/grass-map.jpg)

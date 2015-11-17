@@ -46,7 +46,7 @@ $(document).ready(function() {
          top: 140,
          left: 230,
          radius: 20,
-         fill: 'green'
+         fill: 'black'
        });
 
       // Triangle for sniper vision.
@@ -54,10 +54,12 @@ $(document).ready(function() {
         top: 190,
         left: 195,
         width: 100,
-        height: 400,
-        fill: 'blue'
+        height: 800,
+        fill: 'black',
+        opacity: 0.3
       });
 
+      // Group the shapes for the sniper.
       var sniperGroup = new fabric.Group([ circle, triangle ], {
         top: 300,
         left: 210,
@@ -65,6 +67,39 @@ $(document).ready(function() {
       });
 
       canvas.add(sniperGroup);
+      locaSniper.lockUniScaling = true;
+  });
+
+  // Add a machine gun click function.
+  $("#machineGun").click(function() {
+      console.log("sniper clicked.");
+
+      // Circle for machine gun.
+      var circle = new fabric.Circle({
+         top: 110,
+         left: 280,
+         radius: 20,
+         fill: 'black'
+       });
+
+      // Triangle for machine gun vision.
+      var triangle = new fabric.Triangle({
+        top: 150,
+        left: 150,
+        width: 300,
+        height: 200,
+        fill: 'black',
+        opacity: 0.7
+      });
+
+      // Group the shapes for the sniper.
+      var machineGunGroup = new fabric.Group([ circle, triangle ], {
+        top: 300,
+        left: 210,
+        angle: -50
+      });
+
+      canvas.add(machineGunGroup);
       locaSniper.lockUniScaling = true;
   });
 
