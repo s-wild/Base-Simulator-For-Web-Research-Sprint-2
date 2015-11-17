@@ -98,6 +98,10 @@
 	{
 		background:url(../images/sand-map.jpg);
 	}
+.snowBG 
+	{
+		background-image:url(../images/snow_map.jpg);
+	}
 .grass
 	{
 		width: 60px;
@@ -114,5 +118,14 @@
 		margin: 5px;
 		float: left;
 		background-image:url(../images/sand-map.jpg);
+		cursor: pointer;
+	}
+.snow
+	{
+		width: 60px;
+		height: 60px;
+		margin: 5px;
+		float: left;
+		background-image:url(../images/snow_map.jpg);
 		cursor: pointer;
 	}

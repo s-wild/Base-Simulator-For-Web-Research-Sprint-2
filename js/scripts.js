@@ -154,15 +154,24 @@ $(document).ready(function() {
   });
   
   $('#Canvas').addClass('grassBG');
+  
   $('#changeToGrass').click(function() 
 	{
 		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').removeClass('snowBG');
 		$('#Canvas').addClass('grassBG');
 	});
 	$('#changeToSand').click(function() 
 	{
 		$('#Canvas').removeClass('grassBG');
+		$('#Canvas').removeClass('snowBG');
 		$('#Canvas').addClass('sandBG');
+	});
+	$('#changeToSnow').click(function() 
+	{
+		$('#Canvas').removeClass('grassBG');
+		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').addClass('snowBG');
 	});
 
 
