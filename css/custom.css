@@ -68,8 +68,18 @@
 
 /* Machine Gun */
 .machineGun {
-  margin-top: 1em;
-  cursor: pointer;
+  	margin-top: 1em;
+  	cursor: pointer;
+	padding-top: 1.5em;
+	background-color: #fff;
+	width: 125px;
+	height: 125px;
+}
+
+/* Patroller */
+.patrol {
+  	margin-top: 1em;
+  	cursor: pointer;
 	padding-top: 1.5em;
 	background-color: #fff;
 	width: 125px;

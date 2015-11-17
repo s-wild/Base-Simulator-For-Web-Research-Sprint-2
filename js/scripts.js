@@ -103,6 +103,51 @@ $(document).ready(function() {
       locaSniper.lockUniScaling = true;
   });
 
+  // Add a pratroller on click function.
+  $("#patroller").click(function() {
+      console.log("sniper clicked.");
+
+      // Circle for patrol man.
+      var circleMan = new fabric.Circle({
+         top: 110,
+         left: 280,
+         radius: 20,
+         fill: 'black'
+       });
+
+      // Circle for patrol radius.
+      var circlePatrolRadius = new fabric.Circle({
+         top: 110,
+         left: 280,
+         radius: 200 ,
+         fill: 'black',
+         strokeWidth: 5,
+         radius: 12,
+         fill: 'rgba(0,0,200,0.5)',
+         stroke: '#666'
+       });
+
+      // Circle for patrol radius.
+      var patrollerVison = new fabric.Triangle({
+        top: 150,
+        left: 150,
+        width: 300,
+        height: 200,
+        fill: 'black',
+        opacity: 0.7,
+      });
+
+      // Group the shapes for the sniper.
+      var patrolGroup = new fabric.Group([ circleMan, circlePatrolRadius, patrollerVison], {
+        top: 300,
+        left: 210,
+        angle: -50
+      });
+
+      canvas.add(patrolGroup); 
+      locaSniper.lockUniScaling = true;
+  });
+
   // Clear canvas function
   $("#canvas-clear").click(function() {
       canvas.clear();
