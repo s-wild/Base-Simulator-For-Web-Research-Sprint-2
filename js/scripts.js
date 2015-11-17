@@ -19,10 +19,16 @@ $(document).ready(function() {
 
   // Add tower click function.
   $("#defence-tower").click(function() {
-    newColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
       console.log("watch tower clicked.");
       localCirle = canvas.add(
-        new fabric.Circle({ top: Math.floor(Math.random() * 600) + 1  , left: Math.floor(Math.random() * 800) + 1, width: 200, height: 200, fill: newColor, radius: 50, opacity: 0.7 })
+        new fabric.Circle({ 
+			top: 200,
+			left:200,
+			width: 200, 
+			height: 200, 
+			fill: '#089fdb', 
+			radius: 50, 
+			opacity: 0.7 })
       );
       localCirle.lockUniScaling = true;
   });
@@ -32,7 +38,15 @@ $(document).ready(function() {
     newColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
       console.log("watch tower clicked.");
       localCirle = canvas.add(
-        new fabric.Rect({ top: Math.floor(Math.random() * 600) + 1  , left: Math.floor(Math.random() * 800) + 1, width: 200, height: 200, fill: newColor, opacity: 0.7, strokeWidth: 5, stroke: 'rgba(0,0,0,1)' })
+        new fabric.Rect({
+			top: 250,
+			left: 200,
+			width: 200, 
+			height: 200, 
+			fill: newColor, 
+			opacity: 0.7, 
+			strokeWidth: 5, 
+			stroke: 'rgba(0,0,0,1)' })
       );
       localCirle.lockUniScaling = true;
   });
@@ -46,7 +60,7 @@ $(document).ready(function() {
          top: 140,
          left: 230,
          radius: 20,
-         fill: 'black'
+         fill: '#8b8b80'
        });
 
       // Triangle for sniper vision.
@@ -55,7 +69,7 @@ $(document).ready(function() {
         left: 195,
         width: 100,
         height: 700,
-        fill: 'black',
+        fill: '#8b8b80',
         opacity: 0.3
       });
 
@@ -79,7 +93,7 @@ $(document).ready(function() {
          top: 110,
          left: 280,
          radius: 20,
-         fill: 'black'
+         fill: '#24b34b'
        });
 
       // Triangle for machine gun vision.
@@ -88,7 +102,7 @@ $(document).ready(function() {
         left: 150,
         width: 300,
         height: 200,
-        fill: 'black',
+        fill: '#24b34b',
         opacity: 0.7
       });
 
@@ -153,6 +167,7 @@ $(document).ready(function() {
   $("#canvas-clear").click(function() {
       canvas.clear();
   });
+  
   
   $('#Canvas').addClass('grassBG');
   
