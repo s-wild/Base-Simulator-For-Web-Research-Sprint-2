@@ -41,7 +41,6 @@ $(document).ready(function() {
   // Clear canvas function
   $("#canvas-clear").click(function() {
       canvas.clear();
-      console.log("clear it!");
   });
 
 
