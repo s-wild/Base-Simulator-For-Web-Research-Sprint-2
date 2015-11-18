@@ -67,7 +67,6 @@ $(document).ready(function() {
       });
 
       canvas.add(sniperGroup);
-      locaSniper.lockUniScaling = true;
   });
 
   // Add a machine gun click function.
@@ -100,54 +99,66 @@ $(document).ready(function() {
       });
 
       canvas.add(machineGunGroup);
-      locaSniper.lockUniScaling = true;
   });
 
   // Add a pratroller on click function.
   $("#patroller").click(function() {
-      console.log("sniper clicked.");
-
-      // Circle for patrol vison.
-      var patrollerVison = new fabric.Triangle({
-        top: 300,
-        left: 110,
-        width: 200,
-        height: 400,
-        fill: 'black',
-        opacity: 0.7,
-        angle: 10
-      });
-
-      // Circle for patrol man.
-      var circleMan = new fabric.Circle({
-         top: 300,
-         left: 180,
-         radius: 20,
-         fill: 'black'
-       });
-
-      // Circle for patrol radius.
-      var circlePatrolRadius = new fabric.Circle({
-         top: 50,
-         left: 180,
-         radius: 400,
-         fill: 'black',
-         strokeWidth: 5,
-         fill: '#fff',
-         stroke: '#666'
-       });
-
-      // Group the shapes for the sniper.
-      var patrolGroup = new fabric.Group([ circlePatrolRadius, patrollerVison ,circleMan ], {
-        top: 300,
-        left: 210,
-        
-      });
-
-      canvas.add(patrolGroup); 
-      patrolGroup.animate('angle', '-50', { onChange: canvas.renderAll.bind(canvas) });
-      locaSniper.lockUniScaling = true;
+      addAnimatePatrol();
+      
   });
+
+  function addAnimatePatrol() {
+
+    console.log("Patrol initilized.");
+
+    // Circle for patrol vison.
+    var patrollerVison = new fabric.Triangle({
+      top: 300,
+      left: 110,
+      width: 200,
+      height: 400,
+      fill: 'black',
+      opacity: 0.7,
+      angle: 10,
+
+    });
+
+    // Circle for patrol man.
+    var circleMan = new fabric.Circle({
+       top: 300,
+       left: 180,
+       radius: 20,
+       fill: 'black'
+     });
+
+    // Group the shapes for the sniper.
+    patrolGroup = new fabric.Group([ patrollerVison ,circleMan ], {
+      top: 600,
+      left: 410,
+      originX: '600',
+      originY: '800',
+    });
+
+    canvas.add(patrolGroup); 
+    animatePatrolLoop(patrolGroup);
+    
+  }
+
+  function animatePatrolLoop(patrolGroup) {
+    // animate angle back and forth (every 2 second)
+    patrolGroup.animate({ angle: 360 }, {
+      duration: 2000,
+      easing: fabric.util.ease.easeOutCubic,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        patrolGroup.animate({
+          angle: 70,
+          onComplete: onComplete
+        });
+        console.log("loop")
+      }
+    });
+  }
 
   // Clear canvas function
   $("#canvas-clear").click(function() {
