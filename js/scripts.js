@@ -2,6 +2,9 @@
 
 $(document).ready(function() {
 
+  // Global variables.
+  manSizeRadius = 10;
+
   // Hide buttons until base is clicked. 
   $("#defence-tower").hide();
   $("#sniper").hide();
@@ -76,17 +79,17 @@ $(document).ready(function() {
       // Circle for sniper.
       var circle = new fabric.Circle({
          top: 140,
-         left: 230,
-         radius: 20,
+         left: 225,
+         radius: manSizeRadius,
          fill: '#8b8b80'
        });
 
       // Triangle for sniper vision.
       var triangle = new fabric.Triangle({
-        top: 190,
-        left: 195,
-        width: 100,
-        height: 700,
+        top: 170,
+        left: 210,
+        width: 50,
+        height: 300,
         fill: '#8b8b80',
         opacity: 0.3
       });
@@ -95,7 +98,9 @@ $(document).ready(function() {
       var sniperGroup = new fabric.Group([ circle, triangle ], {
         top: 300,
         left: 210,
-        angle: -50
+        //angle: -50,
+        originX: 'left',
+        originY: 'top',
       });
 
       canvas.add(sniperGroup);
@@ -107,9 +112,9 @@ $(document).ready(function() {
 
       // Circle for machine gun.
       var circle = new fabric.Circle({
-         top: 110,
-         left: 280,
-         radius: 20,
+         top: 125,
+         left: 215,
+         radius: manSizeRadius,
          fill: '#24b34b'
        });
 
@@ -117,8 +122,8 @@ $(document).ready(function() {
       var triangle = new fabric.Triangle({
         top: 150,
         left: 150,
-        width: 300,
-        height: 200,
+        width: 150,
+        height: 75,
         fill: '#24b34b',
         opacity: 0.7
       });
@@ -144,10 +149,10 @@ $(document).ready(function() {
 
     // Circle for patrol vison.
     var patrollerVison = new fabric.Triangle({
-      top: 160,
-      left: 210,
-      width: 200,
-      height: 400,
+      top: 55,
+      left: 170,
+      width: 50,
+      height: 100,
       fill: 'black',
       opacity: 0.7,
       angle: 60,
@@ -156,17 +161,18 @@ $(document).ready(function() {
 
     // Circle for patrol man.
     var circleMan = new fabric.Circle({
-       top: 200,
-       left: 275,
-       radius: 20,
+       top: 65,
+       left: 175,
+       radius: manSizeRadius,
        fill: 'black'
      });
 
 
+    // Patrol path
     var circlePatrolPath = new fabric.Circle({
-      top: 200,
-      left: 180,
-      radius: 40,
+      top: 50,
+      left: 50,
+      radius: 250,
       strokeDashArray: [10, 50],
       stroke: 'white',
       strokeWidth: 10,
@@ -174,35 +180,30 @@ $(document).ready(function() {
     });
 
     patrolManPlusVision = new fabric.Group([circleMan, patrollerVison], {
-      originX: 'right',
-      originY: 'top', 
     });
 
+    // Group the shapes for the sniper.
+    patrolGroup = new fabric.Group([circlePatrolPath, patrolManPlusVision], {
+      top: 300,
+      left: 300,
+      originX: 'center',
+      originY: 'center',
+    });
 
-    patrolManPlusVision.animate({ angle: 30 }, {
-      easing: fabric.util.ease.easeOutCubic,
+    // Rotate the group of shapes every 2 seconds 360 degrees.
+    var rotationDegrees = -360;
+    patrolGroup.animate({ angle: rotationDegrees }, {
       duration: 2000,
       onChange: canvas.renderAll.bind(canvas),
       onComplete: function onComplete() {
         console.log(Math.round(patrolManPlusVision.angle)),
         patrolManPlusVision.animate({
-          angle: Math.round(patrolManPlusVision.angle) === 30 ? -30 : 30
+          angle: rotationDegrees++
         }, {
           duration: 2000,
           onComplete: onComplete
         });
-        //console.log("onComplete end");
       }
-    });
-
-
-
-    // Group the shapes for the sniper.
-    patrolGroup = new fabric.Group([circlePatrolPath, patrolManPlusVision], {
-      top: 600,
-      left: 410,
-      originX: '600',
-      originY: '800',
     });
 
     canvas.add(patrolGroup);  
@@ -216,6 +217,13 @@ $(document).ready(function() {
   // Clear canvas function
   $("#canvas-clear").click(function() {
       canvas.clear();
+      // Hide buttons until base is clicked. 
+      $("#defence-tower").hide();
+      $("#sniper").hide();
+      $("#machineGun").hide();
+      $("#patroller").hide();
+      $("#step2").hide();
+      $("#base").show();
   });
   
   // On page load, set grass background image in canvas.

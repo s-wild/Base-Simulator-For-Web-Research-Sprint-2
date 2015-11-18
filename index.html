@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page Title</title>
+    <title>Base Vulnerability</title>
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/libraries/fabricjs/fabric.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-sm-9">
             <div id="CanvasContainer">
-                <canvas id="Canvas" width="850" height="800"></canvas>
+                <canvas id="Canvas" width="850" height="600"></canvas>
             </div>
           </div>
 
@@ -25,39 +25,42 @@
               <h2>Control panel</h2>
               <button id="canvas-clear" class="canvas-clear btn btn-danger clear" ng-click="canvasClear()">Clear canvas</button>
 
-              <!-- Defence Tower -->
-              <div id="defence-tower" class="watch-tower center-it">
-                <img src="images/items/WatchTower_BG.png" alt="Watch Tower" class="img-responsive">
-                <span class="defence-title">Watch tower</span>
+              <div class="defenceUnits">
+
+                <!-- Defence Tower -->
+                <div id="defence-tower" class="watch-tower defenceUnit center-it">
+                  <img src="images/items/WatchTower_BG.png" alt="Watch Tower" class="img-responsive">
+                  <span class="defence-title">Watch tower</span>
+                </div>
+
+                <!-- Base -->
+                <div id="base" class="base defenceUnit center-it">
+                  <span class="defence-title">Base</span>
+                </div>
+
+                <!-- Sniper -->
+                <div id="sniper" class="sniper defenceUnit center-it">
+                <img src="images/items/Sniper_BG.png" alt="Sniper" class="img-responsive">
+                  <span class="defence-title">Sniper</span>
+                </div>
+
+                <!-- Machine Gun -->
+                <div id="machineGun" class="machineGun defenceUnit center-it">
+                <img src="images/items/GunMan_BG.png" alt="Gun Man" class="img-responsive">
+                  <span class="defence-title">Machine Gun</span>
+                </div>
+
+
+                <!-- Patrol -->
+                <div id="patroller" class="patrol defenceUnit center-it">
+                  <span class="defence-title">Patroller</span>
+                </div>
               </div>
-
-              <!-- Base -->
-              <div id="base" class="base center-it">
-                <span class="defence-title">Base</span>
-              </div>
-
-              <!-- Sniper -->
-              <div id="sniper" class="sniper center-it">
-              <img src="images/items/Sniper_BG.png" alt="Sniper" class="img-responsive">
-                <span class="defence-title">Sniper</span>
-              </div>
-
-              <!-- Machine Gun -->
-              <div id="machineGun" class="machineGun center-it">
-              <img src="images/items/GunMan_BG.png" alt="Gun Man" class="img-responsive">
-                <span class="defence-title">Machine Gun</span>
-              </div>
-
-
-              <!-- Patrol -->
-              <div id="patroller" class="patrol center-it">
-                <span class="defence-title">Patroller</span>
-              </div>
-
-
-				<div id="changeToGrass" class="grass">Change to Grass</div>
-                <div id="changeToSand" class="sand">Change to Sand</div>
-                <div id="changeToSnow" class="snow">Change to Snow</div>
+                <!-- Change background image -->
+                <h3 class="invertText">Change terrain type:</h3>
+                <div id="changeToGrass" class="grass terrain center-it">Grass</div>
+                <div id="changeToSand" class="sand terrain center-it">Sand</div>
+                <div id="changeToSnow" class="snow terrain center-it">Snow</div>
 
             </div>
           </div>
