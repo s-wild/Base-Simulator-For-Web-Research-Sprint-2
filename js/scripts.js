@@ -53,6 +53,7 @@ $(document).ready(function() {
       $("#sniper").show();
       $("#machineGun").show();
       $("#patroller").show();
+
       console.log("watch tower clicked.");
       localCirle = canvas.add(
         new fabric.Rect({
