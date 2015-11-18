@@ -151,19 +151,19 @@ $(document).ready(function() {
 
     // Circle for patrol vison.
     var patrollerVison = new fabric.Triangle({
-      top: 55,
+      top: 65,
       left: 170,
       width: 50,
       height: 100,
       fill: 'black',
       opacity: 0.7,
-      angle: 60,
+      angle: 50,
 
     });
 
     // Circle for patrol man.
     var circleMan = new fabric.Circle({
-       top: 65,
+       top: 75,
        left: 175,
        radius: manSizeRadius,
        fill: 'black'
@@ -236,7 +236,35 @@ $(document).ready(function() {
       //   }
       // });
     }
+
+    // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
+    var canvasWrapper = document.getElementById('CanvasContainer');
+    canvasWrapper.addEventListener("keydown", doKeyDown, false);
+    function doKeyDown(e) {
+      document.onkeydown = function(e) {
+          console.log();
+          switch (e.keyCode) {
+              case 38:  /* Up arrow was pressed */
+                  console.log('up works')
+                break;
+              case 40:  /* Down arrow was pressed */
+                  console.log('down works')
+                break;
+              case 37:  /* Left arrow was pressed */
+                  console.log('left works')
+                break;
+              case 39:  /* Right arrow was pressed */
+                 console.log('right works')
+                break;
+            }
+      }
+    }
     
+  });
+
+  // Get users mouse points for debugging.
+  canvas.on('mouse:down', function(options) {
+    console.log(options.e.clientX, options.e.clientY);
   });
 
   // Clear canvas function
