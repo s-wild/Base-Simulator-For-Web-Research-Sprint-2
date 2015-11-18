@@ -40,28 +40,21 @@
 
 /* Watch tower */
 .watch-tower {
-	cursor: pointer;
+  	margin-top: 1em;
+  	cursor: pointer;
 	padding-top: 1.5em;
-	background-color: #fff;
-	border-radius: 50%;
+	background-color: #089fdb;
 	width: 125px;
 	height: 125px;
 }
-.watch-tower:hover {
-	background-color: #888;
-}
-.watch-tower img {
-	width: 30%;
-	height: auto;
-	margin: 0 auto;
-}
+
 
 /* Sniper */
 .sniper {
   margin-top: 1em;
   cursor: pointer;
 	padding-top: 1.5em;
-	background-color: #fff;
+	background-color: #8b8b80;
 	width: 125px;
 	height: 125px;
 }
@@ -71,7 +64,7 @@
   	margin-top: 1em;
   	cursor: pointer;
 	padding-top: 1.5em;
-	background-color: #fff;
+	background-color: #24b34b;
 	width: 125px;
 	height: 125px;
 }
