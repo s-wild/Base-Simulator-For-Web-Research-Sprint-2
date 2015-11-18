@@ -11,6 +11,7 @@ $(document).ready(function() {
   $("#machineGun").hide();
   $("#patroller").hide();
   $("#step2").hide();
+  $("#run-simuation").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -140,6 +141,7 @@ $(document).ready(function() {
 
   // Add a rotating shape on click function.
   $("#patroller").click(function() {
+      $("#run-simuation").show();
       addPatrol();
   });
 
@@ -190,29 +192,35 @@ $(document).ready(function() {
       originY: 'center',
     });
 
-    // Rotate the group of shapes every 2 seconds 360 degrees.
-    var rotationDegrees = -360;
-    patrolGroup.animate({ angle: rotationDegrees }, {
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        console.log(Math.round(patrolManPlusVision.angle)),
-        patrolManPlusVision.animate({
-          angle: rotationDegrees++
-        }, {
-          duration: 2000,
-          onComplete: onComplete
-        });
-      }
-    });
-
     canvas.add(patrolGroup);  
 
     console.log(patrolGroup.get('angle'));
 
   }
 
-  
+  // Run simulation function
+  $("#run-simuation").click(function() {
+
+    if (typeof patrolGroup !== 'undefined') {
+      // the variable is defined
+      // Rotate the group of shapes every 2 seconds 360 degrees.
+      var rotationDegrees = 360;
+      patrolGroup.animate({ angle: -rotationDegrees }, {
+        duration: 2000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          console.log(Math.round(patrolManPlusVision.angle)),
+          patrolManPlusVision.animate({
+            angle: +rotationDegrees
+          }, {
+            duration: 2000,
+            onComplete: onComplete
+          });
+        }
+      });
+    }
+    
+  });
 
   // Clear canvas function
   $("#canvas-clear").click(function() {
@@ -222,6 +230,7 @@ $(document).ready(function() {
       $("#sniper").hide();
       $("#machineGun").hide();
       $("#patroller").hide();
+      $("#run-simuation").hide();
       $("#step2").hide();
       $("#step1").show();
       $("#base").show();
