@@ -37,7 +37,7 @@ $(document).ready(function() {
 			width: 200, 
 			height: 200, 
 			fill: '#089fdb', 
-			radius: 50, 
+			radius: 100, 
 			opacity: 0.7 })
       );
       localCirle.lockUniScaling = true;
@@ -223,6 +223,7 @@ $(document).ready(function() {
       $("#machineGun").hide();
       $("#patroller").hide();
       $("#step2").hide();
+      $("#step1").show();
       $("#base").show();
   });
   
