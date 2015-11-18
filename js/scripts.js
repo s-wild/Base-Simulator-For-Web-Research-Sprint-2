@@ -218,23 +218,25 @@ $(document).ready(function() {
       canvas.clear();
   });
   
-  
+  // On page load, set grass background image in canvas.
   $('#Canvas').addClass('grassBG');
-  
-  $('#changeToGrass').click(function() 
-	{
+
+  // Changes canvas background to grass image.
+  $('#changeToGrass').click(function() {
 		$('#Canvas').removeClass('sandBG');
 		$('#Canvas').removeClass('snowBG');
 		$('#Canvas').addClass('grassBG');
 	});
-	$('#changeToSand').click(function() 
-	{
+
+  // Changes canvas background to sand image.
+	$('#changeToSand').click(function() {
 		$('#Canvas').removeClass('grassBG');
 		$('#Canvas').removeClass('snowBG');
 		$('#Canvas').addClass('sandBG');
 	});
-	$('#changeToSnow').click(function() 
-	{
+
+  // Changes canvas background to snow image.
+	$('#changeToSnow').click(function() {
 		$('#Canvas').removeClass('grassBG');
 		$('#Canvas').removeClass('sandBG');
 		$('#Canvas').addClass('snowBG');
