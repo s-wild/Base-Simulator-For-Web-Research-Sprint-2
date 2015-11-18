@@ -198,26 +198,43 @@ $(document).ready(function() {
 
   }
 
+
   // Run simulation function
   $("#run-simuation").click(function() {
 
-    if (typeof patrolGroup !== 'undefined') {
-      // the variable is defined
-      // Rotate the group of shapes every 2 seconds 360 degrees.
-      var rotationDegrees = 360;
-      patrolGroup.animate({ angle: -rotationDegrees }, {
-        duration: 2000,
-        onChange: canvas.renderAll.bind(canvas),
-        onComplete: function onComplete() {
-          console.log(Math.round(patrolManPlusVision.angle)),
-          patrolManPlusVision.animate({
-            angle: +rotationDegrees
-          }, {
-            duration: 2000,
-            onComplete: onComplete
-          });
-        }
+    var counter = 0;
+    var myInterval = setInterval(function () {
+      counter-=5;
+      simulatePatrol()
+
+    }, 1000);
+
+    function simulatePatrol() {
+      console.log(counter);
+      //patrolGroup.animate({ angle: 60 });
+      patrolGroup.animate('angle', counter, {
+        onChange: canvas.renderAll.bind(canvas)
       });
+    }
+
+    if (typeof patrolGroup !== 'undefined') {
+
+      //the variable is defined
+      // Rotate the group of shapes every 2 seconds 360 degrees.
+      // var rotationDegrees = 360;
+      // patrolGroup.animate({ angle: -rotationDegrees }, {
+      //   duration: 2000,
+      //   onChange: canvas.renderAll.bind(canvas),
+      //   onComplete: function onComplete() {
+      //     //console.log(Math.round(patrolManPlusVision.angle)),
+      //     patrolGroup.animate({
+      //       angle: +rotationDegrees
+      //     }, {
+      //       duration: 2000,
+      //       onComplete: onComplete
+      //     });
+      //   }
+      // });
     }
     
   });
