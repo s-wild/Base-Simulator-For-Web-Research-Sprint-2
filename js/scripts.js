@@ -75,6 +75,10 @@ $(document).ready(function() {
 
   // Add a sniper click function.
   $("#sniper").click(function() {
+	  $("#run-simuation").show();
+      addSniper();
+  });
+	  function addSniper(){
       console.log("sniper clicked.");
 
       // Circle for sniper.
@@ -104,7 +108,7 @@ $(document).ready(function() {
       });*/
 
       // Group the shapes for the sniper.
-      var sniperGroup = new fabric.Group([ circle, triangle ], {
+      sniperGroup = new fabric.Group([ circle, triangle ], {
         top: 500,
         left: 300,
         angle: -45,
@@ -113,23 +117,8 @@ $(document).ready(function() {
     		originY: "top"
       });
 	
-	 sniperGroup.animate({ angle: 45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-        }, {
-          duration: 2000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete
-        });
-      }
-    });
-	  
       canvas.add(sniperGroup);
-  });
+	  }
 
   // Add a machine gun click function.
   $("#machineGun").click(function() {
@@ -227,12 +216,22 @@ $(document).ready(function() {
   $("#run-simuation").click(function() {
 
     var counter = 0;
+	simulate()
     var myInterval = setInterval(function () {
       counter-=5;
-      simulatePatrol()
+      
 
     }, 1000);
 
+	function simulate(){
+		if(typeof patrolGroup !== 'undefined'){
+			simulatePatrol();
+		}
+		if(typeof sniperGroup !== 'undefined'){
+			simulateSniper();
+		}
+	}
+	
     function simulatePatrol() {
       console.log(counter);
       //patrolGroup.animate({ angle: 60 });
@@ -240,6 +239,24 @@ $(document).ready(function() {
         onChange: canvas.renderAll.bind(canvas)
       });
     }
+	
+	function simulateSniper() {
+		
+		sniperGroup.animate({ angle: 45 }, {
+      //easing: fabric.util.ease.easeOutCubic,
+      duration: 2000,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        sniperGroup.animate({
+          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
+        }, {
+          duration: 2000,
+		  onChange: canvas.renderAll.bind(canvas),
+          onComplete: onComplete
+        });
+      }
+    });
+	}
 
     if (typeof patrolGroup !== 'undefined') {
 
