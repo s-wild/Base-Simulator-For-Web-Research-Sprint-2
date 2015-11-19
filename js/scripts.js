@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   // Global variables.
   manSizeRadius = 10;
-  runAnimate = false;
+  runAnimate = true;
 
 
   // Hide buttons until base is clicked. 
@@ -220,12 +220,10 @@ $(document).ready(function() {
   $("#run-simuation").click(function() {
 
 
-    var counter = 0;
+	runAnimate = false;  
 	simulate()
-    var myInterval = setInterval(function () {
-        counter-=5;
-		runAnimate = false;    
-    }, 1000);
+  
+
 
     $("#run-simuation").hide();
     $("#stop-simuation").show();
@@ -240,46 +238,6 @@ $(document).ready(function() {
 	}
 	
     function simulatePatrol() {
-      console.log(counter);
-      //patrolGroup.animate({ angle: 60 });
-      patrolGroup.animate('angle', counter, {
-        onChange: canvas.renderAll.bind(canvas)
-      });
-    }
-	
-	function simulateSniper() {
-		
-		sniperGroup.animate({ angle: 45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-        }, {
-          duration: 2000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete
-        });
-      }
-    });
-	}
-
-    // var counter = 0;
-    // var myInterval = setInterval(function () {
-    //   counter-=5;
-    //   simulatePatrol()
-
-    // }, 1000);
-
-    // function simulatePatrol() {
-    //   console.log(counter);
-    //   //patrolGroup.animate({ angle: 60 });
-    //   patrolGroup.animate('angle', counter, {
-    //     onChange: canvas.renderAll.bind(canvas)
-    //   });
-    // }
-
     if (typeof patrolGroup !== 'undefined') {
 
       //the variable is defined
@@ -303,6 +261,45 @@ $(document).ready(function() {
         }
       });
     }
+    }
+	
+	function simulateSniper() {
+		
+		sniperGroup.animate({ angle: 45 }, {
+      //easing: fabric.util.ease.easeOutCubic,
+      duration: 2000,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        sniperGroup.animate({
+          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
+        }, {
+          duration: 2000,
+		  onChange: canvas.renderAll.bind(canvas),
+          onComplete: onComplete,
+		  abort: function(){
+              return runAnimate;
+            }
+        });
+      }
+    });
+	}
+
+    // var counter = 0;
+    // var myInterval = setInterval(function () {
+    //   counter-=5;
+    //   simulatePatrol()
+
+    // }, 1000);
+
+    // function simulatePatrol() {
+    //   console.log(counter);
+    //   //patrolGroup.animate({ angle: 60 });
+    //   patrolGroup.animate('angle', counter, {
+    //     onChange: canvas.renderAll.bind(canvas)
+    //   });
+    // }
+
+
 
     // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
     var canvasWrapper = document.getElementById('CanvasContainer');
