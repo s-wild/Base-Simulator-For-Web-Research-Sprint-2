@@ -116,7 +116,10 @@ $(document).ready(function() {
         angle: -45,
     		centeredRotation: false,
     		originX: "center",
-    		originY: "top"
+    		originY: "top",
+			lockUniScaling: true,
+			lockScalingX: true,
+			lockScalingY: true
       });
 	
 	  
@@ -264,16 +267,16 @@ $(document).ready(function() {
     }
 	
 	function simulateSniper() {
-		
-		sniperGroup.animate({ angle: 45 }, {
+	   sniperAngle = sniperGroup.angle;
+	   sniperGroup.animate({ angle: sniperAngle+45 }, {
       //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
+      duration: 6000,
       onChange: canvas.renderAll.bind(canvas),
       onComplete: function onComplete() {
         sniperGroup.animate({
-          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
+          angle: sniperGroup.angle === sniperAngle+45 ? sniperAngle-45 : sniperAngle+45
         }, {
-          duration: 2000,
+          duration: 6000,
 		  onChange: canvas.renderAll.bind(canvas),
           onComplete: onComplete,
 		  abort: function(){
