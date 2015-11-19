@@ -37,6 +37,8 @@ $(document).ready(function() {
 
       // Hide first instruction and base.
       $("#step1, #base").hide();
+      $("#step2").css("background-color", "#D9534F");
+      $("#step2").css("color", "white");
 
       // After base click, show units.
       $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
