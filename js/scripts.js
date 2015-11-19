@@ -6,7 +6,7 @@ $(document).ready(function() {
 	var patrols = [];
   // Global variables.
   manSizeRadius = 10;
-  runAnimate = true;
+  runAnimate = true; 
 
   // Hide buttons until base is clicked. 
   $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation").hide();
@@ -85,14 +85,6 @@ $(document).ready(function() {
         fill: '#8b8b80',
         opacity: 0.3
       });
-	   /* var invisTriangle = new fabric.Triangle({
-        top: 140-700,
-        left: 200,
-        width: 100,
-        height: -700,
-        fill: '#8b8b80',
-        opacity: 0.0
-      });*/
 
       // Group the shapes for the sniper.
 
@@ -107,10 +99,6 @@ $(document).ready(function() {
   			lockScalingX: true,
   			lockScalingY: true
       }));
-	  
- 
-     
-	
 	  
     canvas.add(snipers[snipers.length-1]);
 	 }
@@ -217,22 +205,24 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
-  	runAnimate = false;
-	
-	//get angles 
-	
-	sniperAngles = [];
-	machineGunnerAngles = [];
-	patrolsAngles = [];
-	for (i=0; i < snipers.length; i++){
-		sniperAngles.push(snipers[i].angle);
-	}
-	for (i=0; i < machineGunners.length; i++){
-		machineGunnerAngles.push(machineGunners[i].angle)
-	}
-	for (i=0; i < patrols.length; i++){
-		patrolsAngles.push(patrols[i].angle);
-	}
+    runAnimate = false;
+  	
+  	//get angles 
+  	sniperAngles = [];
+  	machineGunnerAngles = [];
+  	patrolsAngles = [];
+
+  	for (i=0; i < snipers.length; i++){
+  		sniperAngles.push(snipers[i].angle);
+  	}
+
+  	for (i=0; i < machineGunners.length; i++){
+  		machineGunnerAngles.push(machineGunners[i].angle)
+  	}
+
+  	for (i=0; i < patrols.length; i++){
+  		patrolsAngles.push(patrols[i].angle);
+  	}
   	simulate()
 
     $("#run-simuation").hide();
@@ -361,41 +351,6 @@ $(document).ready(function() {
       canvas.add(enemyItem);
     }
     enemyUnit()
-
-    // var keyValue = $( "#Canvas" ).keypress().value;
-    // console.log(keyValue);
-
-
-
-    // var code = e.keyCode || e.which;
-    // console.log(code);
-
-    // if(code == 13) { //Enter keycode
-    //   //Do something
-    // }
-
-    // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
-    // var canvasWrapper = document.getElementById('CanvasContainer');
-    // canvasWrapper.addEventListener("keydown", doKeyDown, false);
-    // function doKeyDown(e) {
-    //   document.onkeydown = function(e) {
-    //       console.log();
-    //       switch (e.keyCode) {
-    //           case 38:  /* Up arrow was pressed */
-    //               console.log('up works')
-    //             break;
-    //           case 40:  /* Down arrow was pressed */
-    //               console.log('down works')
-    //             break;
-    //           case 37:  /* Left arrow was pressed */
-    //               console.log('left works')
-    //             break;
-    //           case 39:  /* Right arrow was pressed */
-    //              console.log('right works')
-    //             break;
-    //       }
-    //   }
-    // }
     
   });
 
@@ -496,13 +451,14 @@ canvas.observe('after:render', function(e) {
 	});
 
 });
+
+// This function detects keyboard press events.
 $(document).keypress(function(e) {
+   e.preventDefault();
    animateUp(e)
 
+   // This function moves the enemy rectangle using w,a,s,d keyboard keys.
    function animateUp(e) {
-    // Get top left of shape.
-    // topLeft = enemyItemo.Coords.tl.x;
-    // console.log(topLeft);
 
     if (typeof enemyItem !== 'undefined') {
       console.log(e.which);
