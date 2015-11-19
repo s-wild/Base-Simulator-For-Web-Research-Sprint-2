@@ -259,54 +259,79 @@ $(document).ready(function() {
       });
     }
 	
-	function simulateSniper() {
-	   sniperAngle = sniperGroup.angle;
-	   sniperGroup.animate({ angle: sniperAngle+45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 6000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: sniperGroup.angle === sniperAngle+45 ? sniperAngle-45 : sniperAngle+45
-        }, {
-          duration: 6000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete,
-		  abort: function(){
-              return runAnimate;
-            }
-        });
-      }
-    });
-	}
+  	function simulateSniper() {
+  	   sniperAngle = sniperGroup.angle;
+  	   sniperGroup.animate({ angle: sniperAngle+45 }, {
+        //easing: fabric.util.ease.easeOutCubic,
+        duration: 6000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          sniperGroup.animate({
+            angle: sniperGroup.angle === sniperAngle+45 ? sniperAngle-45 : sniperAngle+45
+          }, {
+            duration: 6000,
+  		  onChange: canvas.renderAll.bind(canvas),
+            onComplete: onComplete,
+  		  abort: function(){
+                return runAnimate;
+              }
+          });
+        }
+      });
+  	}
+
+    function enemyUnit() {
+      // Circle for patrol vison.
+      enemyItem = new fabric.Rect({
+        top: 400,
+          left: 300,
+          width: 20, 
+          height: 20, 
+          fill: '#000', 
+          opacity: 0.7, 
+          strokeWidth: 5, 
+          stroke: 'rgba(255,255,255,1)' 
+      });
+      canvas.add(enemyItem);
+    }
+    enemyUnit()
+
+    // var keyValue = $( "#Canvas" ).keypress().value;
+    // console.log(keyValue);
 
 
+
+    // var code = e.keyCode || e.which;
+    // console.log(code);
+
+    // if(code == 13) { //Enter keycode
+    //   //Do something
+    // }
 
     // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
-    var canvasWrapper = document.getElementById('CanvasContainer');
-    canvasWrapper.addEventListener("keydown", doKeyDown, false);
-    function doKeyDown(e) {
-      document.onkeydown = function(e) {
-          console.log();
-          switch (e.keyCode) {
-              case 38:  /* Up arrow was pressed */
-                  console.log('up works')
-                break;
-              case 40:  /* Down arrow was pressed */
-                  console.log('down works')
-                break;
-              case 37:  /* Left arrow was pressed */
-                  console.log('left works')
-                break;
-              case 39:  /* Right arrow was pressed */
-                 console.log('right works')
-                break;
-          }
-      }
-    }
+    // var canvasWrapper = document.getElementById('CanvasContainer');
+    // canvasWrapper.addEventListener("keydown", doKeyDown, false);
+    // function doKeyDown(e) {
+    //   document.onkeydown = function(e) {
+    //       console.log();
+    //       switch (e.keyCode) {
+    //           case 38:  /* Up arrow was pressed */
+    //               console.log('up works')
+    //             break;
+    //           case 40:  /* Down arrow was pressed */
+    //               console.log('down works')
+    //             break;
+    //           case 37:  /* Left arrow was pressed */
+    //               console.log('left works')
+    //             break;
+    //           case 39:  /* Right arrow was pressed */
+    //              console.log('right works')
+    //             break;
+    //       }
+    //   }
+    // }
     
   });
-
 
   // Stop simulation function
   $("#stop-simuation").click(function() {
@@ -356,4 +381,22 @@ $(document).ready(function() {
 		$('#Canvas').addClass('snowBG');
 	});
 
+});
+
+
+$(document).keypress(function(e) {
+   animateUp(e)
+
+   function animateUp(e) {
+    if (typeof enemyItem !== 'undefined') {
+      console.log(e.which);
+      if(e.which == 119) {
+        console.log(canvas.enemyItem);
+        enemyItem.animate('top', '20', { 
+          duration: 1000,
+          onChange: canvas.renderAll.bind(canvas),
+        });
+      }
+    }
+  }
 });
