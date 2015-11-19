@@ -87,17 +87,10 @@ $(document).ready(function() {
 
       // Triangle for sniper vision.
       var triangle = new fabric.Triangle({
-<<<<<<< HEAD
-        top: 190,
-        left: 200,
-        width: 100,
-        height: 700,
-=======
         top: 170,
         left: 210,
         width: 50,
         height: 300,
->>>>>>> origin/master
         fill: '#8b8b80',
         opacity: 0.3
       });
@@ -112,20 +105,12 @@ $(document).ready(function() {
 
       // Group the shapes for the sniper.
       var sniperGroup = new fabric.Group([ circle, triangle ], {
-<<<<<<< HEAD
         top: 500,
         left: 300,
         angle: -45,
-		centeredRotation: false,
-		originX: "center",
-		originY: "top"
-=======
-        top: 300,
-        left: 210,
-        //angle: -50,
-        originX: 'left',
-        originY: 'top',
->>>>>>> origin/master
+    		centeredRotation: false,
+    		originX: "center",
+    		originY: "top"
       });
 	
 	 sniperGroup.animate({ angle: 45 }, {
