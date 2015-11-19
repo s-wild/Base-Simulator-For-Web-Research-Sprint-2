@@ -168,7 +168,7 @@ $(document).ready(function() {
       left: 170,
       width: 50,
       height: 100,
-      fill: 'black',
+      fill: '#363636',
       opacity: 0.7,
       angle: 50,
 
@@ -179,7 +179,7 @@ $(document).ready(function() {
        top: 75,
        left: 175,
        radius: manSizeRadius,
-       fill: 'black'
+       fill: '#363636'
      });
 
 
