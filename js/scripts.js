@@ -271,6 +271,7 @@ $(document).ready(function() {
               onComplete: onComplete,
               abort: function(){
                 return runAnimate;
+				
               }
             });
           }
@@ -293,6 +294,7 @@ $(document).ready(function() {
           onComplete: onComplete,
 		  abort: function(){
               return runAnimate;
+
             }
         });
       }
@@ -385,6 +387,22 @@ $(document).ready(function() {
     runAnimate = true;
     $("#run-simuation").show();
     $("#stop-simuation").hide();
+	if(patrols.length >= 1){
+			for (i=0; i < patrols.length; i++){
+				patrols[i].angle = patrolAngles[i];
+			}
+		}
+  		if(snipers.length >= 1){
+			for (i=0; i < snipers.length; i++){
+				snipers[i].angle = sniperAngles[i];
+			}
+  		}
+		if(machineGunners.length >= 1){
+			for (i=0; i < machineGunners.length; i++){
+				machineGunners[i].angle = machineGunnerAngles[i];
+			}
+		}
+	
   });
 
 canvas.observe('after:render', function(e) {
