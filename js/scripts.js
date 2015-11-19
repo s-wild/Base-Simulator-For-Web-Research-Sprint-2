@@ -77,7 +77,7 @@ $(document).ready(function() {
 
   // Add a sniper click function.
   $("#sniper").click(function() {
-      console.log("sniper clicked.");
+      $("#stop-simuation").show();
 
       // Circle for sniper.
       var circle = new fabric.Circle({
@@ -125,7 +125,10 @@ $(document).ready(function() {
         }, {
           duration: 2000,
 		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete
+          onComplete: onComplete,
+          abort: function(){
+              return runAnimate;
+            }
         });
       }
     });
