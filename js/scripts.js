@@ -320,7 +320,7 @@ $(document).ready(function() {
     function enemyUnit() {
       // Circle for patrol vison.
       initPositionleft = 300;
-      initPositionTop = 400;
+      initPositionTop = 20;
 
       enemyItem = new fabric.Rect({
         top: initPositionTop,
@@ -444,10 +444,6 @@ $(document).keypress(function(e) {
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-    }
-
-    if (typeof enemyItem !== 'undefined') {
-      console.log(e.which);
       if(e.which == 97) {
         console.log(canvas.enemyItem);
         enemyItem.animate('left', initPositionleft-=20 , { 
@@ -455,10 +451,6 @@ $(document).keypress(function(e) {
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-    }
-
-    if (typeof enemyItem !== 'undefined') {
-      console.log(e.which);
       if(e.which == 100) {
         console.log(canvas.enemyItem);
         enemyItem.animate('left', initPositionleft+=20 , { 
@@ -466,10 +458,6 @@ $(document).keypress(function(e) {
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-    }
-
-    if (typeof enemyItem !== 'undefined') {
-      console.log(e.which);
       if(e.which == 115) {
         console.log(canvas.enemyItem);
         enemyItem.animate('top', initPositionTop+=20 , { 
@@ -478,8 +466,6 @@ $(document).keypress(function(e) {
         });
       }
     }
-
-
 
   }
 });
