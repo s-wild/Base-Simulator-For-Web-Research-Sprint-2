@@ -472,7 +472,7 @@ $(document).keypress(function(e) {
       console.log(e.which);
       if(e.which == 115) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('top', initPositionTop-=20 , { 
+        enemyItem.animate('top', initPositionTop+=20 , { 
           duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
