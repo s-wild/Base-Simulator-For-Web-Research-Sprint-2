@@ -1,7 +1,7 @@
 
 
 $(document).ready(function() {
-
+	var snipers = [];
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true;
@@ -90,7 +90,8 @@ $(document).ready(function() {
       });*/
 
       // Group the shapes for the sniper.
-      sniperGroup = new fabric.Group([ circle, triangle ], {
+
+		snipers.push(new fabric.Group([ circle, triangle ], {
         top: 500,
         left: 300,
         angle: -45,
@@ -100,10 +101,13 @@ $(document).ready(function() {
 			lockUniScaling: true,
 			lockScalingX: true,
 			lockScalingY: true
-      });
+      }));
+	  
+ 
+     
 	
 	  
-    canvas.add(sniperGroup);
+    canvas.add(snipers[snipers.length-1]);
 	 }
 
   // Add a machine gun click function.
@@ -197,7 +201,11 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
-  	runAnimate = false;  
+  	runAnimate = false;
+	sniperAngles = [];
+	for (i=0; i < snipers.length; i++){
+		sniperAngles.push(snipers[i].angle);
+	}
   	simulate()
 
     $("#run-simuation").hide();
@@ -208,8 +216,10 @@ $(document).ready(function() {
   		if(typeof patrolGroup !== 'undefined'){
   			simulatePatrol();
   		}
-  		if(typeof sniperGroup !== 'undefined'){
-  			simulateSniper();
+  		if(snipers.length >= 1){
+			for (i=0; i < snipers.length; i++){
+				simulateSniper(i);
+			}
   		}
   	}
   	
@@ -239,35 +249,17 @@ $(document).ready(function() {
       }
     }
   	
-  	function simulateSniper() {
-  		sniperGroup.animate({ angle: 45 }, {
-        //easing: fabric.util.ease.easeOutCubic,
-        duration: 2000,
-        onChange: canvas.renderAll.bind(canvas),
-        onComplete: function onComplete() {
-          sniperGroup.animate({
-            angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-          }, {
-            duration: 2000,
-  		  onChange: canvas.renderAll.bind(canvas),
-            onComplete: onComplete,
-  		  abort: function(){
-                return runAnimate;
-              }
-          });
-        }
-      });
-    }
 	
-	function simulateSniper() {
-	   sniperAngle = sniperGroup.angle;
-	   sniperGroup.animate({ angle: sniperAngle+45 }, {
+	function simulateSniper(index) {
+		sniperGroup = snipers[index];
+	   sniperAngle = sniperAngles[index];
+	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
       //easing: fabric.util.ease.easeOutCubic,
       duration: 6000,
       onChange: canvas.renderAll.bind(canvas),
       onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: sniperGroup.angle === sniperAngle+45 ? sniperAngle-45 : sniperAngle+45
+        snipers[index].animate({
+          angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
         }, {
           duration: 6000,
 		  onChange: canvas.renderAll.bind(canvas),
