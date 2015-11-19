@@ -279,7 +279,11 @@ $(document).ready(function() {
 				
               }
             });
-          }
+          },
+		  abort: function(){
+              return runAnimate;
+
+            }
         });
       }
    
@@ -302,7 +306,11 @@ $(document).ready(function() {
 
             }
         });
-      }
+      },
+	  abort: function(){
+              return runAnimate;
+
+            }
     });
 	}
 	
@@ -322,7 +330,11 @@ $(document).ready(function() {
               return runAnimate;
             }
         });
-      }
+      },
+	  abort: function(){
+              return runAnimate;
+
+            }
     });
 	}
 
