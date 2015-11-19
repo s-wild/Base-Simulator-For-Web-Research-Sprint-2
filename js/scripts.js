@@ -322,7 +322,12 @@ $(document).ready(function() {
     function enemyUnit() {
       // Circle for patrol vison.
       initPositionleft = 300;
+
       initPositionTop = 20;
+	  if(typeof enemyItem !== 'undefined')
+	  {
+		  enemyItem.remove();
+	  }
 
       enemyItem = new fabric.Rect({
         top: initPositionTop,
@@ -382,6 +387,35 @@ $(document).ready(function() {
     $("#stop-simuation").hide();
   });
 
+canvas.observe('after:render', function(e) {
+	if(typeof enemyItem !== 'undefined'){
+    var targ = enemyItem;
+	
+    targ.setCoords();
+
+    // filter out itself
+    var items = canvas.getObjects().filter(function(o){
+        return targ !== o;
+    });
+    
+    var hit = false;
+
+    for (var i = 0, n = items.length; i < n; i++) {
+        var m = items[i];
+        
+        if (targ.intersectsWithObject(m)) {
+            targ.setFill("red");
+            hit = true;
+        } else {
+            if (!hit) {
+                targ.setFill("#CCCCCC");
+            }
+        }
+
+    }
+	}
+});
+
   // Get users mouse points for debugging.
   canvas.on('mouse:down', function(options) {
     console.log(options.e.clientX, options.e.clientY);
@@ -427,8 +461,6 @@ $(document).ready(function() {
 	});
 
 });
-
-
 $(document).keypress(function(e) {
    animateUp(e)
 
