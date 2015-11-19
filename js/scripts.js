@@ -6,39 +6,28 @@ $(document).ready(function() {
   manSizeRadius = 10;
   runAnimate = true;
 
-
   // Hide buttons until base is clicked. 
   $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
     fabric.Object.prototype.transparentCorners = false;
-    // canvas.on('mouse:over', function(e) {
-    //   e.target.setFill('red');
-    //   canvas.renderAll();
-    // });
-
-    // canvas.on('mouse:out', function(e) {
-    //   e.target.setFill('green');
-    //   canvas.renderAll();
-    // });
-
   })();
 
   // Add tower click function.
   $("#defence-tower").click(function() {
-      console.log("watch tower clicked.");
-      localCirle = canvas.add(
-        new fabric.Circle({ 
-			top: 200,
-			left:200,
-			width: 200, 
-			height: 200, 
-			fill: '#089fdb', 
-			radius: 100, 
-			opacity: 0.7 })
-      );
-      localCirle.lockUniScaling = true;
+    console.log("watch tower clicked.");
+    localCirle = canvas.add(
+      new fabric.Circle({ 
+		top: 200,
+		left:200,
+		width: 200, 
+		height: 200, 
+		fill: '#089fdb', 
+		radius: 100, 
+		opacity: 0.7 })
+    );
+    localCirle.lockUniScaling = true;
   });
 
   // Add base click function.
@@ -50,18 +39,18 @@ $(document).ready(function() {
       // After base click, show units.
       $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
 
-      console.log("watch tower clicked.");
       localCirle = canvas.add(
         new fabric.Rect({
-			top: 250,
-			left: 200,
-			width: 200, 
-			height: 200, 
-			fill: '#FFF', 
-			opacity: 0.7, 
-			strokeWidth: 5, 
-			stroke: 'rgba(0,0,0,1)' })
+  			top: 250,
+  			left: 200,
+  			width: 200, 
+  			height: 200, 
+  			fill: '#FFF', 
+  			opacity: 0.7, 
+  			strokeWidth: 5, 
+  			stroke: 'rgba(0,0,0,1)' })
       );
+
       localCirle.lockUniScaling = true;
   });
 
@@ -70,90 +59,80 @@ $(document).ready(function() {
 	  $("#run-simuation").show();
       addSniper();
   });
-	  function addSniper(){
-      console.log("sniper clicked.");
 
-      // Circle for sniper.
-      var circle = new fabric.Circle({
-         top: 140,
-         left: 225,
-         radius: manSizeRadius,
-         fill: '#8b8b80'
-       });
+  function addSniper(){
+    console.log("sniper clicked.");
 
-      // Triangle for sniper vision.
-      var triangle = new fabric.Triangle({
-        top: 170,
-        left: 210,
-        width: 50,
-        height: 300,
-        fill: '#8b8b80',
-        opacity: 0.3
-      });
-	   /* var invisTriangle = new fabric.Triangle({
-        top: 140-700,
-        left: 200,
-        width: 100,
-        height: -700,
-        fill: '#8b8b80',
-        opacity: 0.0
-      });*/
+    // Circle for sniper.
+    var circle = new fabric.Circle({
+     top: 140,
+     left: 225,
+     radius: manSizeRadius,
+     fill: '#8b8b80'
+    });
 
-      // Group the shapes for the sniper.
-      sniperGroup = new fabric.Group([ circle, triangle ], {
-        top: 500,
-        left: 300,
-        angle: -45,
-    		centeredRotation: false,
-    		originX: "center",
-    		originY: "top"
-      });
-	
+    // Triangle for sniper vision.
+    var triangle = new fabric.Triangle({
+      top: 170,
+      left: 210,
+      width: 50,
+      height: 300,
+      fill: '#8b8b80',
+      opacity: 0.3
+    });
+
+    // Group the shapes for the sniper.
+    sniperGroup = new fabric.Group([ circle, triangle ], {
+      top: 500,
+      left: 300,
+      angle: -45,
+  		centeredRotation: false,
+  		originX: "center",
+  		originY: "top"
+    });
 	  
-      canvas.add(sniperGroup);
-	  }
+    canvas.add(sniperGroup);
+	 }
 
   // Add a machine gun click function.
   $("#machineGun").click(function() {
-      console.log("sniper clicked.");
+    console.log("sniper clicked.");
 
-      // Circle for machine gun.
-      var circle = new fabric.Circle({
-         top: 125,
-         left: 215,
-         radius: manSizeRadius,
-         fill: '#24b34b'
-       });
+    // Circle for machine gun.
+    var circle = new fabric.Circle({
+       top: 125,
+       left: 215,
+       radius: manSizeRadius,
+       fill: '#24b34b'
+     });
 
-      // Triangle for machine gun vision.
-      var triangle = new fabric.Triangle({
-        top: 150,
-        left: 150,
-        width: 150,
-        height: 75,
-        fill: '#24b34b',
-        opacity: 0.7
-      });
+    // Triangle for machine gun vision.
+    var triangle = new fabric.Triangle({
+      top: 150,
+      left: 150,
+      width: 150,
+      height: 75,
+      fill: '#24b34b',
+      opacity: 0.7
+    });
 
-      // Group the shapes for the sniper.
-      var machineGunGroup = new fabric.Group([ circle, triangle ], {
-        top: 300,
-        left: 210,
-        angle: -50
-      });
+    // Group the shapes for the sniper.
+    var machineGunGroup = new fabric.Group([ circle, triangle ], {
+      top: 300,
+      left: 210,
+      angle: -50
+    });
 
-      canvas.add(machineGunGroup);
+    canvas.add(machineGunGroup);
   });
 
   // Add a rotating shape on click function.
   $("#patroller").click(function() {
-      $("#run-simuation").show();
-      addPatrol();
+    $("#run-simuation").show();
+    addPatrol();
   });
 
   function addPatrol() {
-
-    console.log("Patrol initilized.");
 
     // Circle for patrol vison.
     var patrollerVison = new fabric.Triangle({
@@ -199,9 +178,6 @@ $(document).ready(function() {
     });
 
     canvas.add(patrolGroup);  
-
-    console.log(patrolGroup.get('angle'));
-
   }
 
   $("#stop-simuation").hide();
@@ -209,87 +185,67 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
-
-	runAnimate = false;  
-	simulate()
-  
-
+  	runAnimate = false;  
+  	simulate()
 
     $("#run-simuation").hide();
     $("#stop-simuation").show();
 
-	function simulate(){
-		if(typeof patrolGroup !== 'undefined'){
-			simulatePatrol();
-		}
-		if(typeof sniperGroup !== 'undefined'){
-			simulateSniper();
-		}
-	}
-	
+    // Check if defence units exist.
+  	function simulate(){
+  		if(typeof patrolGroup !== 'undefined'){
+  			simulatePatrol();
+  		}
+  		if(typeof sniperGroup !== 'undefined'){
+  			simulateSniper();
+  		}
+  	}
+  	
     function simulatePatrol() {
-    if (typeof patrolGroup !== 'undefined') {
+      if (typeof patrolGroup !== 'undefined') {
 
-      //the variable is defined
-      // Rotate the group of shapes every second by -10 degrees..
-      var rotationDegrees = -10;
-      patrolGroup.animate({ angle: rotationDegrees }, {
-        duration: 1000,
+        //the variable is defined
+        // Rotate the group of shapes every second by -10 degrees..
+        var rotationDegrees = -10;
+        patrolGroup.animate({ angle: rotationDegrees }, {
+          duration: 1000,
+          onChange: canvas.renderAll.bind(canvas),
+          onComplete: function onComplete() {
+            //console.log(Math.round(patrolManPlusVision.angle)),
+            patrolGroup.animate({
+              angle: rotationDegrees-=10
+            }, {
+              duration: 1000,
+              onChange: canvas.renderAll.bind(canvas),
+              onComplete: onComplete,
+              abort: function(){
+                return runAnimate;
+              }
+            });
+          }
+        });
+      }
+    }
+  	
+  	function simulateSniper() {
+  		sniperGroup.animate({ angle: 45 }, {
+        //easing: fabric.util.ease.easeOutCubic,
+        duration: 2000,
         onChange: canvas.renderAll.bind(canvas),
         onComplete: function onComplete() {
-          //console.log(Math.round(patrolManPlusVision.angle)),
-          patrolGroup.animate({
-            angle: rotationDegrees-=10
+          sniperGroup.animate({
+            angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
           }, {
-            duration: 1000,
-            onChange: canvas.renderAll.bind(canvas),
+            duration: 2000,
+  		  onChange: canvas.renderAll.bind(canvas),
             onComplete: onComplete,
-            abort: function(){
-              return runAnimate;
-            }
+  		  abort: function(){
+                return runAnimate;
+              }
           });
         }
       });
-    }
-    }
-	
-	function simulateSniper() {
-		
-		sniperGroup.animate({ angle: 45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-        }, {
-          duration: 2000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete,
-		  abort: function(){
-              return runAnimate;
-            }
-        });
-      }
-    });
-	}
-
-    // var counter = 0;
-    // var myInterval = setInterval(function () {
-    //   counter-=5;
-    //   simulatePatrol()
-
-    // }, 1000);
-
-    // function simulatePatrol() {
-    //   console.log(counter);
-    //   //patrolGroup.animate({ angle: 60 });
-    //   patrolGroup.animate('angle', counter, {
-    //     onChange: canvas.renderAll.bind(canvas)
-    //   });
-    // }
-
-
+  	}
 
     // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
     var canvasWrapper = document.getElementById('CanvasContainer');
@@ -310,7 +266,7 @@ $(document).ready(function() {
               case 39:  /* Right arrow was pressed */
                  console.log('right works')
                 break;
-            }
+          }
       }
     }
     
@@ -364,7 +320,5 @@ $(document).ready(function() {
 		$('#Canvas').removeClass('sandBG');
 		$('#Canvas').addClass('snowBG');
 	});
-
-
 
 });
