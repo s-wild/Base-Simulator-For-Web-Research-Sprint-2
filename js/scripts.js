@@ -21,13 +21,14 @@ $(document).ready(function() {
     console.log("watch tower clicked.");
     localCirle = canvas.add(
       new fabric.Circle({ 
-		top: 200,
-		left:200,
-		width: 200, 
-		height: 200, 
-		fill: '#089fdb', 
-		radius: 100, 
-		opacity: 0.7 })
+    		top: 200,
+    		left:200,
+    		width: 200, 
+    		height: 200, 
+    		fill: '#089fdb', 
+    		radius: 100, 
+    		opacity: 0.7,
+      })
     );
     localCirle.lockUniScaling = true;
   });
@@ -102,9 +103,9 @@ $(document).ready(function() {
     		centeredRotation: false,
     		originX: "center",
     		originY: "top",
-			lockUniScaling: true,
-			lockScalingX: true,
-			lockScalingY: true
+  			lockUniScaling: true,
+  			lockScalingX: true,
+  			lockScalingY: true
       }));
 	  
  
@@ -194,6 +195,7 @@ $(document).ready(function() {
     });
 
     patrolManPlusVision = new fabric.Group([circleMan, patrollerVison], {
+
     });
 
     // Group the shapes for the sniper.
@@ -202,6 +204,9 @@ $(document).ready(function() {
       left: 300,
       originX: 'center',
       originY: 'center',
+      lockUniScaling: true,
+      lockScalingX: true,
+      lockScalingY: true
     }));
 
     canvas.add(patrols[patrols.length-1]);  
@@ -271,6 +276,7 @@ $(document).ready(function() {
               onComplete: onComplete,
               abort: function(){
                 return runAnimate;
+				
               }
             });
           }
@@ -293,6 +299,7 @@ $(document).ready(function() {
           onComplete: onComplete,
 		  abort: function(){
               return runAnimate;
+
             }
         });
       }
@@ -385,6 +392,22 @@ $(document).ready(function() {
     runAnimate = true;
     $("#run-simuation").show();
     $("#stop-simuation").hide();
+	if(patrols.length >= 1){
+			for (i=0; i < patrols.length; i++){
+				patrols[i].angle = patrolAngles[i];
+			}
+		}
+  		if(snipers.length >= 1){
+			for (i=0; i < snipers.length; i++){
+				snipers[i].angle = sniperAngles[i];
+			}
+  		}
+		if(machineGunners.length >= 1){
+			for (i=0; i < machineGunners.length; i++){
+				machineGunners[i].angle = machineGunnerAngles[i];
+			}
+		}
+	
   });
 
 canvas.observe('after:render', function(e) {
