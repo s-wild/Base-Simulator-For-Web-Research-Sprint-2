@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
 	var snipers = [];
+	var machineGunners = [];
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true;
@@ -112,7 +113,8 @@ $(document).ready(function() {
 
   // Add a machine gun click function.
   $("#machineGun").click(function() {
-    console.log("sniper clicked.");
+	 $("#run-simuation").show();
+    console.log("machine gunner clicked.");
 
     // Circle for machine gun.
     var circle = new fabric.Circle({
@@ -133,13 +135,19 @@ $(document).ready(function() {
     });
 
     // Group the shapes for the sniper.
-    var machineGunGroup = new fabric.Group([ circle, triangle ], {
+    machineGunners.push(new fabric.Group([ circle, triangle ], {
       top: 300,
       left: 210,
-      angle: -50
-    });
+      angle: -50,
+	    centeredRotation: false,
+		originX: "center",
+    	originY: "top",
+	  	lockUniScaling: true,
+		lockScalingX: true,
+		lockScalingY: true
+    }));
 
-    canvas.add(machineGunGroup);
+    canvas.add(machineGunners[machineGunners.length-1]);
   });
 
   // Add a rotating shape on click function.
@@ -202,10 +210,18 @@ $(document).ready(function() {
   $("#run-simuation").click(function() {
 
   	runAnimate = false;
+	
+	//get angles 
+	
 	sniperAngles = [];
+	machineGunnerAngles = [];
 	for (i=0; i < snipers.length; i++){
 		sniperAngles.push(snipers[i].angle);
 	}
+	for (i=0; i < machineGunners.length; i++){
+		machineGunnerAngles.push(machineGunners[i].angle)
+	}
+	
   	simulate()
 
     $("#run-simuation").hide();
@@ -221,6 +237,11 @@ $(document).ready(function() {
 				simulateSniper(i);
 			}
   		}
+		if(machineGunners.length >= 1){
+			for (i=0; i < machineGunners.length; i++){
+				simulateMachineGunner(i);
+			}
+		}
   	}
   	
     function simulatePatrol() {
@@ -251,8 +272,6 @@ $(document).ready(function() {
   	
 	
 	function simulateSniper(index) {
-		sniperGroup = snipers[index];
-	   sniperAngle = sniperAngles[index];
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
       //easing: fabric.util.ease.easeOutCubic,
       duration: 6000,
@@ -262,6 +281,26 @@ $(document).ready(function() {
           angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
         }, {
           duration: 6000,
+		  onChange: canvas.renderAll.bind(canvas),
+          onComplete: onComplete,
+		  abort: function(){
+              return runAnimate;
+            }
+        });
+      }
+    });
+	}
+	
+	function simulateMachineGunner(index){
+	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
+      //easing: fabric.util.ease.easeOutCubic,
+      duration: 1000,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        machineGunners[index].animate({
+          angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
+        }, {
+          duration: 1000,
 		  onChange: canvas.renderAll.bind(canvas),
           onComplete: onComplete,
 		  abort: function(){
@@ -316,6 +355,8 @@ $(document).ready(function() {
   $("#canvas-clear").click(function() {
     canvas.clear();
 	  runAnimate = true;
+	 snipers = [];
+	 machineGunners = [];
 
     // Hide elements on canvas clear.
     $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
