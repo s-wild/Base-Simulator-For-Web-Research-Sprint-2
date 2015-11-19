@@ -1,7 +1,9 @@
 
 
 $(document).ready(function() {
-
+	var snipers = [];
+	var machineGunners = [];
+	var patrols = [];
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true;
@@ -90,7 +92,8 @@ $(document).ready(function() {
       });*/
 
       // Group the shapes for the sniper.
-      sniperGroup = new fabric.Group([ circle, triangle ], {
+
+		snipers.push(new fabric.Group([ circle, triangle ], {
         top: 500,
         left: 300,
         angle: -45,
@@ -100,15 +103,19 @@ $(document).ready(function() {
 			lockUniScaling: true,
 			lockScalingX: true,
 			lockScalingY: true
-      });
+      }));
+	  
+ 
+     
 	
 	  
-    canvas.add(sniperGroup);
+    canvas.add(snipers[snipers.length-1]);
 	 }
 
   // Add a machine gun click function.
   $("#machineGun").click(function() {
-    console.log("sniper clicked.");
+	 $("#run-simuation").show();
+    console.log("machine gunner clicked.");
 
     // Circle for machine gun.
     var circle = new fabric.Circle({
@@ -129,13 +136,19 @@ $(document).ready(function() {
     });
 
     // Group the shapes for the sniper.
-    var machineGunGroup = new fabric.Group([ circle, triangle ], {
+    machineGunners.push(new fabric.Group([ circle, triangle ], {
       top: 300,
       left: 210,
-      angle: -50
-    });
+      angle: -50,
+	    centeredRotation: false,
+		originX: "center",
+    	originY: "top",
+	  	lockUniScaling: true,
+		lockScalingX: true,
+		lockScalingY: true
+    }));
 
-    canvas.add(machineGunGroup);
+    canvas.add(machineGunners[machineGunners.length-1]);
   });
 
   // Add a rotating shape on click function.
@@ -182,14 +195,14 @@ $(document).ready(function() {
     });
 
     // Group the shapes for the sniper.
-    patrolGroup = new fabric.Group([circlePatrolPath, patrolManPlusVision], {
+    patrols.push(new fabric.Group([circlePatrolPath, patrolManPlusVision], {
       top: 300,
       left: 300,
       originX: 'center',
       originY: 'center',
-    });
+    }));
 
-    canvas.add(patrolGroup);  
+    canvas.add(patrols[patrols.length-1]);  
   }
 
   $("#stop-simuation").hide();
@@ -197,7 +210,22 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
-  	runAnimate = false;  
+  	runAnimate = false;
+	
+	//get angles 
+	
+	sniperAngles = [];
+	machineGunnerAngles = [];
+	patrolsAngles = [];
+	for (i=0; i < snipers.length; i++){
+		sniperAngles.push(snipers[i].angle);
+	}
+	for (i=0; i < machineGunners.length; i++){
+		machineGunnerAngles.push(machineGunners[i].angle)
+	}
+	for (i=0; i < patrols.length; i++){
+		patrolsAngles.push(patrols[i].angle);
+	}
   	simulate()
 
     $("#run-simuation").hide();
@@ -205,27 +233,36 @@ $(document).ready(function() {
 
     // Check if defence units exist.
   	function simulate(){
-  		if(typeof patrolGroup !== 'undefined'){
-  			simulatePatrol();
+  		if(patrols.length >= 1){
+			for (i=0; i < patrols.length; i++){
+				simulatePatrol(i);
+			}
+		}
+  		if(snipers.length >= 1){
+			for (i=0; i < snipers.length; i++){
+				simulateSniper(i);
+			}
   		}
-  		if(typeof sniperGroup !== 'undefined'){
-  			simulateSniper();
-  		}
+		if(machineGunners.length >= 1){
+			for (i=0; i < machineGunners.length; i++){
+				simulateMachineGunner(i);
+			}
+		}
+		
   	}
   	
-    function simulatePatrol() {
-      if (typeof patrolGroup !== 'undefined') {
+    function simulatePatrol(index) {
 
         //the variable is defined
         // Rotate the group of shapes every second by -10 degrees..
-        var rotationDegrees = -10;
-        patrolGroup.animate({ angle: rotationDegrees }, {
+        var rotationAmount = 10;
+        patrols[index].animate({ angle: patrolsAngles[index]-rotationAmount }, {
           duration: 1000,
           onChange: canvas.renderAll.bind(canvas),
           onComplete: function onComplete() {
             //console.log(Math.round(patrolManPlusVision.angle)),
-            patrolGroup.animate({
-              angle: rotationDegrees-=10
+            patrols[index].animate({
+              angle: patrolsAngles[index]-=rotationAmount
             }, {
               duration: 1000,
               onChange: canvas.renderAll.bind(canvas),
@@ -237,54 +274,57 @@ $(document).ready(function() {
           }
         });
       }
-    }
+   
   	
-  	function simulateSniper() {
-  		sniperGroup.animate({ angle: 45 }, {
-        //easing: fabric.util.ease.easeOutCubic,
-        duration: 2000,
-        onChange: canvas.renderAll.bind(canvas),
-        onComplete: function onComplete() {
-          sniperGroup.animate({
-            angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-          }, {
-            duration: 2000,
-  		  onChange: canvas.renderAll.bind(canvas),
-            onComplete: onComplete,
-  		  abort: function(){
-                return runAnimate;
-              }
-          });
-        }
-      });
-    }
 	
-  	function simulateSniper() {
-  	   sniperAngle = sniperGroup.angle;
-  	   sniperGroup.animate({ angle: sniperAngle+45 }, {
-        //easing: fabric.util.ease.easeOutCubic,
-        duration: 6000,
-        onChange: canvas.renderAll.bind(canvas),
-        onComplete: function onComplete() {
-          sniperGroup.animate({
-            angle: sniperGroup.angle === sniperAngle+45 ? sniperAngle-45 : sniperAngle+45
-          }, {
-            duration: 6000,
-  		  onChange: canvas.renderAll.bind(canvas),
-            onComplete: onComplete,
-  		  abort: function(){
-                return runAnimate;
-              }
-          });
-        }
-      });
-  	}
+	function simulateSniper(index) {
+	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
+      //easing: fabric.util.ease.easeOutCubic,
+      duration: 6000,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        snipers[index].animate({
+          angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
+        }, {
+          duration: 6000,
+		  onChange: canvas.renderAll.bind(canvas),
+          onComplete: onComplete,
+		  abort: function(){
+              return runAnimate;
+            }
+        });
+      }
+    });
+	}
+	
+	function simulateMachineGunner(index){
+	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
+      //easing: fabric.util.ease.easeOutCubic,
+      duration: 1000,
+      onChange: canvas.renderAll.bind(canvas),
+      onComplete: function onComplete() {
+        machineGunners[index].animate({
+          angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
+        }, {
+          duration: 1000,
+		  onChange: canvas.renderAll.bind(canvas),
+          onComplete: onComplete,
+		  abort: function(){
+              return runAnimate;
+            }
+        });
+      }
+    });
+	}
 
     function enemyUnit() {
       // Circle for patrol vison.
+      initPositionleft = 300;
+      initPositionTop = 400;
+
       enemyItem = new fabric.Rect({
-        top: 400,
-          left: 300,
+        top: initPositionTop,
+          left: initPositionleft,
           width: 20, 
           height: 20, 
           fill: '#000', 
@@ -349,6 +389,9 @@ $(document).ready(function() {
   $("#canvas-clear").click(function() {
     canvas.clear();
 	  runAnimate = true;
+	 snipers = [];
+	 machineGunners = [];
+	 patrols = [];
 
     // Hide elements on canvas clear.
     $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
@@ -388,15 +431,55 @@ $(document).keypress(function(e) {
    animateUp(e)
 
    function animateUp(e) {
+    // Get top left of shape.
+    // topLeft = enemyItemo.Coords.tl.x;
+    // console.log(topLeft);
+
     if (typeof enemyItem !== 'undefined') {
       console.log(e.which);
       if(e.which == 119) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('top', '20', { 
-          duration: 1000,
+        enemyItem.animate('top', initPositionTop-=20 , { 
+          duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
       }
     }
+
+    if (typeof enemyItem !== 'undefined') {
+      console.log(e.which);
+      if(e.which == 97) {
+        console.log(canvas.enemyItem);
+        enemyItem.animate('left', initPositionleft-=20 , { 
+          duration: 100,
+          onChange: canvas.renderAll.bind(canvas),
+        });
+      }
+    }
+
+    if (typeof enemyItem !== 'undefined') {
+      console.log(e.which);
+      if(e.which == 100) {
+        console.log(canvas.enemyItem);
+        enemyItem.animate('left', initPositionleft+=20 , { 
+          duration: 100,
+          onChange: canvas.renderAll.bind(canvas),
+        });
+      }
+    }
+
+    if (typeof enemyItem !== 'undefined') {
+      console.log(e.which);
+      if(e.which == 115) {
+        console.log(canvas.enemyItem);
+        enemyItem.animate('top', initPositionTop-=20 , { 
+          duration: 100,
+          onChange: canvas.renderAll.bind(canvas),
+        });
+      }
+    }
+
+
+
   }
 });
