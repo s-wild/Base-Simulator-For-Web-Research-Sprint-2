@@ -3,6 +3,7 @@
 $(document).ready(function() {
 	var snipers = [];
 	var machineGunners = [];
+	var patrols = [];
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true;
@@ -194,14 +195,14 @@ $(document).ready(function() {
     });
 
     // Group the shapes for the sniper.
-    patrolGroup = new fabric.Group([circlePatrolPath, patrolManPlusVision], {
+    patrols.push(new fabric.Group([circlePatrolPath, patrolManPlusVision], {
       top: 300,
       left: 300,
       originX: 'center',
       originY: 'center',
-    });
+    }));
 
-    canvas.add(patrolGroup);  
+    canvas.add(patrols[patrols.length-1]);  
   }
 
   $("#stop-simuation").hide();
@@ -215,13 +216,16 @@ $(document).ready(function() {
 	
 	sniperAngles = [];
 	machineGunnerAngles = [];
+	patrolsAngles = [];
 	for (i=0; i < snipers.length; i++){
 		sniperAngles.push(snipers[i].angle);
 	}
 	for (i=0; i < machineGunners.length; i++){
 		machineGunnerAngles.push(machineGunners[i].angle)
 	}
-	
+	for (i=0; i < patrols.length; i++){
+		patrolsAngles.push(patrols[i].angle);
+	}
   	simulate()
 
     $("#run-simuation").hide();
@@ -229,9 +233,11 @@ $(document).ready(function() {
 
     // Check if defence units exist.
   	function simulate(){
-  		if(typeof patrolGroup !== 'undefined'){
-  			simulatePatrol();
-  		}
+  		if(patrols.length >= 1){
+			for (i=0; i < patrols.length; i++){
+				simulatePatrol(i);
+			}
+		}
   		if(snipers.length >= 1){
 			for (i=0; i < snipers.length; i++){
 				simulateSniper(i);
@@ -242,21 +248,21 @@ $(document).ready(function() {
 				simulateMachineGunner(i);
 			}
 		}
+		
   	}
   	
-    function simulatePatrol() {
-      if (typeof patrolGroup !== 'undefined') {
+    function simulatePatrol(index) {
 
         //the variable is defined
         // Rotate the group of shapes every second by -10 degrees..
-        var rotationDegrees = -10;
-        patrolGroup.animate({ angle: rotationDegrees }, {
+        var rotationAmount = 10;
+        patrols[index].animate({ angle: patrolsAngles[index]-rotationAmount }, {
           duration: 1000,
           onChange: canvas.renderAll.bind(canvas),
           onComplete: function onComplete() {
             //console.log(Math.round(patrolManPlusVision.angle)),
-            patrolGroup.animate({
-              angle: rotationDegrees-=10
+            patrols[index].animate({
+              angle: patrolsAngles[index]-=rotationAmount
             }, {
               duration: 1000,
               onChange: canvas.renderAll.bind(canvas),
@@ -268,7 +274,7 @@ $(document).ready(function() {
           }
         });
       }
-    }
+   
   	
 	
 	function simulateSniper(index) {
@@ -357,6 +363,7 @@ $(document).ready(function() {
 	  runAnimate = true;
 	 snipers = [];
 	 machineGunners = [];
+	 patrols = [];
 
     // Hide elements on canvas clear.
     $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
