@@ -8,12 +8,7 @@ $(document).ready(function() {
 
 
   // Hide buttons until base is clicked. 
-  $("#defence-tower").hide();
-  $("#sniper").hide();
-  $("#machineGun").hide();
-  $("#patroller").hide();
-  $("#step2").hide();
-  $("#run-simuation").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -50,15 +45,10 @@ $(document).ready(function() {
   $("#base").click(function() {
 
       // Hide first instruction and base.
-      $("#step1").hide();
-      $("#base").hide();
+      $("#step1, #base").hide();
 
       // After base click, show units.
-      $("#step2").show();
-      $("#defence-tower").show();
-      $("#sniper").show();
-      $("#machineGun").show();
-      $("#patroller").show();
+      $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
 
       console.log("watch tower clicked.");
       localCirle = canvas.add(
@@ -341,18 +331,14 @@ $(document).ready(function() {
 
   // Clear canvas function
   $("#canvas-clear").click(function() {
-      canvas.clear();
+    canvas.clear();
 	  runAnimate = true;
-    $("#stop-simuation").hide();
-      // Hide buttons until base is clicked. 
-      $("#defence-tower").hide();
-      $("#sniper").hide();
-      $("#machineGun").hide();
-      $("#patroller").hide();
-      $("#run-simuation").hide();
-      $("#step2").hide();
-      $("#step1").show();
-      $("#base").show();
+
+    // Hide elements on canvas clear.
+    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
+
+    // Show elements on canvas clear.
+    $("#step1, #base").show();
   });
   
   // On page load, set grass background image in canvas.
