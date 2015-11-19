@@ -4,6 +4,8 @@ $(document).ready(function() {
 
   // Global variables.
   manSizeRadius = 10;
+  runAnimate = false;
+
 
   // Hide buttons until base is clicked. 
   $("#defence-tower").hide();
@@ -222,43 +224,53 @@ $(document).ready(function() {
 
   }
 
+  $("#stop-simuation").hide();
 
   // Run simulation function
   $("#run-simuation").click(function() {
 
-    var counter = 0;
-    var myInterval = setInterval(function () {
-      counter-=5;
-      simulatePatrol()
+    runAnimate = false;    
 
-    }, 1000);
+    $("#run-simuation").hide();
+    $("#stop-simuation").show();
 
-    function simulatePatrol() {
-      console.log(counter);
-      //patrolGroup.animate({ angle: 60 });
-      patrolGroup.animate('angle', counter, {
-        onChange: canvas.renderAll.bind(canvas)
-      });
-    }
+    // var counter = 0;
+    // var myInterval = setInterval(function () {
+    //   counter-=5;
+    //   simulatePatrol()
+
+    // }, 1000);
+
+    // function simulatePatrol() {
+    //   console.log(counter);
+    //   //patrolGroup.animate({ angle: 60 });
+    //   patrolGroup.animate('angle', counter, {
+    //     onChange: canvas.renderAll.bind(canvas)
+    //   });
+    // }
 
     if (typeof patrolGroup !== 'undefined') {
 
       //the variable is defined
-      // Rotate the group of shapes every 2 seconds 360 degrees.
-      // var rotationDegrees = 360;
-      // patrolGroup.animate({ angle: -rotationDegrees }, {
-      //   duration: 2000,
-      //   onChange: canvas.renderAll.bind(canvas),
-      //   onComplete: function onComplete() {
-      //     //console.log(Math.round(patrolManPlusVision.angle)),
-      //     patrolGroup.animate({
-      //       angle: +rotationDegrees
-      //     }, {
-      //       duration: 2000,
-      //       onComplete: onComplete
-      //     });
-      //   }
-      // });
+      // Rotate the group of shapes every second by -10 degrees..
+      var rotationDegrees = -10;
+      patrolGroup.animate({ angle: rotationDegrees }, {
+        duration: 1000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          //console.log(Math.round(patrolManPlusVision.angle)),
+          patrolGroup.animate({
+            angle: rotationDegrees-=10
+          }, {
+            duration: 1000,
+            onChange: canvas.renderAll.bind(canvas),
+            onComplete: onComplete,
+            abort: function(){
+              return runAnimate;
+            }
+          });
+        }
+      });
     }
 
     // @TODO - considering a function to move a rectangle by keyboard press. Not sure if this is a good idea.
@@ -284,6 +296,14 @@ $(document).ready(function() {
       }
     }
     
+  });
+
+
+  // Stop simulation function
+  $("#stop-simuation").click(function() {
+    runAnimate = true;
+    $("#run-simuation").show();
+    $("#stop-simuation").hide();
   });
 
   // Get users mouse points for debugging.
