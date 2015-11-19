@@ -82,7 +82,6 @@ $(document).ready(function() {
   });
 	  function addSniper(){
       console.log("sniper clicked.");
-      $("#stop-simuation").show();
 
       // Circle for sniper.
       var circle = new fabric.Circle({
@@ -120,23 +119,6 @@ $(document).ready(function() {
     		originY: "top"
       });
 	
-	 sniperGroup.animate({ angle: 45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        sniperGroup.animate({
-          angle: Math.round(sniperGroup.angle) === 45 ? -45 : 45
-        }, {
-          duration: 2000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete,
-          abort: function(){
-              return runAnimate;
-            }
-        });
-      }
-    });
 	  
       canvas.add(sniperGroup);
 	  }
@@ -363,6 +345,8 @@ $(document).ready(function() {
   // Clear canvas function
   $("#canvas-clear").click(function() {
       canvas.clear();
+	  runAnimate = true;
+    $("#stop-simuation").hide();
       // Hide buttons until base is clicked. 
       $("#defence-tower").hide();
       $("#sniper").hide();
