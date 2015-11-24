@@ -450,6 +450,31 @@ canvas.observe('after:render', function(e) {
 		$('#Canvas').addClass('snowBG');
 	});
 
+  /*
+  * Canvas pixel scan
+  */ 
+
+  // Canvas width/height.
+  //canvasWidth = $('#Canvas').width();
+  //canvasheight = $('#Canvas').height();
+
+  canvasWidth = 10;
+  canvasHeight = 10;
+
+  $('#run-heatmap').click(function() {
+    // set up some sample squares
+    var canvas = document.querySelector('canvas');
+
+    console.log('height and width' + canvasWidth + canvasHeight);
+
+    for (canvasX = 0; canvasX < canvasWidth; canvasX++) { 
+      for (canvasY = 0; canvasY < canvasHeight; canvasY++) { 
+        var color = getCanvasPixelColor(canvas, canvasX, canvasY); // returns an array/object
+        console.log(color);
+      }
+    }
+  });
+
 });
 
 // This function detects keyboard press events.
