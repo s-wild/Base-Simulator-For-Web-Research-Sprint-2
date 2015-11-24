@@ -7,9 +7,8 @@ $(document).ready(function() {
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true; 
-
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -431,22 +430,19 @@ canvas.observe('after:render', function(e) {
 
   // Changes canvas background to grass image.
   $('#changeToGrass').click(function() {
-		$('#Canvas').removeClass('sandBG');
-		$('#Canvas').removeClass('snowBG');
+		$('#Canvas').removeClass('sandBG, snowBG');
 		$('#Canvas').addClass('grassBG');
 	});
 
   // Changes canvas background to sand image.
 	$('#changeToSand').click(function() {
-		$('#Canvas').removeClass('grassBG');
-		$('#Canvas').removeClass('snowBG');
+		$('#Canvas').removeClass('grassBG, snowBG');
 		$('#Canvas').addClass('sandBG');
 	});
 
   // Changes canvas background to snow image.
 	$('#changeToSnow').click(function() {
-		$('#Canvas').removeClass('grassBG');
-		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').removeClass('grassBG, sandBG');
 		$('#Canvas').addClass('snowBG');
 	});
 
@@ -478,11 +474,14 @@ canvas.observe('after:render', function(e) {
   });
   **/
 
-  // Check if defence units exist.
+  // Heatmap function.
   function heatmap(){
     // create configuration object
     // minimal heatmap instance configuration
-    $('#CanvasContainer').height(650);
+    canvasHeight = $('#CanvasContainer').height();
+    canvasWidth = $('#CanvasContainer').width();
+
+    $('#CanvasContainer').height(canvasHeight);
     var heatmapInstance = h337.create({
       // only container is required, the rest will be defaults
       container: document.querySelector('#CanvasContainer')
@@ -491,16 +490,16 @@ canvas.observe('after:render', function(e) {
     // now generate some random data
     var points = [];
     var max = 0;
-    var width = 840;
-    var height = 400;
+    var width = canvasWidth;
+    var height = canvasHeight;
     var len = 200;
 
     while (len--) {
-      var val = 80/*Math.floor(Math.random()*100)*/;
+      var val = Math.floor(Math.random()*100);
       max = Math.max(max, val);
       var point = {
-        x: Math.floor(10),
-        y: Math.floor(400),
+        x: Math.floor(699/*Math.random()*width*/),
+        y: Math.floor(206/*Math.random()*height*/),
         value: val
       };
       points.push(point);
@@ -518,7 +517,21 @@ canvas.observe('after:render', function(e) {
   // Changes canvas background to snow image.
   $('#run-heatmap').click(function() {
     heatmap()
+    $('#run-heatmap').hide();
+    $('#clear-heatmap').show();
   });
+
+  // Changes canvas background to snow image.
+  $('#clear-heatmap').click(function() {
+    clearHeatMap()
+    $('#clear-heatmap').hide();
+    $('#run-heatmap').show();
+  });
+
+  // Clear heatmap
+  function clearHeatMap() {
+    heatmapInstance.store.setDataSet({data:[]});
+  }
   
 
 
