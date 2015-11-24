@@ -9,7 +9,7 @@ $(document).ready(function() {
   runAnimate = true; 
 
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -231,21 +231,20 @@ $(document).ready(function() {
     // Check if defence units exist.
   	function simulate(){
   		if(patrols.length >= 1){
-			for (i=0; i < patrols.length; i++){
-				simulatePatrol(i);
-			}
-		}
-  		if(snipers.length >= 1){
-			for (i=0; i < snipers.length; i++){
-				simulateSniper(i);
-			}
+  			for (i=0; i < patrols.length; i++){
+  				simulatePatrol(i);
+  			}
   		}
-		if(machineGunners.length >= 1){
-			for (i=0; i < machineGunners.length; i++){
-				simulateMachineGunner(i);
-			}
-		}
-		
+    	if(snipers.length >= 1){
+  			for (i=0; i < snipers.length; i++){
+  				simulateSniper(i);
+  			}
+    	}
+  		if(machineGunners.length >= 1){
+  			for (i=0; i < machineGunners.length; i++){
+  				simulateMachineGunner(i);
+  			}
+  		}
   	}
   	
     function simulatePatrol(index) {
@@ -356,6 +355,7 @@ $(document).ready(function() {
 
   // Stop simulation function
   $("#stop-simuation").click(function() {
+    $('#run-heatmap').show();
     runAnimate = true;
     $("#run-simuation").show();
     $("#stop-simuation").hide();
@@ -455,10 +455,12 @@ canvas.observe('after:render', function(e) {
   */ 
 
   // Canvas width/height.
-  //canvasWidth = $('#Canvas').width();
-  //canvasheight = $('#Canvas').height();
+  canvasWidth = $('#Canvas').width();
+  canvasHeight = $('#Canvas').height();
 
-  canvasWidth = 10;
+  scanSpeed = 4;
+
+  /** canvasWidth = 10;
   canvasHeight = 10;
 
   $('#run-heatmap').click(function() {
@@ -467,15 +469,60 @@ canvas.observe('after:render', function(e) {
 
     console.log('height and width' + canvasWidth + canvasHeight);
 
-    for (canvasX = 0; canvasX < canvasWidth; canvasX++) { 
-      for (canvasY = 0; canvasY < canvasHeight; canvasY++) { 
+    for (canvasX = 0; canvasX < canvasWidth; canvasX+=scanSpeed) { 
+      for (canvasY = 0; canvasY < canvasHeight; canvasY+=scanSpeed) { 
         var color = getCanvasPixelColor(canvas, canvasX, canvasY); // returns an array/object
         console.log(color);
       }
     }
   });
+  **/
 
-});
+  // Check if defence units exist.
+  function heatmap(){
+    // create configuration object
+    // minimal heatmap instance configuration
+    $('#CanvasContainer').height(650);
+    var heatmapInstance = h337.create({
+      // only container is required, the rest will be defaults
+      container: document.querySelector('#CanvasContainer')
+    });
+
+    // now generate some random data
+    var points = [];
+    var max = 0;
+    var width = 840;
+    var height = 400;
+    var len = 200;
+
+    while (len--) {
+      var val = 80/*Math.floor(Math.random()*100)*/;
+      max = Math.max(max, val);
+      var point = {
+        x: Math.floor(10),
+        y: Math.floor(400),
+        value: val
+      };
+      points.push(point);
+    }
+    // heatmap data format
+    var data = { 
+      max: max, 
+      data: points 
+    };
+    // if you have a set of datapoints always use setData instead of addData
+    // for data initialization
+    heatmapInstance.setData(data); 
+  }
+
+  // Changes canvas background to snow image.
+  $('#run-heatmap').click(function() {
+    heatmap()
+  });
+  
+
+
+}); // End of document load javascript
 
 // This function detects keyboard press events.
 $(document).keypress(function(e) {
