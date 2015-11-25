@@ -284,6 +284,9 @@ $(document).ready(function() {
       window.setInterval(function(){
         var attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
         var attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
+
+
+        // var pointBottomRightSniper = attrSniperBrX + attrSniperBrY;
         console.log(attrSniperBrX, attrSniperBrY);
       }, 400);
     }
@@ -523,7 +526,7 @@ canvas.observe('after:render', function(e) {
     };
     // if you have a set of datapoints always use setData instead of addData
     // for data initialization
-    heatmapInstance.addData(data); 
+    heatmapInstance.setData(data); 
   }
 
   // Changes canvas background to snow image.
