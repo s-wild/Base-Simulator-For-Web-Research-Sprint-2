@@ -281,17 +281,7 @@ $(document).ready(function() {
 	
 	function simulateSniper(index) {
     var lookup = {};
-    for(var index in snipers) { 
-      
-      window.setInterval(function(){
-        snipers[index].setCoords();
-        attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
-        attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
-        heatMapAdd(snipers[index].oCoords.br.x, attrSniperBrY);
-
-        console.log(attrSniperBrX, attrSniperBrY);
-      }, 400);
-    }
+    
     // console.log(snipers[index]);
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
       //easing: fabric.util.ease.easeOutCubic,
@@ -315,6 +305,16 @@ $(document).ready(function() {
 
             }
     });
+
+    // Heat map functionality. 
+    window.setInterval(function(){
+      snipers[index].setCoords();
+      attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
+      attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
+      console.log(attrSniperBrX, attrSniperBrY);
+      heatMapAdd(attrSniperBrX, attrSniperBrY);
+
+     }, 400);
 	}
 	
 	function simulateMachineGunner(index){
