@@ -290,7 +290,7 @@ $(document).ready(function() {
         heatMapAdd(snipers[index].oCoords.br.x, attrSniperBrY);
 
         console.log(attrSniperBrX, attrSniperBrY);
-      }, 800);
+      }, 400);
     }
     // console.log(snipers[index]);
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
@@ -489,10 +489,8 @@ canvas.observe('after:render', function(e) {
   });
   **/
 
-  pointsX = 699;
-  pointsY = 699;
   // Heatmap function.
-  function heatMapCreate(pointsX, pointsY){
+  function heatMapCreate(){
     // create configuration object
     // minimal heatmap instance configuration
     canvasHeight = $('#CanvasContainer').height();
@@ -511,7 +509,11 @@ canvas.observe('after:render', function(e) {
     var dataPoint = { 
       x: attrSniperBrX, // x coordinate of the datapoint, a number 
       y: attrSniperBrY, // y coordinate of the datapoint, a number
-      value: 50 // the value at datapoint(x, y)
+      value: 0.3, // the value at datapoint(x, y),
+      radius: 40,
+      maxOpacity: .2,
+      minOpacity: 0,
+      blur: .30
     };
     heatmapInstance.addData(dataPoint);
   }
