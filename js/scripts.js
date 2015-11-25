@@ -287,10 +287,8 @@ $(document).ready(function() {
         snipers[index].setCoords();
         attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
         attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
-        heatMapAdd(attrSniperBrX, attrSniperBrY);
+        heatMapAdd(snipers[index].oCoords.br.x, attrSniperBrY);
 
-
-        // var pointBottomRightSniper = attrSniperBrX + attrSniperBrY;
         console.log(attrSniperBrX, attrSniperBrY);
       }, 800);
     }
@@ -505,32 +503,6 @@ canvas.observe('after:render', function(e) {
       // only container is required, the rest will be defaults
       container: document.querySelector('#CanvasContainer')
     });
-
-    // now generate some random data
-    points = [];
-    var max = 0;
-    var width = canvasWidth;
-    var height = canvasHeight;
-    var len = 200;
-
-    while (len--) {
-      var val = Math.floor(Math.random()*100);
-      max = Math.max(max, val);
-      var point = {
-        x: Math.floor(699/*Math.random()*width*/),
-        y: Math.floor(206/*Math.random()*height*/),
-        value: val
-      };
-      points.push(point);
-    }
-    // heatmap data format
-    var data = { 
-      max: max, 
-      data: points 
-    };
-    // if you have a set of datapoints always use setData instead of addData
-    // for data initialization
-    heatmapInstance.setData(data); 
   }
 
   function heatMapAdd(attrSniperBrX, attrSniperBrY){ 
