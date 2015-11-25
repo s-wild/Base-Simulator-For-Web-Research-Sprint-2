@@ -281,6 +281,7 @@ $(document).ready(function() {
 	
 	function simulateSniper(index) {
     var lookup = {};
+
     
     // console.log(snipers[index]);
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
@@ -307,8 +308,9 @@ $(document).ready(function() {
     });
 
     // Heat map functionality. 
-    window.setInterval(function(){
+    sniperSimulateHeatMap = window.setInterval(function(){
       snipers[index].setCoords();
+      console.log(snipers[index].moving);
       attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
       attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
       console.log(attrSniperBrX, attrSniperBrY);
@@ -388,6 +390,9 @@ $(document).ready(function() {
 				machineGunners[i].angle = machineGunnerAngles[i];
 			}
 		}
+
+    // Stop sniper heatmap.
+    clearInterval(sniperSimulateHeatMap);
 	
   });
 
