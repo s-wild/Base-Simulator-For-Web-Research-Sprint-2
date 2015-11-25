@@ -43,7 +43,7 @@ $(document).ready(function() {
       // After base click, show units.
       $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
 
-      localCirle = canvas.add(
+      localRect = canvas.add(
         new fabric.Rect({
   			top: 250,
   			left: 200,
@@ -55,7 +55,7 @@ $(document).ready(function() {
   			stroke: 'rgba(0,0,0,1)' })
       );
 
-      localCirle.lockUniScaling = true;
+      localRect.lockUniScaling = true;
   });
 
   // Add a sniper click function.
@@ -278,6 +278,16 @@ $(document).ready(function() {
   	
 	
 	function simulateSniper(index) {
+    var lookup = {};
+    for(var index in snipers) { 
+      
+      window.setInterval(function(){
+        var attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
+        var attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
+        console.log(attrSniperBrX, attrSniperBrY);
+      }, 400);
+    }
+    // console.log(snipers[index]);
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
       //easing: fabric.util.ease.easeOutCubic,
       duration: 6000,
@@ -474,8 +484,10 @@ canvas.observe('after:render', function(e) {
   });
   **/
 
+  pointsX = 699;
+  pointsY = 699;
   // Heatmap function.
-  function heatmap(){
+  function heatmap(pointsX, pointsY){
     // create configuration object
     // minimal heatmap instance configuration
     canvasHeight = $('#CanvasContainer').height();
@@ -488,7 +500,7 @@ canvas.observe('after:render', function(e) {
     });
 
     // now generate some random data
-    var points = [];
+    points = [];
     var max = 0;
     var width = canvasWidth;
     var height = canvasHeight;
@@ -511,7 +523,7 @@ canvas.observe('after:render', function(e) {
     };
     // if you have a set of datapoints always use setData instead of addData
     // for data initialization
-    heatmapInstance.setData(data); 
+    heatmapInstance.addData(data); 
   }
 
   // Changes canvas background to snow image.
