@@ -204,6 +204,8 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
+    heatMapCreate()
+
     runAnimate = false;
   	
   	//get angles 
@@ -284,6 +286,7 @@ $(document).ready(function() {
       window.setInterval(function(){
         var attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
         var attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
+        heatMapAdd(attrSniperBrX, attrSniperBrY);
 
 
         // var pointBottomRightSniper = attrSniperBrX + attrSniperBrY;
@@ -490,14 +493,14 @@ canvas.observe('after:render', function(e) {
   pointsX = 699;
   pointsY = 699;
   // Heatmap function.
-  function heatmap(pointsX, pointsY){
+  function heatMapCreate(pointsX, pointsY){
     // create configuration object
     // minimal heatmap instance configuration
     canvasHeight = $('#CanvasContainer').height();
     canvasWidth = $('#CanvasContainer').width();
 
     $('#CanvasContainer').height(canvasHeight);
-    var heatmapInstance = h337.create({
+    heatmapInstance = h337.create({
       // only container is required, the rest will be defaults
       container: document.querySelector('#CanvasContainer')
     });
@@ -529,12 +532,9 @@ canvas.observe('after:render', function(e) {
     heatmapInstance.setData(data); 
   }
 
-  // Changes canvas background to snow image.
-  $('#run-heatmap').click(function() {
-    heatmap()
-    $('#run-heatmap').hide();
-    $('#clear-heatmap').show();
-  });
+  function heatMapAdd(){ 
+    console.log("heat map add.");
+  }
 
   // Changes canvas background to snow image.
   $('#clear-heatmap').click(function() {
