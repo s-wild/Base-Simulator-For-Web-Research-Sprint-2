@@ -17,7 +17,6 @@ $(document).ready(function() {
 
   // Add tower click function.
   $("#defence-tower").click(function() {
-    console.log("watch tower clicked.");
     localCirle = canvas.add(
       new fabric.Circle({ 
     		top: 200,
@@ -65,7 +64,6 @@ $(document).ready(function() {
   });
 
 	  function addSniper(){
-      console.log("sniper clicked.");
 
       // Circle for sniper.
       var circle = new fabric.Circle({
@@ -105,7 +103,6 @@ $(document).ready(function() {
   // Add a machine gun click function.
   $("#machineGun").click(function() {
 	 $("#run-simuation").show();
-    console.log("machine gunner clicked.");
 
     // Circle for machine gun.
     var circle = new fabric.Circle({
@@ -301,34 +298,34 @@ $(document).ready(function() {
             }
         });
       },
-	  abort: function(){
-              return runAnimate;
-
-            }
+  	  abort: function(){
+        return runAnimate;
+      }
     });
 
     // Heat map functionality. 
     sniperSimulateHeatMap = window.setInterval(function(){
-      snipers[index].setCoords();
-      console.log(snipers[index].moving);
-      attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
-      attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
-      console.log(attrSniperBrX, attrSniperBrY);
-      heatMapAdd(attrSniperBrX, attrSniperBrY);
-
+      if (runAnimate == false ) {
+        snipers[index].setCoords();
+        // console.log("Top::" + snipers[index].bottom);
+        attrSniperBrX = Math.round(snipers[index].oCoords.mb.x); 
+        attrSniperBrY = Math.round(snipers[index].oCoords.mb.y); 
+        console.log(attrSniperBrX, attrSniperBrY);
+        heatMapAdd(attrSniperBrX, attrSniperBrY);
+      }
      }, 400);
 	}
 	
 	function simulateMachineGunner(index){
 	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
       //easing: fabric.util.ease.easeOutCubic,
-      duration: 1000,
+      duration: 2000,
       onChange: canvas.renderAll.bind(canvas),
       onComplete: function onComplete() {
         machineGunners[index].animate({
           angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
         }, {
-          duration: 1000,
+          duration: 2000,
 		  onChange: canvas.renderAll.bind(canvas),
           onComplete: onComplete,
 		  abort: function(){
@@ -341,6 +338,18 @@ $(document).ready(function() {
 
             }
     });
+
+   // Heat map functionality for gunner. 
+    gunnerSimulateHeatMap = window.setInterval(function(){
+      if (runAnimate == false ) {
+        machineGunners[index].setCoords();
+        console.log(machineGunners[index].oCoords);
+        attrGunnerBrX = Math.round(machineGunners[index].oCoords.mb.x); 
+        attrGunnerBrY = Math.round(machineGunners[index].oCoords.mb.y); 
+        console.log(attrGunnerBrX, attrGunnerBrY);
+        heatMapAdd(attrGunnerBrX, attrGunnerBrY);
+      }
+     }, 400);
 	}
 
     function enemyUnit() {
@@ -371,28 +380,33 @@ $(document).ready(function() {
 
   // Stop simulation function
   $("#stop-simuation").click(function() {
-    $('#run-heatmap').show();
+
     runAnimate = true;
     $("#run-simuation").show();
     $("#stop-simuation").hide();
-	if(patrols.length >= 1){
-			for (i=0; i < patrols.length; i++){
-				patrols[i].angle = patrolAngles[i];
-			}
-		}
-  		if(snipers.length >= 1){
+  	if(patrols.length >= 1){
+  		for (i=0; i < patrols.length; i++){
+  			patrols[i].angle = patrolAngles[i];
+  		}
+  	}
+		if(snipers.length >= 1){
 			for (i=0; i < snipers.length; i++){
 				snipers[i].angle = sniperAngles[i];
 			}
-  		}
+		}
 		if(machineGunners.length >= 1){
 			for (i=0; i < machineGunners.length; i++){
 				machineGunners[i].angle = machineGunnerAngles[i];
 			}
 		}
 
-    // Stop sniper heatmap.
-    clearInterval(sniperSimulateHeatMap);
+    // Stop heatmap intervals.
+    if(typeof sniperSimulateHeatMap !== 'undefined') {
+      clearInterval(sniperSimulateHeatMap);
+    }
+    if (sniperSimulateHeatMap !== 'undefined') {
+      clearInterval(gunnerSimulateHeatMap);
+    }
 	
   });
 
@@ -466,34 +480,6 @@ canvas.observe('after:render', function(e) {
 		$('#Canvas').addClass('snowBG');
 	});
 
-  /*
-  * Canvas pixel scan
-  */ 
-
-  // Canvas width/height.
-  canvasWidth = $('#Canvas').width();
-  canvasHeight = $('#Canvas').height();
-
-  scanSpeed = 4;
-
-  /** canvasWidth = 10;
-  canvasHeight = 10;
-
-  $('#run-heatmap').click(function() {
-    // set up some sample squares
-    var canvas = document.querySelector('canvas');
-
-    console.log('height and width' + canvasWidth + canvasHeight);
-
-    for (canvasX = 0; canvasX < canvasWidth; canvasX+=scanSpeed) { 
-      for (canvasY = 0; canvasY < canvasHeight; canvasY+=scanSpeed) { 
-        var color = getCanvasPixelColor(canvas, canvasX, canvasY); // returns an array/object
-        console.log(color);
-      }
-    }
-  });
-  **/
-
   // Heatmap function.
   function heatMapCreate(){
     // create configuration object
@@ -508,13 +494,13 @@ canvas.observe('after:render', function(e) {
     });
   }
 
-  function heatMapAdd(attrSniperBrX, attrSniperBrY){ 
-    console.log("heat map add.");
+  // Add heatmap points for sniper.
+  function heatMapAdd(attrSniperBrX, attrSniperBrY, attrGunnerBrX, attrGunnerBrY){ 
     // a single datapoint
     var dataPoint = { 
       x: attrSniperBrX, // x coordinate of the datapoint, a number 
       y: attrSniperBrY, // y coordinate of the datapoint, a number
-      value: 0.3, // the value at datapoint(x, y),
+      value: 0.2, // the value at datapoint(x, y),
       radius: 40,
       maxOpacity: .2,
       minOpacity: 0,
@@ -522,6 +508,22 @@ canvas.observe('after:render', function(e) {
     };
     heatmapInstance.addData(dataPoint);
   }
+
+  // Add heatmap points for gunner.
+  function heatMapAddGunner(attrGunnerBrX, attrGunnerBrY){ 
+    // a single datapoint
+    var dataPoint = { 
+      x: attrGunnerBrX, // x coordinate of the datapoint, a number 
+      y: attrGunnerBrY, // y coordinate of the datapoint, a number
+      value: 0.5, // the value at datapoint(x, y),
+      radius: 50,
+      maxOpacity: .2,
+      minOpacity: 0,
+      blur: .30
+    };
+    heatmapInstance.addData(dataPoint);
+  }
+
 
   // Changes canvas background to snow image.
   $('#clear-heatmap').click(function() {
@@ -548,7 +550,6 @@ $(document).keypress(function(e) {
    function animateUp(e) {
 
     if (typeof enemyItem !== 'undefined') {
-      console.log(e.which);
       if(e.which == 119) {
         console.log(canvas.enemyItem);
         enemyItem.animate('top', initPositionTop-=20 , { 
