@@ -284,8 +284,8 @@ $(document).ready(function() {
     for(var index in snipers) { 
       
       window.setInterval(function(){
-        var attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
-        var attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
+        attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
+        attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
         heatMapAdd(attrSniperBrX, attrSniperBrY);
 
 
@@ -532,8 +532,15 @@ canvas.observe('after:render', function(e) {
     heatmapInstance.setData(data); 
   }
 
-  function heatMapAdd(){ 
+  function heatMapAdd(attrSniperBrX, attrSniperBrY){ 
     console.log("heat map add.");
+    // a single datapoint
+    var dataPoint = { 
+      x: attrSniperBrX, // x coordinate of the datapoint, a number 
+      y: attrSniperBrY, // y coordinate of the datapoint, a number
+      value: 100 // the value at datapoint(x, y)
+    };
+    heatmapInstance.addData(dataPoint);
   }
 
   // Changes canvas background to snow image.
