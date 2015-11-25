@@ -131,11 +131,11 @@ $(document).ready(function() {
       left: 210,
       angle: -50,
 	    centeredRotation: false,
-		originX: "center",
+		  originX: "center",
     	originY: "top",
 	  	lockUniScaling: true,
-		lockScalingX: true,
-		lockScalingY: true
+		  lockScalingX: true,
+		  lockScalingY: true
     }));
 
     canvas.add(machineGunners[machineGunners.length-1]);
@@ -284,6 +284,7 @@ $(document).ready(function() {
     for(var index in snipers) { 
       
       window.setInterval(function(){
+        snipers[index].setCoords();
         attrSniperBrX = Math.round(snipers[index].oCoords.br.x); 
         attrSniperBrY = Math.round(snipers[index].oCoords.br.y); 
         heatMapAdd(attrSniperBrX, attrSniperBrY);
@@ -291,7 +292,7 @@ $(document).ready(function() {
 
         // var pointBottomRightSniper = attrSniperBrX + attrSniperBrY;
         console.log(attrSniperBrX, attrSniperBrY);
-      }, 400);
+      }, 800);
     }
     // console.log(snipers[index]);
 	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
@@ -538,7 +539,7 @@ canvas.observe('after:render', function(e) {
     var dataPoint = { 
       x: attrSniperBrX, // x coordinate of the datapoint, a number 
       y: attrSniperBrY, // y coordinate of the datapoint, a number
-      value: 100 // the value at datapoint(x, y)
+      value: 50 // the value at datapoint(x, y)
     };
     heatmapInstance.addData(dataPoint);
   }
