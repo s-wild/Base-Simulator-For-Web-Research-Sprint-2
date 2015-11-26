@@ -274,7 +274,7 @@ $(document).ready(function() {
 
       // Heat map functionality. 
       unitIndex = patrols[index];
-      heatMapInterval(unitIndex)
+      heatMapInterval(unitIndex);
     }
 	
     function simulateSniper(index) {
@@ -302,7 +302,8 @@ $(document).ready(function() {
         }
       });
       unitIndex = snipers[index];
-      heatMapInterval(unitIndex)
+	  console.log("simulating sniper");
+      heatMapInterval(unitIndex);
     }
 	
   	function simulateMachineGunner(index){
@@ -478,7 +479,25 @@ canvas.observe('after:render', function(e) {
           // console.log("Top::" + snipers[index].bottom);
           attrunitBrX = Math.round(unitIndex.oCoords.mb.x); 
           attrunitBrY = Math.round(unitIndex.oCoords.mb.y); 
-          heatMapAdd(attrunitBrX, attrunitBrY);
+		  topX = Math.round(unitIndex.oCoords.mt.x); 
+		  topY = Math.round(unitIndex.oCoords.mt.y); 
+		  //calculate step
+		  
+		  xStep = (topX-attrunitBrX)/10;
+		  yStep = (topY-attrunitBrY)/10;
+		  
+		  for(i=0; i<9; i++)
+		  {
+			heatMapAdd(attrunitBrX+(xStep*(i+1)),attrunitBrY+(yStep*(i+1)));
+		  }
+		   
+		 
+          //heatMapAdd(attrunitBrX, attrunitBrY);
+		  heatMapAdd(unitIndex.oCoords.bl.x, unitIndex.oCoords.bl.y);
+		  heatMapAdd(unitIndex.oCoords.br.x, unitIndex.oCoords.br.y);
+		  
+		 
+		  
         }
         // Check if a gunner is on page.
         // if (typeof GunnerIndex != 'undefined') {
@@ -491,18 +510,18 @@ canvas.observe('after:render', function(e) {
       }
      }, 400);
   }
-
+  
   // Add heatmap points for sniper.
   function heatMapAdd(attrunitBrX, attrunitBrY){ 
     // datapoint for sniper
     var dataPointUnit = { 
       x: attrunitBrX, // x coordinate of the datapoint, a number 
       y: attrunitBrY, // y coordinate of the datapoint, a number
-      value: 0.2, // the value at datapoint(x, y),
-      radius: 40,
-      maxOpacity: .2,
-      minOpacity: 0,
-      blur: .30
+      value: 0.1, // the value at datapoint(x, y),
+      radius: 40
+      //maxOpacity: 1,
+      //minOpacity: 0,
+      //blur: .30
     };
     // // datapoint for sniper
     // var dataPointGunner = { 
