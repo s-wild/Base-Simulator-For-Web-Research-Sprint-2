@@ -616,6 +616,8 @@ canvas.observe('after:render', function(e) {
 
   // Save heatmap @TODO Save Data for heatmap.
   function getHeatMaps(selectedHeatMap) {
+    // Clear data in heatmap.
+    // heatmapInstance.setDataSet({data:[]});
     var arrJson = $.map(localStorage, function(el) { return el });
     scenarioSelected = arrJson[selectedHeatMap];
     console.log(scenarioSelected);
