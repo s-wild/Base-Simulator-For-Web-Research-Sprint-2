@@ -79,6 +79,11 @@
 	background-color: #363636;
 }
 
+.scenario-button {
+	display: block;
+	margin-bottom: 1em;
+}
+
 #Canvas
 	{
 		background-color: #fff;

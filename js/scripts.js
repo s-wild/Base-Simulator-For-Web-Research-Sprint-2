@@ -580,6 +580,12 @@ canvas.observe('after:render', function(e) {
     $('#heatMapShow').hide();
   });
 
+  // Clear local storage
+  $('#clearStorage').click(function() {
+    clearLocalStorage()
+  });
+
+
   // Clear heatmap
   function clearHeatMap() {
     heatmapInstance.store.setDataSet({data:[]});
@@ -588,12 +594,53 @@ canvas.observe('after:render', function(e) {
   // Save heatmap @TODO Save Data for heatmap.
   function saveHeatMap() {
     var currentData = heatmapInstance.getData();
-    localStorage.setItem('heatMapStorage', JSON.stringify(currentData));
+    uuid = guid();
+    var stringUuid =String(uuid)
+    console.log(stringUuid);
+    localStorage.setItem(stringUuid, JSON.stringify(currentData));
+  }
 
-    console.log(currentData);
-    // now let's create a new instance and set the data
-    // var heatmap2 = h337.create(config);
-    // heatmap2.setData(currentData); // now both heatmap instances have the same content
+  // Check if data is in local storage and add buttons.
+  if (localStorage.length >= 1) {
+    for (var i = 0; i < localStorage.length; i++){
+      $( '<button type="button" class="getScenario btn btn-primary scenario-button" value="' + i +'">Scenario ' + i + '</button>' ).appendTo( "#result");
+    }
+  }
+
+  // get scenario button click.
+  $('.getScenario').click(function() {
+    selectedHeatMap = $(this).attr('value');
+    console.log(selectedHeatMap);
+    getHeatMaps(selectedHeatMap)
+  });
+
+  // Save heatmap @TODO Save Data for heatmap.
+  function getHeatMaps(selectedHeatMap) {
+    var arrJson = $.map(localStorage, function(el) { return el });
+    scenarioSelected = arrJson[selectedHeatMap];
+    console.log(scenarioSelected);
+    if(typeof heatmapInstance == 'undefined'){
+      heatMapCreate();
+    }
+    heatmapInstance.setData(JSON.parse(scenarioSelected));
+    // console.log(localStorage.getItem("heatMapStorage")[i]);
+    // var currentData = heatmapInstance.getData();
+
+  }
+
+  // Create Unique ID
+  function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
+
+  function clearLocalStorage() {
+    localStorage.clear();
   }
   
 
