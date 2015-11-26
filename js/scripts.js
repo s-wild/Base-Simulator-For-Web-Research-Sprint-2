@@ -200,6 +200,7 @@ $(document).ready(function() {
 
   // Run simulation function
   $("#run-simuation").click(function() {
+    $("#canvas-clear").hide();
 
     $("#defence-tower, #sniper, #machineGun, #patroller").hide();
 
@@ -359,6 +360,7 @@ $(document).ready(function() {
 
   // Stop simulation function
   $("#stop-simuation").click(function() {
+    $("#canvas-clear").show();
 
     runAnimate = true;
     $("#save-simuation").show();
@@ -607,7 +609,7 @@ canvas.observe('after:render', function(e) {
   }
   // Save simulation function.
   $('#save-simuation').click(function() {
-    saveHeatMap()
+    saveHeatMap();
   });
 
   // Remove heatmap.
