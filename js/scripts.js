@@ -148,20 +148,20 @@ $(document).ready(function() {
 
     // Circle for patrol vison.
     var patrollerVison = new fabric.Triangle({
-      top: 65,
-      left: 170,
+      top: 570,
+      left: 220,
       width: 50,
       height: 100,
       fill: '#363636',
       opacity: 0.7,
-      angle: 50,
+      angle: -80,
 
     });
 
     // Circle for patrol man.
     var circleMan = new fabric.Circle({
-       top: 75,
-       left: 175,
+       top: 530,
+       left: 200,
        radius: manSizeRadius,
        fill: '#363636'
      });
@@ -246,121 +246,98 @@ $(document).ready(function() {
   	}
   	
     function simulatePatrol(index) {
+      //the variable is defined
+      // Rotate the group of shapes every second by -10 degrees..
+      var rotationAmount = 10;
+      patrols[index].animate({ angle: patrolsAngles[index] }, {
+        duration: 1000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          //console.log(Math.round(patrolManPlusVision.angle)),
+          patrols[index].animate({
+            angle: patrolsAngles[index]-=rotationAmount
+          }, {
+            duration: 1000,
+            onChange: canvas.renderAll.bind(canvas),
+            onComplete: onComplete,
+            abort: function(){
+              return runAnimate;
 
-        //the variable is defined
-        // Rotate the group of shapes every second by -10 degrees..
-        var rotationAmount = 10;
-        patrols[index].animate({ angle: patrolsAngles[index]-rotationAmount }, {
-          duration: 1000,
-          onChange: canvas.renderAll.bind(canvas),
-          onComplete: function onComplete() {
-            //console.log(Math.round(patrolManPlusVision.angle)),
-            patrols[index].animate({
-              angle: patrolsAngles[index]-=rotationAmount
-            }, {
-              duration: 1000,
-              onChange: canvas.renderAll.bind(canvas),
-              onComplete: onComplete,
-              abort: function(){
+            }
+          });
+        },
+      abort: function(){
+            return runAnimate;
+
+          }
+      });
+
+      // Heat map functionality. 
+      unitIndex = patrols[index];
+      heatMapInterval(unitIndex)
+    }
+	
+    function simulateSniper(index) {
+      var lookup = {};
+      // console.log(snipers[index]);
+       snipers[index].animate({ angle: sniperAngles[index]+45 }, {
+        //easing: fabric.util.ease.easeOutCubic,
+        duration: 6000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          snipers[index].animate({
+            angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
+          }, {
+            duration: 6000,
+        onChange: canvas.renderAll.bind(canvas),
+            onComplete: onComplete,
+        abort: function(){
                 return runAnimate;
-				
+
               }
-            });
-          },
-		  abort: function(){
-              return runAnimate;
-
-            }
-        });
-      }
-   
-  	
+          });
+        },
+        abort: function(){
+          return runAnimate;
+        }
+      });
+      unitIndex = snipers[index];
+      heatMapInterval(unitIndex)
+    }
 	
-	function simulateSniper(index) {
-    var lookup = {};
-
-    
-    // console.log(snipers[index]);
-	   snipers[index].animate({ angle: sniperAngles[index]+45 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 6000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        snipers[index].animate({
-          angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
-        }, {
-          duration: 6000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete,
-		  abort: function(){
-              return runAnimate;
-
-            }
-        });
-      },
+  	function simulateMachineGunner(index){
+  	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
+        //easing: fabric.util.ease.easeOutCubic,
+        duration: 4000,
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: function onComplete() {
+          machineGunners[index].animate({
+            angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
+          }, {
+            duration: 4000,
+  		  onChange: canvas.renderAll.bind(canvas),
+            onComplete: onComplete,
+  		  abort: function(){
+                return runAnimate;
+              }
+          });
+        },
   	  abort: function(){
-        return runAnimate;
-      }
-    });
+                return runAnimate;
 
-    // Heat map functionality. 
-    sniperSimulateHeatMap = window.setInterval(function(){
-      if (runAnimate == false ) {
-        snipers[index].setCoords();
-        // console.log("Top::" + snipers[index].bottom);
-        attrSniperBrX = Math.round(snipers[index].oCoords.mb.x); 
-        attrSniperBrY = Math.round(snipers[index].oCoords.mb.y); 
-        console.log(attrSniperBrX, attrSniperBrY);
-        heatMapAdd(attrSniperBrX, attrSniperBrY);
-      }
-     }, 400);
-	}
-	
-	function simulateMachineGunner(index){
-	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
-      //easing: fabric.util.ease.easeOutCubic,
-      duration: 2000,
-      onChange: canvas.renderAll.bind(canvas),
-      onComplete: function onComplete() {
-        machineGunners[index].animate({
-          angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
-        }, {
-          duration: 2000,
-		  onChange: canvas.renderAll.bind(canvas),
-          onComplete: onComplete,
-		  abort: function(){
-              return runAnimate;
-            }
-        });
-      },
-	  abort: function(){
-              return runAnimate;
-
-            }
-    });
-
-   // Heat map functionality for gunner. 
-    gunnerSimulateHeatMap = window.setInterval(function(){
-      if (runAnimate == false ) {
-        machineGunners[index].setCoords();
-        console.log(machineGunners[index].oCoords);
-        attrGunnerBrX = Math.round(machineGunners[index].oCoords.mb.x); 
-        attrGunnerBrY = Math.round(machineGunners[index].oCoords.mb.y); 
-        console.log(attrGunnerBrX, attrGunnerBrY);
-        heatMapAdd(attrGunnerBrX, attrGunnerBrY);
-      }
-     }, 400);
-	}
+              }
+      });
+     unitIndex = machineGunners[index];
+     heatMapInterval(unitIndex)
+  	}
 
     function enemyUnit() {
-      // Circle for patrol vison.
+      // Circle for  vison.
       initPositionleft = 300;
-
       initPositionTop = 20;
-	  if(typeof enemyItem !== 'undefined')
-	  {
-		  enemyItem.remove();
-	  }
+  	  if(typeof enemyItem !== 'undefined'){
+  		  enemyItem.remove();
+  	  }
 
       enemyItem = new fabric.Rect({
         top: initPositionTop,
@@ -374,8 +351,7 @@ $(document).ready(function() {
       });
       canvas.add(enemyItem);
     }
-    enemyUnit()
-    
+    enemyUnit() 
   });
 
   // Stop simulation function
@@ -401,11 +377,8 @@ $(document).ready(function() {
 		}
 
     // Stop heatmap intervals.
-    if(typeof sniperSimulateHeatMap !== 'undefined') {
-      clearInterval(sniperSimulateHeatMap);
-    }
-    if (sniperSimulateHeatMap !== 'undefined') {
-      clearInterval(gunnerSimulateHeatMap);
+    if(typeof SimulateHeatMap !== 'undefined') {
+      clearInterval(SimulateHeatMap);
     }
 	
   });
@@ -494,36 +467,65 @@ canvas.observe('after:render', function(e) {
     });
   }
 
+  function heatMapInterval (unitIndex) {
+    // Heat map functionality. 
+    SimulateHeatMap = window.setInterval(function(){
+      // console.log(PatrolIndex);
+      if (runAnimate == false ) {
+        // Check if a sniper is on page.
+        if (typeof unitIndex != 'undefined') {
+          unitIndex.setCoords();
+          // console.log("Top::" + snipers[index].bottom);
+          attrunitBrX = Math.round(unitIndex.oCoords.mb.x); 
+          attrunitBrY = Math.round(unitIndex.oCoords.mb.y); 
+          heatMapAdd(attrunitBrX, attrunitBrY);
+        }
+        // Check if a gunner is on page.
+        // if (typeof GunnerIndex != 'undefined') {
+        //   GunnerIndex.setCoords();
+        //   // console.log("Top::" + snipers[index].bottom);
+        //   attrGunnerBrX = Math.round(GunnerIndex.oCoords.mb.x); 
+        //   attrGunnerBrY = Math.round(GunnerIndex.oCoords.mb.y); 
+        //   heatMapAdd(attrGunnerBrX, attrGunnerBrY);
+        // }
+      }
+     }, 400);
+  }
+
   // Add heatmap points for sniper.
-  function heatMapAdd(attrSniperBrX, attrSniperBrY, attrGunnerBrX, attrGunnerBrY){ 
-    // a single datapoint
-    var dataPoint = { 
-      x: attrSniperBrX, // x coordinate of the datapoint, a number 
-      y: attrSniperBrY, // y coordinate of the datapoint, a number
+  function heatMapAdd(attrunitBrX, attrunitBrY){ 
+    // datapoint for sniper
+    var dataPointUnit = { 
+      x: attrunitBrX, // x coordinate of the datapoint, a number 
+      y: attrunitBrY, // y coordinate of the datapoint, a number
       value: 0.2, // the value at datapoint(x, y),
       radius: 40,
       maxOpacity: .2,
       minOpacity: 0,
       blur: .30
     };
-    heatmapInstance.addData(dataPoint);
+    // // datapoint for sniper
+    // var dataPointGunner = { 
+    //   x: attrGunnerBrX, // x coordinate of the datapoint, a number 
+    //   y: attrGunnerBrY, // y coordinate of the datapoint, a number
+    //   value: 0.3, // the value at datapoint(x, y),
+    //   radius: 40,
+    //   maxOpacity: .2,
+    //   minOpacity: 0,
+    //   blur: .30
+    // };
+    // // datapoint for patroller
+    // var dataPointPatrol = { 
+    //   x: attrPatrolBrX, // x coordinate of the datapoint, a number 
+    //   y: attrPatrolBrY, // y coordinate of the datapoint, a number
+    //   value: 0.2, // the value at datapoint(x, y),
+    //   radius: 40,
+    //   maxOpacity: .2,
+    //   minOpacity: 0,
+    //   blur: .30
+    // };
+    heatmapInstance.addData(dataPointUnit); 
   }
-
-  // Add heatmap points for gunner.
-  function heatMapAddGunner(attrGunnerBrX, attrGunnerBrY){ 
-    // a single datapoint
-    var dataPoint = { 
-      x: attrGunnerBrX, // x coordinate of the datapoint, a number 
-      y: attrGunnerBrY, // y coordinate of the datapoint, a number
-      value: 0.5, // the value at datapoint(x, y),
-      radius: 50,
-      maxOpacity: .2,
-      minOpacity: 0,
-      blur: .30
-    };
-    heatmapInstance.addData(dataPoint);
-  }
-
 
   // Changes canvas background to snow image.
   $('#clear-heatmap').click(function() {
