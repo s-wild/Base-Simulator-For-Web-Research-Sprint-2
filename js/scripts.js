@@ -8,7 +8,7 @@ $(document).ready(function() {
   manSizeRadius = 10;
   runAnimate = true; 
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -201,6 +201,8 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
+    $("#defence-tower, #sniper, #machineGun, #patroller").hide();
+
     heatMapCreate()
 
     runAnimate = false;
@@ -361,6 +363,7 @@ $(document).ready(function() {
     runAnimate = true;
     $("#save-simuation").show();
     $("#stop-simuation").hide();
+    $("#heatMapHide").show();
   	if(patrols.length >= 1){
   		for (i=0; i < patrols.length; i++){
   			patrols[i].angle = patrolAngles[i];
@@ -382,6 +385,11 @@ $(document).ready(function() {
       clearInterval(SimulateHeatMap);
     }
 	
+  });
+
+  // Stop simulation function
+  $("#stop-simuation").click(function() {
+
   });
 
 canvas.observe('after:render', function(e) {
@@ -422,12 +430,15 @@ canvas.observe('after:render', function(e) {
   $("#canvas-clear").click(function() {
     canvas.clear();
 	  runAnimate = true;
-	 snipers = [];
-	 machineGunners = [];
-	 patrols = [];
+	  snipers = [];
+	  machineGunners = [];
+	  patrols = [];
+
+    $("#heatmap-canvas").remove();
+
 
     // Hide elements on canvas clear.
-    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
+    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2, #save-simuation, #heatMapShow, #heatMapHide").hide();
 
     // Show elements on canvas clear.
     $("#step1, #base").show();
@@ -594,17 +605,35 @@ canvas.observe('after:render', function(e) {
   
 	//heatmapInstance.setDataMax(10000);
   }
-  // Changes canvas background to snow image.
+  // Save simulation function.
   $('#save-simuation').click(function() {
     saveHeatMap()
   });
 
-  // Changes canvas background to snow image.
+  // Remove heatmap.
   $('#clear-heatmap').click(function() {
     clearHeatMap()
     $('#clear-heatmap').hide();
     $('#run-heatmap').show();
   });
+
+  // Hide heatmap
+  $('#heatMapHide').click(function() {
+    $('.heatmap-canvas, #heatMapHide').hide();
+    $('#heatMapShow').show();
+  });
+
+  // Show heatmap
+  $('#heatMapShow').click(function() {
+    $('.heatmap-canvas, #heatMapHide').show();
+    $('#heatMapShow').hide();
+  });
+
+  // Clear local storage
+  $('#clearStorage').click(function() {
+    clearLocalStorage()
+  });
+
 
   // Clear heatmap
   function clearHeatMap() {
@@ -614,12 +643,53 @@ canvas.observe('after:render', function(e) {
   // Save heatmap @TODO Save Data for heatmap.
   function saveHeatMap() {
     var currentData = heatmapInstance.getData();
-    localStorage.setItem('heatMapStorage', JSON.stringify(currentData));
+    uuid = guid();
+    var stringUuid =String(uuid)
+    console.log(stringUuid);
+    localStorage.setItem(stringUuid, JSON.stringify(currentData));
+  }
 
-    console.log(currentData);
-    // now let's create a new instance and set the data
-    // var heatmap2 = h337.create(config);
-    // heatmap2.setData(currentData); // now both heatmap instances have the same content
+  // Check if data is in local storage and add buttons.
+  if (localStorage.length >= 1) {
+    for (var i = 0; i < localStorage.length; i++){
+      $( '<button type="button" class="getScenario btn btn-primary scenario-button" value="' + i +'">Scenario ' + i + '</button>' ).appendTo( "#result");
+    }
+  }
+
+  // get scenario button click.
+  $('.getScenario').click(function() {
+    selectedHeatMap = $(this).attr('value');
+    console.log(selectedHeatMap);
+    getHeatMaps(selectedHeatMap)
+  });
+
+  // Save heatmap @TODO Save Data for heatmap.
+  function getHeatMaps(selectedHeatMap) {
+    var arrJson = $.map(localStorage, function(el) { return el });
+    scenarioSelected = arrJson[selectedHeatMap];
+    console.log(scenarioSelected);
+    if(typeof heatmapInstance == 'undefined'){
+      heatMapCreate();
+    }
+    heatmapInstance.setData(JSON.parse(scenarioSelected));
+    // console.log(localStorage.getItem("heatMapStorage")[i]);
+    // var currentData = heatmapInstance.getData();
+
+  }
+
+  // Create Unique ID
+  function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
+
+  function clearLocalStorage() {
+    localStorage.clear();
   }
   
 
