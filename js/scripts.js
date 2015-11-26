@@ -274,7 +274,7 @@ $(document).ready(function() {
 
       // Heat map functionality. 
       unitIndex = patrols[index];
-      heatMapInterval(unitIndex);
+      heatMapInterval(unitIndex, false, true);
     }
 	
     function simulateSniper(index) {
@@ -329,7 +329,7 @@ $(document).ready(function() {
               }
       });
      unitIndex = machineGunners[index];
-     heatMapInterval(unitIndex)
+     heatMapInterval(unitIndex, true)
   	}
 
     function enemyUnit() {
@@ -464,41 +464,66 @@ canvas.observe('after:render', function(e) {
     $('#CanvasContainer').height(canvasHeight);
     heatmapInstance = h337.create({
       // only container is required, the rest will be defaults
-      container: document.querySelector('#CanvasContainer')
+      container: document.querySelector('#CanvasContainer'),
+	  maxOpacity: 0.5,
+	  //max: 10000000
     });
+	
+	//
   }
 
-  function heatMapInterval (unitIndex) {
-    // Heat map functionality. 
+  function heatMapInterval (unitIndex, gunner, patrol) {
+    // Heat map functionality. #
+	
     SimulateHeatMap = window.setInterval(function(){
+		this.patrol = patrol !== false;
+	if(typeof gunner != 'undefined'){
+		if(gunner == true)
+		{
+			val = 0.01;
+		}
+		else	
+		{
+			val = 0.05;
+		}
+ }
+ else{
+	 val = 0.05;
+ }
       // console.log(PatrolIndex);
-      if (runAnimate == false ) {
+      if (runAnimate == false) {
         // Check if a sniper is on page.
         if (typeof unitIndex != 'undefined') {
           unitIndex.setCoords();
           // console.log("Top::" + snipers[index].bottom);
           attrunitBrX = Math.round(unitIndex.oCoords.mb.x); 
-          attrunitBrY = Math.round(unitIndex.oCoords.mb.y); 
-		  topX = Math.round(unitIndex.oCoords.mt.x); 
-		  topY = Math.round(unitIndex.oCoords.mt.y); 
-		  //calculate step
+          attrunitBrY = Math.round(unitIndex.oCoords.mb.y);
+
+			if(typeof patrol == 'undefined'){
+					topX = Math.round(unitIndex.oCoords.mt.x); 
+					topY = Math.round(unitIndex.oCoords.mt.y); 
+					//calculate step
 		  
-		  xStep = (topX-attrunitBrX)/10;
-		  yStep = (topY-attrunitBrY)/10;
-		  
-		  for(i=0; i<9; i++)
-		  {
-			heatMapAdd(attrunitBrX+(xStep*(i+1)),attrunitBrY+(yStep*(i+1)));
-		  }
+					  xStep = (topX-attrunitBrX)/10;
+					  yStep = (topY-attrunitBrY)/10;
+					  
+					  for(i=0; i<9; i++)
+					  {
+						heatMapAdd(Math.round(attrunitBrX+(xStep*(i+1))),Math.round(attrunitBrY+(yStep*(i+1))), val);
+					  }
+				
 		   
 		 
           //heatMapAdd(attrunitBrX, attrunitBrY);
-		  heatMapAdd(unitIndex.oCoords.bl.x, unitIndex.oCoords.bl.y);
-		  heatMapAdd(unitIndex.oCoords.br.x, unitIndex.oCoords.br.y);
-		  
-		 
-		  
+		  heatMapAdd(Math.round(unitIndex.oCoords.bl.x), Math.round(unitIndex.oCoords.bl.y));
+		  heatMapAdd(Math.round(unitIndex.oCoords.br.x), Math.round(unitIndex.oCoords.br.y));
+				
+			}
+			else{
+				heatMapAdd(attrunitBrX,attrunitBrY, 0.2);
+			}
         }
+
         // Check if a gunner is on page.
         // if (typeof GunnerIndex != 'undefined') {
         //   GunnerIndex.setCoords();
@@ -512,15 +537,19 @@ canvas.observe('after:render', function(e) {
   }
   
   // Add heatmap points for sniper.
-  function heatMapAdd(attrunitBrX, attrunitBrY){ 
+  function heatMapAdd(attrunitBrX, attrunitBrY, val){ 
+	if(typeof val == 'undefined')
+	{
+		val = 0.05;
+	}
     // datapoint for sniper
     var dataPointUnit = { 
       x: attrunitBrX, // x coordinate of the datapoint, a number 
       y: attrunitBrY, // y coordinate of the datapoint, a number
-      value: 0.1, // the value at datapoint(x, y),
-      radius: 40
-      //maxOpacity: 1,
-      //minOpacity: 0,
+      value: val, // the value at datapoint(x, y),
+      radius: 70,
+      //maxOpacity: 0.1,
+      //minOpacity: 0.1
       //blur: .30
     };
     // // datapoint for sniper
@@ -543,7 +572,27 @@ canvas.observe('after:render', function(e) {
     //   minOpacity: 0,
     //   blur: .30
     // };
-    heatmapInstance.addData(dataPointUnit); 
+	
+	//check if points are being added multiple times, and if the "value" of the point is too high
+	var currentData = heatmapInstance.getData();
+	var arrPoints = $.map(currentData, function(el) { return el });
+	notInArray = true;
+	for(step=0; step<arrPoints.length-1; step++)
+	{
+		if(arrPoints[i].value > 0.95)
+		{
+			arrPoints[i].value = 0.95;
+		}
+		if(dataPointUnit.x == arrPoints[i].x && dataPointUnit.y == arrPoints[i].y)
+		{
+			notInArray = false;
+		}
+	}
+	if(notInArray == true){
+		heatmapInstance.addData(dataPointUnit);
+	}
+  
+	//heatmapInstance.setDataMax(10000);
   }
   // Changes canvas background to snow image.
   $('#save-simuation').click(function() {
