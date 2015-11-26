@@ -434,7 +434,7 @@ canvas.observe('after:render', function(e) {
 	  machineGunners = [];
 	  patrols = [];
 
-    $("#heatmap-canvas").remove();
+    $(".heatmap-canvas").remove();
 
 
     // Hide elements on canvas clear.
