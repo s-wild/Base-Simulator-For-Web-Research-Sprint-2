@@ -526,6 +526,10 @@ canvas.observe('after:render', function(e) {
     // };
     heatmapInstance.addData(dataPointUnit); 
   }
+  // Changes canvas background to snow image.
+  $('#save-simuation').click(function() {
+    saveHeatMap()
+  });
 
   // Changes canvas background to snow image.
   $('#clear-heatmap').click(function() {
@@ -537,6 +541,17 @@ canvas.observe('after:render', function(e) {
   // Clear heatmap
   function clearHeatMap() {
     heatmapInstance.store.setDataSet({data:[]});
+  }
+
+  // Save heatmap @TODO Save Data for heatmap.
+  function saveHeatMap() {
+    var currentData = heatmapInstance.getData();
+    localStorage.setItem('heatMapStorage', JSON.stringify(currentData));
+
+    console.log(localStorage.getItem);
+    // now let's create a new instance and set the data
+    // var heatmap2 = h337.create(config);
+    // heatmap2.setData(currentData); // now both heatmap instances have the same content
   }
   
 
