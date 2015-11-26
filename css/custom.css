@@ -86,14 +86,17 @@
 .grassBG 
 	{
 		background:url(../images/grass-map.jpg);
+		background-size: cover;
 	}
 .sandBG 
 	{
 		background:url(../images/sand-map.jpg);
+		background-size: cover;
 	}
 .snowBG 
 	{
 		background-image:url(../images/snow_map.jpg);
+		background-size: cover;
 	}
 .grass
 	{
