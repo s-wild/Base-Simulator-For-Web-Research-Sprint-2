@@ -8,7 +8,7 @@ $(document).ready(function() {
   manSizeRadius = 10;
   runAnimate = true; 
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -359,7 +359,7 @@ $(document).ready(function() {
   $("#stop-simuation").click(function() {
 
     runAnimate = true;
-    $("#run-simuation").show();
+    $("#save-simuation").show();
     $("#stop-simuation").hide();
   	if(patrols.length >= 1){
   		for (i=0; i < patrols.length; i++){
@@ -567,7 +567,7 @@ canvas.observe('after:render', function(e) {
     var currentData = heatmapInstance.getData();
     localStorage.setItem('heatMapStorage', JSON.stringify(currentData));
 
-    console.log(localStorage.getItem);
+    console.log(currentData);
     // now let's create a new instance and set the data
     // var heatmap2 = h337.create(config);
     // heatmap2.setData(currentData); // now both heatmap instances have the same content
