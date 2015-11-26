@@ -8,7 +8,7 @@ $(document).ready(function() {
   manSizeRadius = 10;
   runAnimate = true; 
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide").hide();
 
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -201,6 +201,8 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
 
+    $("#defence-tower, #sniper, #machineGun, #patroller").hide();
+
     heatMapCreate()
 
     runAnimate = false;
@@ -361,6 +363,7 @@ $(document).ready(function() {
     runAnimate = true;
     $("#save-simuation").show();
     $("#stop-simuation").hide();
+    $("#heatMapHide").show();
   	if(patrols.length >= 1){
   		for (i=0; i < patrols.length; i++){
   			patrols[i].angle = patrolAngles[i];
@@ -382,6 +385,11 @@ $(document).ready(function() {
       clearInterval(SimulateHeatMap);
     }
 	
+  });
+
+  // Stop simulation function
+  $("#stop-simuation").click(function() {
+
   });
 
 canvas.observe('after:render', function(e) {
@@ -422,12 +430,15 @@ canvas.observe('after:render', function(e) {
   $("#canvas-clear").click(function() {
     canvas.clear();
 	  runAnimate = true;
-	 snipers = [];
-	 machineGunners = [];
-	 patrols = [];
+	  snipers = [];
+	  machineGunners = [];
+	  patrols = [];
+
+    $("#heatmap-canvas").remove();
+
 
     // Hide elements on canvas clear.
-    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2").hide();
+    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2, #save-simuation, #heatMapShow, #heatMapHide").hide();
 
     // Show elements on canvas clear.
     $("#step1, #base").show();
@@ -545,16 +556,28 @@ canvas.observe('after:render', function(e) {
     // };
     heatmapInstance.addData(dataPointUnit); 
   }
-  // Changes canvas background to snow image.
+  // Save simulation function.
   $('#save-simuation').click(function() {
     saveHeatMap()
   });
 
-  // Changes canvas background to snow image.
+  // Remove heatmap.
   $('#clear-heatmap').click(function() {
     clearHeatMap()
     $('#clear-heatmap').hide();
     $('#run-heatmap').show();
+  });
+
+  // Hide heatmap
+  $('#heatMapHide').click(function() {
+    $('.heatmap-canvas, #heatMapHide').hide();
+    $('#heatMapShow').show();
+  });
+
+  // Show heatmap
+  $('#heatMapShow').click(function() {
+    $('.heatmap-canvas, #heatMapHide').show();
+    $('#heatMapShow').hide();
   });
 
   // Clear heatmap
