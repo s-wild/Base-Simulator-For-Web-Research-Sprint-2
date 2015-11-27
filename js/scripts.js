@@ -44,17 +44,21 @@ $(document).ready(function() {
 
       localRect = canvas.add(
         new fabric.Rect({
-  			top: 250,
-  			left: 200,
+  			top: 200,
+  			left: 330,
   			width: 200, 
   			height: 200, 
   			fill: '#FFF', 
   			opacity: 0.7, 
   			strokeWidth: 5, 
-  			stroke: 'rgba(0,0,0,1)' })
+  			stroke: 'rgba(0,0,0,1)',
+        lockUniScaling: true,
+        lockScalingX: true,
+        lockScalingY: true,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true })
       );
-
-      localRect.lockUniScaling = true;
   });
 
   // Add a sniper click function.
