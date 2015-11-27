@@ -451,19 +451,22 @@ canvas.observe('after:render', function(e) {
 
   // Changes canvas background to grass image.
   $('#changeToGrass').click(function() {
-		$('#Canvas').removeClass('sandBG, snowBG');
+    $('#Canvas').removeClass('sandBG');
+		$('#Canvas').removeClass('snowBG');
 		$('#Canvas').addClass('grassBG');
 	});
 
   // Changes canvas background to sand image.
 	$('#changeToSand').click(function() {
-		$('#Canvas').removeClass('grassBG, snowBG');
+    $('#Canvas').removeClass('snowBG');
+		$('#Canvas').removeClass('grassBG');
 		$('#Canvas').addClass('sandBG');
 	});
 
   // Changes canvas background to snow image.
 	$('#changeToSnow').click(function() {
-		$('#Canvas').removeClass('grassBG, sandBG');
+    $('#Canvas').removeClass('grassBG');
+		$('#Canvas').removeClass('sandBG');
 		$('#Canvas').addClass('snowBG');
 	});
 
@@ -614,26 +617,29 @@ canvas.observe('after:render', function(e) {
 
   // Remove heatmap.
   $('#clear-heatmap').click(function() {
-    clearHeatMap()
+    clearHeatMap();
     $('#clear-heatmap').hide();
     $('#run-heatmap').show();
   });
 
   // Hide heatmap
   $('#heatMapHide').click(function() {
+    showAddUnits();
     $('.heatmap-canvas, #heatMapHide').hide();
     $('#heatMapShow').show();
+
   });
 
   // Show heatmap
   $('#heatMapShow').click(function() {
+    hideAddUnits();
     $('.heatmap-canvas, #heatMapHide').show();
     $('#heatMapShow').hide();
   });
 
   // Clear local storage
   $('#clearStorage').click(function() {
-    clearLocalStorage()
+    clearLocalStorage();
   });
 
 
@@ -651,6 +657,16 @@ canvas.observe('after:render', function(e) {
     localStorage.setItem(stringUuid, JSON.stringify(currentData));
   }
 
+  // Hide units in the control panel control panel.
+  function hideAddUnits() {
+    $('#base, #defence-tower, #sniper, #machineGun, #patroller').hide();
+  }
+
+  // Show units in the control panel control panel.
+  function showAddUnits() {
+    $('#defence-tower, #sniper, #machineGun, #patroller').show();
+  }
+
   // Check if data is in local storage and add buttons.
   if (localStorage.length >= 1) {
     for (var i = 0; i < localStorage.length; i++){
@@ -660,6 +676,8 @@ canvas.observe('after:render', function(e) {
 
   // get scenario button click.
   $('.getScenario').click(function() {
+    hideAddUnits();
+    $("#heatMapHide").show();
     selectedHeatMap = $(this).attr('value');
     console.log(selectedHeatMap);
     getHeatMaps(selectedHeatMap)
