@@ -19,13 +19,18 @@ $(document).ready(function() {
   $("#defence-tower").click(function() {
     localCirle = canvas.add(
       new fabric.Circle({ 
-    		top: 200,
-    		left:200,
-    		width: 200, 
-    		height: 200, 
+    		top: 160,
+    		left:290,
     		fill: '#089fdb', 
-    		radius: 100, 
+    		radius: 140, 
     		opacity: 0.7,
+        lockUniScaling: true,
+        lockScalingX: true,
+        lockScalingY: true,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true 
+
       })
     );
     localCirle.lockUniScaling = true;
