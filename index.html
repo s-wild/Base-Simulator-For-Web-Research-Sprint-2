@@ -10,17 +10,21 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/custom.css">
     <meta charset="UTF-8">
-
+    
   </head>
   <body>
     <div class="container">
       <h1>Base Vulnerability</h1>
       <div id="step1" class="alert alert-info"><strong>Step 1</strong>: Heads up! To begin, place the base on the page by clicking base in the control panel.</div>
       <div id="step2" class="alert alert-info"><strong>Step 2</strong>: Base is on page, begin adding units. Once you have added units, hit run simulation in the control panel. Use W for forward, S for back, A for left and D for right to move the rectangle. Get the enemy to the base without being detected. To restart, hit clear canvas.</div>
-      <div class="bg-primary"> 
+      <div id="mapcontainer" style="width:850px; height: 600px; position:absolute;">
+					<div id="map" style="height:100%"> </div>
+				</div>
+	  <div  class="bg-primary"> 
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-9" id="mainContainer">
             <div id="CanvasContainer">
+				
                 <canvas id="Canvas" width="850" height="600"></canvas>
             </div>
           </div>
@@ -36,6 +40,10 @@
 
               <button id="save-simuation" class="canvas-clear btn btn-success clear">Save Simulation</button>
 
+			  <button id="contextToMap" class="canvas-clear btn btn-primary clear">Edit Map</button>
+			  
+			  <button id="contextToBase" class="canvas-clear btn btn-primary clear">Edit Base</button>
+			  
               <button id="heatMapShow" class="canvas-clear btn btn-primary clear">Show Heatmap</button>
 
               <button id="heatMapHide" class="canvas-clear btn btn-primary clear">Hide Heatmap</button>
@@ -72,12 +80,15 @@
                 <img src="images/items/Patroller_BG.png" alt="Sniper" class="img-responsive">
                   <span class="defence-title">Patroller</span>
                 </div>
+				
+				
               </div>
                 <!-- Change background image -->
                 <h3 class="invertText">Change terrain type:</h3>
                 <div id="changeToGrass" class="grass terrain center-it">Grass</div>
                 <div id="changeToSand" class="sand terrain center-it">Sand</div>
                 <div id="changeToSnow" class="snow terrain center-it">Snow</div>
+				<div id="changeToMap" class="map terrain center-it">Map</div>
 
             </div>
           </div>
@@ -93,6 +104,8 @@
         </div>
       </div>
     </div>
+	
     <script src="js/scripts.js"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwuVjAQ7LAIqhD0m3T6xUKwTLvFrIAjHA&callback=initMap"> </script>
   </body>
 </html>

@@ -86,9 +86,13 @@
 	margin-bottom: 1em;
 }
 
+.mapContext
+{
+	 pointer-events:none; 
+}
+
 #Canvas
 	{
-		background-color: #fff;
 	}
 .grassBG 
 	{
@@ -102,9 +106,14 @@
 	}
 .snowBG 
 	{
-		background-image:url(../images/snow_map.jpg);
+		background:url(../images/snow_map.jpg);
 		background-size: cover;
 	}
+.mapBG
+{
+	background:transparent;
+}
+
 .grass
 	{
 		width: 60px;
@@ -131,5 +140,15 @@
 		margin: 5px;
 		float: left;
 		background-image:url(../images/snow_map.jpg);
+		cursor: pointer;
+	}
+	
+	.map
+	{
+		width: 60px;
+		height: 60px;
+		margin: 5px;
+		float: left;
+		background-image:url(../images/map.jpg);
 		cursor: pointer;
 	}
