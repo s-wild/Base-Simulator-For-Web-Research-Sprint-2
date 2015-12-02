@@ -319,7 +319,7 @@ $(document).ready(function() {
         }
       });
       unitIndex = snipers[index];
-	  console.log("simulating sniper");
+	    console.log("simulating sniper");
       heatMapInterval(unitIndex);
     }
 	
