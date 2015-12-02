@@ -2,6 +2,15 @@
 * Custom javascript file which uses heatmap.js and fabric.js to generate shapes, animations and heatmaps.
 *
 */ 
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+}
+
 $(document).ready(function() {
 
   // Global variables.
@@ -12,8 +21,19 @@ $(document).ready(function() {
   var patrols = [];
 
   // Hide buttons until base is clicked. 
-  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide").hide();
+  $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide, #contextToMap, #contextToBase").hide();
 
+  $('#contextToMap').click(function() {
+	  	$('#contextToMap').hide();
+		$('#contextToBase').show();
+		$('#mainContainer').addClass('mapContext');
+  });
+  $('#contextToBase').click(function() {
+	  	$('#contextToMap').show();
+		$('#contextToBase').hide();
+		$('#mainContainer').removeClass('mapContext');
+  });
+  
   // Create fabric object from id on the page.
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -110,6 +130,8 @@ $(document).ready(function() {
     canvas.add(snipers[snipers.length-1]);
 	 }
 
+	
+	 
   // Add a machine gun click function.
   $("#machineGun").click(function() {
 	 $("#run-simuation").show();
@@ -211,7 +233,12 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
     $("#canvas-clear").hide();
-
+	$('#mainContainer').removeClass('mapContext');
+	$('#contextToBase').hide();
+	$('#contextToMap').hide();
+		map.set('draggable', false);
+		map.set('scrollwheel', false);
+		map.set('disableDefaultUI', true);
     $("#defence-tower, #sniper, #machineGun, #patroller").hide();
 
     heatMapCreate()
@@ -371,7 +398,7 @@ $(document).ready(function() {
   // Stop simulation function
   $("#stop-simuation").click(function() {
     $("#canvas-clear").show();
-
+	
     runAnimate = true;
     $("#save-simuation").show();
     $("#stop-simuation").hide();
@@ -399,10 +426,6 @@ $(document).ready(function() {
 	
   });
 
-  // Stop simulation function
-  $("#stop-simuation").click(function() {
-
-  });
 
 canvas.observe('after:render', function(e) {
 	if(typeof enemyItem !== 'undefined'){
@@ -445,41 +468,74 @@ canvas.observe('after:render', function(e) {
 	  snipers = [];
 	  machineGunners = [];
 	  patrols = [];
-
+	  map.set('draggable', true);
+	  map.set('scrollwheel', true);
+	  map.set('disableDefaultUI', false);
+	  map.set('mapTypeControl', true);
+	
     $(".heatmap-canvas").remove();
 
-
+		$('#mainContainer').removeClass('mapContext');
     // Hide elements on canvas clear.
-    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2, #save-simuation, #heatMapShow, #heatMapHide").hide();
-
+    $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2, #save-simuation, #heatMapShow, #heatMapHide, #contextToBase, #contextToMap").hide();
+if($('#Canvas').hasClass("mapBG")) {
+		$('#contextToMap').show();
+		$('#contextToBase').hide();
+	}
     // Show elements on canvas clear.
     $("#step1, #base").show();
   });
   
   // On page load, set grass background image in canvas.
   $('#Canvas').addClass('grassBG');
-
+		$('#contextToMap').hide();
+		$('#contextToBase').hide();
   // Changes canvas background to grass image.
   $('#changeToGrass').click(function() {
+	  		$('#contextToMap').hide();
+		$('#contextToBase').hide();
     $('#Canvas').removeClass('sandBG');
 		$('#Canvas').removeClass('snowBG');
+		$('#Canvas').removeClass('mapBG');
+		$('#mainContainer').removeClass('mapContext');
 		$('#Canvas').addClass('grassBG');
 	});
 
   // Changes canvas background to sand image.
 	$('#changeToSand').click(function() {
+				$('#contextToMap').hide();
+		$('#contextToBase').hide();
     $('#Canvas').removeClass('snowBG');
 		$('#Canvas').removeClass('grassBG');
+		$('#Canvas').removeClass('mapBG');
+		$('#mainContainer').removeClass('mapContext');
 		$('#Canvas').addClass('sandBG');
 	});
 
   // Changes canvas background to snow image.
 	$('#changeToSnow').click(function() {
     $('#Canvas').removeClass('grassBG');
+		$('#contextToMap').hide();
+		$('#contextToBase').hide();
 		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').removeClass('mapBG');
+		$('#mainContainer').removeClass('mapContext');
 		$('#Canvas').addClass('snowBG');
 	});
+	
+	$('#changeToMap').click(function() {
+		$('#Canvas').removeClass('grassBG');
+		$('#Canvas').removeClass('sandBG');
+		$('#Canvas').removeClass('snowBG');
+		$('#Canvas').addClass('mapBG');
+		$('#mainContainer').addClass('mapContext');
+		$('#contextToMap').hide();
+		$('#contextToBase').show();
+		
+	});
 
+	
+	
   // Heatmap function.
   function heatMapCreate(){
     // create configuration object
