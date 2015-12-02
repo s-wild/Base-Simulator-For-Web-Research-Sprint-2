@@ -30,11 +30,7 @@ $(document).ready(function() {
     		radius: 140, 
     		opacity: 0.7,
         lockUniScaling: true,
-        lockScalingX: true,
-        lockScalingY: true,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true 
+
 
       })
     );
