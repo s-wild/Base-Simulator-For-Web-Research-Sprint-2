@@ -1,15 +1,20 @@
-
-
+/*
+* Custom javascript file which uses heatmap.js and fabric.js to generate shapes, animations and heatmaps.
+*
+*/ 
 $(document).ready(function() {
-	var snipers = [];
-	var machineGunners = [];
-	var patrols = [];
+
   // Global variables.
   manSizeRadius = 10;
   runAnimate = true; 
+  var snipers = [];
+  var machineGunners = [];
+  var patrols = [];
+
   // Hide buttons until base is clicked. 
   $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide").hide();
 
+  // Create fabric object from id on the page.
   (function() {
     canvas = new fabric.Canvas('Canvas');
     fabric.Object.prototype.transparentCorners = false;
@@ -489,23 +494,24 @@ canvas.observe('after:render', function(e) {
   }
 
   function heatMapInterval (unitIndex, gunner, patrol) {
+    
     // Heat map functionality. #
-	
     SimulateHeatMap = window.setInterval(function(){
-		this.patrol = patrol !== false;
-	if(typeof gunner != 'undefined'){
-		if(gunner == true)
-		{
-			val = 0.01;
-		}
-		else	
-		{
-			val = 0.05;
-		}
- }
- else{
-	 val = 0.05;
- }
+    	this.patrol = patrol !== false;
+    	if(typeof gunner != 'undefined'){
+    		if(gunner == true)
+    		{
+    			val = 0.01;
+    		}
+    		else	
+    		{
+    			val = 0.05;
+    		}
+      }
+      else {
+      	val = 0.05;
+      }
+
       // console.log(PatrolIndex);
       if (runAnimate == false) {
         // Check if a sniper is on page.
@@ -515,101 +521,61 @@ canvas.observe('after:render', function(e) {
           attrunitBrX = Math.round(unitIndex.oCoords.mb.x); 
           attrunitBrY = Math.round(unitIndex.oCoords.mb.y);
 
-			if(typeof patrol == 'undefined'){
-					topX = Math.round(unitIndex.oCoords.mt.x); 
-					topY = Math.round(unitIndex.oCoords.mt.y); 
-					//calculate step
-		  
-					  xStep = (topX-attrunitBrX)/10;
-					  yStep = (topY-attrunitBrY)/10;
-					  
-					  for(i=0; i<9; i++)
-					  {
-						heatMapAdd(Math.round(attrunitBrX+(xStep*(i+1))),Math.round(attrunitBrY+(yStep*(i+1))), val);
-					  }
-				
-		   
-		 
-          //heatMapAdd(attrunitBrX, attrunitBrY);
-		  heatMapAdd(Math.round(unitIndex.oCoords.bl.x), Math.round(unitIndex.oCoords.bl.y));
-		  heatMapAdd(Math.round(unitIndex.oCoords.br.x), Math.round(unitIndex.oCoords.br.y));
-				
-			}
-			else{
-				heatMapAdd(attrunitBrX,attrunitBrY, 0.2);
-			}
-        }
+      			if(typeof patrol == 'undefined'){
+      					topX = Math.round(unitIndex.oCoords.mt.x); 
+      					topY = Math.round(unitIndex.oCoords.mt.y); 
 
-        // Check if a gunner is on page.
-        // if (typeof GunnerIndex != 'undefined') {
-        //   GunnerIndex.setCoords();
-        //   // console.log("Top::" + snipers[index].bottom);
-        //   attrGunnerBrX = Math.round(GunnerIndex.oCoords.mb.x); 
-        //   attrGunnerBrY = Math.round(GunnerIndex.oCoords.mb.y); 
-        //   heatMapAdd(attrGunnerBrX, attrGunnerBrY);
-        // }
+      					//calculate step
+      				  xStep = (topX-attrunitBrX)/10;
+      				  yStep = (topY-attrunitBrY)/10;
+      				  
+      				  for(i=0; i<9; i++){
+      					  heatMapAdd(Math.round(attrunitBrX+(xStep*(i+1))),Math.round(attrunitBrY+(yStep*(i+1))), val);
+      				  }
+      				
+                //heatMapAdd(attrunitBrX, attrunitBrY);
+          		  heatMapAdd(Math.round(unitIndex.oCoords.bl.x), Math.round(unitIndex.oCoords.bl.y));
+          		  heatMapAdd(Math.round(unitIndex.oCoords.br.x), Math.round(unitIndex.oCoords.br.y));
+      				
+      			}
+      			else {
+      				heatMapAdd(attrunitBrX,attrunitBrY, 0.2);
+      			}
+        }
       }
      }, 400);
   }
   
   // Add heatmap points for sniper.
   function heatMapAdd(attrunitBrX, attrunitBrY, val){ 
-	if(typeof val == 'undefined')
-	{
-		val = 0.05;
-	}
+  	if(typeof val == 'undefined'){
+  		val = 0.05;
+  	}
     // datapoint for sniper
     var dataPointUnit = { 
       x: attrunitBrX, // x coordinate of the datapoint, a number 
       y: attrunitBrY, // y coordinate of the datapoint, a number
       value: val, // the value at datapoint(x, y),
       radius: 70,
-      //maxOpacity: 0.1,
-      //minOpacity: 0.1
-      //blur: .30
     };
-    // // datapoint for sniper
-    // var dataPointGunner = { 
-    //   x: attrGunnerBrX, // x coordinate of the datapoint, a number 
-    //   y: attrGunnerBrY, // y coordinate of the datapoint, a number
-    //   value: 0.3, // the value at datapoint(x, y),
-    //   radius: 40,
-    //   maxOpacity: .2,
-    //   minOpacity: 0,
-    //   blur: .30
-    // };
-    // // datapoint for patroller
-    // var dataPointPatrol = { 
-    //   x: attrPatrolBrX, // x coordinate of the datapoint, a number 
-    //   y: attrPatrolBrY, // y coordinate of the datapoint, a number
-    //   value: 0.2, // the value at datapoint(x, y),
-    //   radius: 40,
-    //   maxOpacity: .2,
-    //   minOpacity: 0,
-    //   blur: .30
-    // };
-	
-	//check if points are being added multiple times, and if the "value" of the point is too high
-	var currentData = heatmapInstance.getData();
-	var arrPoints = $.map(currentData, function(el) { return el });
-	notInArray = true;
-	for(step=0; step<arrPoints.length-1; step++)
-	{
-		if(arrPoints[i].value > 0.95)
-		{
-			arrPoints[i].value = 0.95;
-		}
-		if(dataPointUnit.x == arrPoints[i].x && dataPointUnit.y == arrPoints[i].y)
-		{
-			notInArray = false;
-		}
-	}
-	if(notInArray == true){
-		heatmapInstance.addData(dataPointUnit);
-	}
-  
-	//heatmapInstance.setDataMax(10000);
+  	//check if points are being added multiple times, and if the "value" of the point is too high
+  	var currentData = heatmapInstance.getData();
+  	var arrPoints = $.map(currentData, function(el) { return el });
+  	notInArray = true;
+  	for(step=0; step<arrPoints.length-1; step++)
+  	{
+  		if(arrPoints[i].value > 0.95){
+  			arrPoints[i].value = 0.95;
+  		}
+  		if(dataPointUnit.x == arrPoints[i].x && dataPointUnit.y == arrPoints[i].y){
+  			notInArray = false;
+  		}
+  	}
+  	if(notInArray == true){
+  		heatmapInstance.addData(dataPointUnit);
+  	}
   }
+
   // Save simulation function.
   $('#save-simuation').click(function() {
     saveHeatMap();
@@ -641,7 +607,6 @@ canvas.observe('after:render', function(e) {
   $('#clearStorage').click(function() {
     clearLocalStorage();
   });
-
 
   // Clear heatmap
   function clearHeatMap() {
@@ -694,9 +659,6 @@ canvas.observe('after:render', function(e) {
       heatMapCreate();
     }
     heatmapInstance.setData(JSON.parse(scenarioSelected));
-    // console.log(localStorage.getItem("heatMapStorage")[i]);
-    // var currentData = heatmapInstance.getData();
-
   }
 
   // Create Unique ID
@@ -710,21 +672,22 @@ canvas.observe('after:render', function(e) {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  // Clear all local storage.
   function clearLocalStorage() {
     localStorage.clear();
   }
   
-
-
 }); // End of document load javascript
 
-// This function detects keyboard press events.
+// This function detects keyboard press events which is used to move a Fabric.JS rectangle.
 $(document).keypress(function(e) {
-   e.preventDefault();
-   animateUp(e)
+
+  // Prevent long keypress bug
+  e.preventDefault();
+  animateKeypress(e)
 
    // This function moves the enemy rectangle using w,a,s,d keyboard keys.
-   function animateUp(e) {
+   function animateKeypress(e) {
 
     if (typeof enemyItem !== 'undefined') {
       if(e.which == 119) {

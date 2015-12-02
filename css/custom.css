@@ -23,7 +23,9 @@
 	text-shadow: 1px 1px #000;
 }
 
-
+#result {
+	padding-top: 1em;
+}
 
 /*
 * Control Panel
