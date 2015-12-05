@@ -113,8 +113,7 @@ $(document).ready(function() {
         opacity: 0.3
       });
 
-      // Group the shapes for the sniper.
-
+    // Group the shapes for the sniper.
 		snipers.push(new fabric.Group([ circle, triangle ], {
         top: 500,
         left: 300,
@@ -612,7 +611,7 @@ if($('#Canvas').hasClass("mapBG")) {
   	if(typeof val == 'undefined'){
   		val = 0.05;
   	}
-    // datapoint for sniper
+    // datapoints to generate heatmap
     var dataPointUnit = { 
       x: attrunitBrX, // x coordinate of the datapoint, a number 
       y: attrunitBrY, // y coordinate of the datapoint, a number
@@ -674,7 +673,7 @@ if($('#Canvas').hasClass("mapBG")) {
     heatmapInstance.store.setDataSet({data:[]});
   }
 
-  // Save heatmap @TODO Save Data for heatmap.
+  // Save heatmap data.
   function saveHeatMap() {
     var currentData = heatmapInstance.getData();
     uuid = guid();
