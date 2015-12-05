@@ -1,12 +1,16 @@
 /*
-* Custom javascript file which uses heatmap.js and fabric.js to generate shapes, animations and heatmaps.
-*
-*/ 
+ * Custom javascript file which uses heatmap.js and fabric.js to generate shapes, animations and heatmaps.
+ *
+ */
 
 var map;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
+    center: {
+      lat: -34.397,
+      lng: 150.644
+    },
     zoom: 8
   });
 }
@@ -15,7 +19,7 @@ $(document).ready(function() {
 
   // Global variables.
   manSizeRadius = 10;
-  runAnimate = true; 
+  runAnimate = true;
   var snipers = [];
   var machineGunners = [];
   var patrols = [];
@@ -24,16 +28,16 @@ $(document).ready(function() {
   $("#defence-tower, #sniper, #machineGun, #patroller, #step2, #run-simuation, #run-heatmap, #clear-heatmap, #save-simuation, #heatMapShow, #heatMapHide, #contextToMap, #contextToBase").hide();
 
   $('#contextToMap').click(function() {
-	  	$('#contextToMap').hide();
-		$('#contextToBase').show();
-		$('#mainContainer').addClass('mapContext');
+    $('#contextToMap').hide();
+    $('#contextToBase').show();
+    $('#mainContainer').addClass('mapContext');
   });
   $('#contextToBase').click(function() {
-	  	$('#contextToMap').show();
-		$('#contextToBase').hide();
-		$('#mainContainer').removeClass('mapContext');
+    $('#contextToMap').show();
+    $('#contextToBase').hide();
+    $('#mainContainer').removeClass('mapContext');
   });
-  
+
   // Create fabric object from id on the page.
   (function() {
     canvas = new fabric.Canvas('Canvas');
@@ -43,12 +47,12 @@ $(document).ready(function() {
   // Add tower click function.
   $("#defence-tower").click(function() {
     localCirle = canvas.add(
-      new fabric.Circle({ 
-    		top: 160,
-    		left:290,
-    		fill: '#089fdb', 
-    		radius: 140, 
-    		opacity: 0.7,
+      new fabric.Circle({
+        top: 160,
+        left: 290,
+        fill: '#089fdb',
+        radius: 140,
+        opacity: 0.7,
         lockUniScaling: true,
 
 
@@ -60,88 +64,89 @@ $(document).ready(function() {
   // Add base click function.
   $("#base").click(function() {
 
-      // Hide first instruction and base.
-      $("#step1, #base").hide();
-      $("#step2").css("background-color", "#D9534F");
-      $("#step2").css("color", "white");
+    // Hide first instruction and base.
+    $("#step1, #base").hide();
+    $("#step2").css("background-color", "#D9534F");
+    $("#step2").css("color", "white");
 
-      // After base click, show units.
-      $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
+    // After base click, show units.
+    $("#step2, #defence-tower, #sniper, #machineGun, #patroller").show();
 
-      localRect = canvas.add(
-        new fabric.Rect({
-  			top: 200,
-  			left: 330,
-  			width: 200, 
-  			height: 200, 
-  			fill: '#FFF', 
-  			opacity: 0.7, 
-  			strokeWidth: 5, 
-  			stroke: 'rgba(0,0,0,1)',
+    localRect = canvas.add(
+      new fabric.Rect({
+        top: 200,
+        left: 330,
+        width: 200,
+        height: 200,
+        fill: '#FFF',
+        opacity: 0.7,
+        strokeWidth: 5,
+        stroke: 'rgba(0,0,0,1)',
         lockUniScaling: true,
         lockScalingX: true,
         lockScalingY: true,
         lockMovementX: true,
         lockMovementY: true,
-        lockRotation: true })
-      );
+        lockRotation: true
+      })
+    );
   });
 
   // Add a sniper click function.
   $("#sniper").click(function() {
-	  $("#run-simuation").show();
-      addSniper();
+    $("#run-simuation").show();
+    addSniper();
   });
 
-	  function addSniper(){
+  function addSniper() {
 
-      // Circle for sniper.
-      var circle = new fabric.Circle({
-         top: 140,
-         left: 225,
-         radius: manSizeRadius,
-         fill: '#8b8b80'
-       });
+    // Circle for sniper.
+    var circle = new fabric.Circle({
+      top: 140,
+      left: 225,
+      radius: manSizeRadius,
+      fill: '#8b8b80'
+    });
 
-      // Triangle for sniper vision.
-      var triangle = new fabric.Triangle({
-        top: 170,
-        left: 210,
-        width: 50,
-        height: 300,
-        fill: '#8b8b80',
-        opacity: 0.3
-      });
+    // Triangle for sniper vision.
+    var triangle = new fabric.Triangle({
+      top: 170,
+      left: 210,
+      width: 50,
+      height: 300,
+      fill: '#8b8b80',
+      opacity: 0.3
+    });
 
     // Group the shapes for the sniper.
-		snipers.push(new fabric.Group([ circle, triangle ], {
-        top: 500,
-        left: 300,
-        angle: -45,
-    		centeredRotation: false,
-    		originX: "center",
-    		originY: "top",
-  			lockUniScaling: true,
-  			lockScalingX: true,
-  			lockScalingY: true
-      }));
-	  
-    canvas.add(snipers[snipers.length-1]);
-	 }
+    snipers.push(new fabric.Group([circle, triangle], {
+      top: 500,
+      left: 300,
+      angle: -45,
+      centeredRotation: false,
+      originX: "center",
+      originY: "top",
+      lockUniScaling: true,
+      lockScalingX: true,
+      lockScalingY: true
+    }));
 
-	
-	 
+    canvas.add(snipers[snipers.length - 1]);
+  }
+
+
+
   // Add a machine gun click function.
   $("#machineGun").click(function() {
-	 $("#run-simuation").show();
+    $("#run-simuation").show();
 
     // Circle for machine gun.
     var circle = new fabric.Circle({
-       top: 125,
-       left: 215,
-       radius: manSizeRadius,
-       fill: '#24b34b'
-     });
+      top: 125,
+      left: 215,
+      radius: manSizeRadius,
+      fill: '#24b34b'
+    });
 
     // Triangle for machine gun vision.
     var triangle = new fabric.Triangle({
@@ -154,19 +159,19 @@ $(document).ready(function() {
     });
 
     // Group the shapes for the sniper.
-    machineGunners.push(new fabric.Group([ circle, triangle ], {
+    machineGunners.push(new fabric.Group([circle, triangle], {
       top: 300,
       left: 210,
       angle: -50,
-	    centeredRotation: false,
-		  originX: "center",
-    	originY: "top",
-	  	lockUniScaling: true,
-		  lockScalingX: true,
-		  lockScalingY: true
+      centeredRotation: false,
+      originX: "center",
+      originY: "top",
+      lockUniScaling: true,
+      lockScalingX: true,
+      lockScalingY: true
     }));
 
-    canvas.add(machineGunners[machineGunners.length-1]);
+    canvas.add(machineGunners[machineGunners.length - 1]);
   });
 
   // Add a rotating shape on click function.
@@ -191,11 +196,11 @@ $(document).ready(function() {
 
     // Circle for patrol man.
     var circleMan = new fabric.Circle({
-       top: 530,
-       left: 200,
-       radius: manSizeRadius,
-       fill: '#363636'
-     });
+      top: 530,
+      left: 200,
+      radius: manSizeRadius,
+      fill: '#363636'
+    });
 
 
     // Patrol path
@@ -224,7 +229,7 @@ $(document).ready(function() {
       lockScalingY: true
     }));
 
-    canvas.add(patrols[patrols.length-1]);  
+    canvas.add(patrols[patrols.length - 1]);
   }
 
   $("#stop-simuation").hide();
@@ -232,228 +237,234 @@ $(document).ready(function() {
   // Run simulation function
   $("#run-simuation").click(function() {
     $("#canvas-clear").hide();
-	$('#mainContainer').removeClass('mapContext');
-	$('#contextToBase').hide();
-	$('#contextToMap').hide();
-		map.set('draggable', false);
-		map.set('scrollwheel', false);
-		map.set('disableDefaultUI', true);
+    $('#mainContainer').removeClass('mapContext');
+    $('#contextToBase').hide();
+    $('#contextToMap').hide();
+    map.set('draggable', false);
+    map.set('scrollwheel', false);
+    map.set('disableDefaultUI', true);
     $("#defence-tower, #sniper, #machineGun, #patroller").hide();
 
     heatMapCreate()
 
     runAnimate = false;
-  	
-  	//get angles 
-  	sniperAngles = [];
-  	machineGunnerAngles = [];
-  	patrolsAngles = [];
 
-  	for (i=0; i < snipers.length; i++){
-  		sniperAngles.push(snipers[i].angle);
-  	}
+    //get angles 
+    sniperAngles = [];
+    machineGunnerAngles = [];
+    patrolsAngles = [];
 
-  	for (i=0; i < machineGunners.length; i++){
-  		machineGunnerAngles.push(machineGunners[i].angle)
-  	}
+    for (i = 0; i < snipers.length; i++) {
+      sniperAngles.push(snipers[i].angle);
+    }
 
-  	for (i=0; i < patrols.length; i++){
-  		patrolsAngles.push(patrols[i].angle);
-  	}
-  	simulate()
+    for (i = 0; i < machineGunners.length; i++) {
+      machineGunnerAngles.push(machineGunners[i].angle)
+    }
+
+    for (i = 0; i < patrols.length; i++) {
+      patrolsAngles.push(patrols[i].angle);
+    }
+    simulate()
 
     $("#run-simuation").hide();
     $("#stop-simuation").show();
 
     // Check if defence units exist.
-  	function simulate(){
-  		if(patrols.length >= 1){
-  			for (i=0; i < patrols.length; i++){
-  				simulatePatrol(i);
-  			}
-  		}
-    	if(snipers.length >= 1){
-  			for (i=0; i < snipers.length; i++){
-  				simulateSniper(i);
-  			}
-    	}
-  		if(machineGunners.length >= 1){
-  			for (i=0; i < machineGunners.length; i++){
-  				simulateMachineGunner(i);
-  			}
-  		}
-  	}
-  	
+    function simulate() {
+      if (patrols.length >= 1) {
+        for (i = 0; i < patrols.length; i++) {
+          simulatePatrol(i);
+        }
+      }
+      if (snipers.length >= 1) {
+        for (i = 0; i < snipers.length; i++) {
+          simulateSniper(i);
+        }
+      }
+      if (machineGunners.length >= 1) {
+        for (i = 0; i < machineGunners.length; i++) {
+          simulateMachineGunner(i);
+        }
+      }
+    }
+
     function simulatePatrol(index) {
       //the variable is defined
       // Rotate the group of shapes every second by -10 degrees..
       var rotationAmount = 10;
-      patrols[index].animate({ angle: patrolsAngles[index] }, {
+      patrols[index].animate({
+        angle: patrolsAngles[index]
+      }, {
         duration: 1000,
         onChange: canvas.renderAll.bind(canvas),
         onComplete: function onComplete() {
           //console.log(Math.round(patrolManPlusVision.angle)),
           patrols[index].animate({
-            angle: patrolsAngles[index]-=rotationAmount
+            angle: patrolsAngles[index] -= rotationAmount
           }, {
             duration: 1000,
             onChange: canvas.renderAll.bind(canvas),
             onComplete: onComplete,
-            abort: function(){
+            abort: function() {
               return runAnimate;
 
             }
           });
         },
-      abort: function(){
-            return runAnimate;
+        abort: function() {
+          return runAnimate;
 
-          }
+        }
       });
 
       // Heat map functionality. 
       unitIndex = patrols[index];
       heatMapInterval(unitIndex, false, true);
     }
-	
+
     function simulateSniper(index) {
       var lookup = {};
       // console.log(snipers[index]);
-       snipers[index].animate({ angle: sniperAngles[index]+45 }, {
+      snipers[index].animate({
+        angle: sniperAngles[index] + 45
+      }, {
         //easing: fabric.util.ease.easeOutCubic,
         duration: 6000,
         onChange: canvas.renderAll.bind(canvas),
         onComplete: function onComplete() {
           snipers[index].animate({
-            angle: snipers[index].angle === sniperAngles[index]+45 ? sniperAngles[index]-45 : sniperAngles[index]+45
+            angle: snipers[index].angle === sniperAngles[index] + 45 ? sniperAngles[index] - 45 : sniperAngles[index] + 45
           }, {
             duration: 6000,
-        onChange: canvas.renderAll.bind(canvas),
+            onChange: canvas.renderAll.bind(canvas),
             onComplete: onComplete,
-        abort: function(){
-                return runAnimate;
+            abort: function() {
+              return runAnimate;
 
-              }
+            }
           });
         },
-        abort: function(){
+        abort: function() {
           return runAnimate;
         }
       });
       unitIndex = snipers[index];
-	    console.log("simulating sniper");
+      console.log("simulating sniper");
       heatMapInterval(unitIndex);
     }
-	
-  	function simulateMachineGunner(index){
-  	 machineGunners[index].animate({ angle: machineGunnerAngles[index]+30 }, {
+
+    function simulateMachineGunner(index) {
+      machineGunners[index].animate({
+        angle: machineGunnerAngles[index] + 30
+      }, {
         //easing: fabric.util.ease.easeOutCubic,
         duration: 4000,
         onChange: canvas.renderAll.bind(canvas),
         onComplete: function onComplete() {
           machineGunners[index].animate({
-            angle: machineGunners[index].angle === machineGunnerAngles[index]+30 ? machineGunnerAngles[index]-30 : machineGunnerAngles[index]+30
+            angle: machineGunners[index].angle === machineGunnerAngles[index] + 30 ? machineGunnerAngles[index] - 30 : machineGunnerAngles[index] + 30
           }, {
             duration: 4000,
-  		  onChange: canvas.renderAll.bind(canvas),
+            onChange: canvas.renderAll.bind(canvas),
             onComplete: onComplete,
-  		  abort: function(){
-                return runAnimate;
-              }
+            abort: function() {
+              return runAnimate;
+            }
           });
         },
-  	  abort: function(){
-                return runAnimate;
+        abort: function() {
+          return runAnimate;
 
-              }
+        }
       });
-     unitIndex = machineGunners[index];
-     heatMapInterval(unitIndex, true)
-  	}
+      unitIndex = machineGunners[index];
+      heatMapInterval(unitIndex, true)
+    }
 
     function enemyUnit() {
       // Circle for  vison.
       initPositionleft = 300;
       initPositionTop = 20;
-  	  if(typeof enemyItem !== 'undefined'){
-  		  enemyItem.remove();
-  	  }
+      if (typeof enemyItem !== 'undefined') {
+        enemyItem.remove();
+      }
 
       enemyItem = new fabric.Rect({
         top: initPositionTop,
-          left: initPositionleft,
-          width: 20, 
-          height: 20, 
-          fill: '#000', 
-          opacity: 0.7, 
-          strokeWidth: 5, 
-          stroke: 'rgba(255,255,255,1)' 
+        left: initPositionleft,
+        width: 20,
+        height: 20,
+        fill: '#000',
+        opacity: 0.7,
+        strokeWidth: 5,
+        stroke: 'rgba(255,255,255,1)'
       });
       canvas.add(enemyItem);
     }
-    enemyUnit() 
+    enemyUnit()
   });
 
   // Stop simulation function
   $("#stop-simuation").click(function() {
     $("#canvas-clear").show();
-	
+
     runAnimate = true;
     $("#save-simuation").show();
     $("#stop-simuation").hide();
     $("#heatMapHide").show();
-  	if(patrols.length >= 1){
-  		for (i=0; i < patrols.length; i++){
-  			patrols[i].angle = patrolAngles[i];
-  		}
-  	}
-		if(snipers.length >= 1){
-			for (i=0; i < snipers.length; i++){
-				snipers[i].angle = sniperAngles[i];
-			}
-		}
-		if(machineGunners.length >= 1){
-			for (i=0; i < machineGunners.length; i++){
-				machineGunners[i].angle = machineGunnerAngles[i];
-			}
-		}
+    if (patrols.length >= 1) {
+      for (i = 0; i < patrols.length; i++) {
+        patrols[i].angle = patrolAngles[i];
+      }
+    }
+    if (snipers.length >= 1) {
+      for (i = 0; i < snipers.length; i++) {
+        snipers[i].angle = sniperAngles[i];
+      }
+    }
+    if (machineGunners.length >= 1) {
+      for (i = 0; i < machineGunners.length; i++) {
+        machineGunners[i].angle = machineGunnerAngles[i];
+      }
+    }
 
     // Stop heatmap intervals.
-    if(typeof SimulateHeatMap !== 'undefined') {
+    if (typeof SimulateHeatMap !== 'undefined') {
       clearInterval(SimulateHeatMap);
     }
-	
+
   });
 
 
-canvas.observe('after:render', function(e) {
-	if(typeof enemyItem !== 'undefined'){
-    var targ = enemyItem;
-	
-    targ.setCoords();
+  canvas.observe('after:render', function(e) {
+    if (typeof enemyItem !== 'undefined') {
+      var targ = enemyItem;
 
-    // filter out itself
-    var items = canvas.getObjects().filter(function(o){
+      targ.setCoords();
+
+      // filter out itself
+      var items = canvas.getObjects().filter(function(o) {
         return targ !== o;
-    });
-    
-    var hit = false;
+      });
 
-    for (var i = 0, n = items.length; i < n; i++) {
+      var hit = false;
+
+      for (var i = 0, n = items.length; i < n; i++) {
         var m = items[i];
-        
+
         if (targ.intersectsWithObject(m)) {
-            targ.setFill("red");
-            hit = true;
+          targ.setFill("red");
+          hit = true;
         } else {
-            if (!hit) {
-                targ.setFill("#CCCCCC");
-            }
+          if (!hit) {
+            targ.setFill("#CCCCCC");
+          }
         }
 
+      }
     }
-	}
-});
+  });
 
   // Get users mouse points for debugging.
   canvas.on('mouse:down', function(options) {
@@ -463,80 +474,80 @@ canvas.observe('after:render', function(e) {
   // Clear canvas function
   $("#canvas-clear").click(function() {
     canvas.clear();
-	  runAnimate = true;
-	  snipers = [];
-	  machineGunners = [];
-	  patrols = [];
-	  map.set('draggable', true);
-	  map.set('scrollwheel', true);
-	  map.set('disableDefaultUI', false);
-	  map.set('mapTypeControl', true);
-	
+    runAnimate = true;
+    snipers = [];
+    machineGunners = [];
+    patrols = [];
+    map.set('draggable', true);
+    map.set('scrollwheel', true);
+    map.set('disableDefaultUI', false);
+    map.set('mapTypeControl', true);
+
     $(".heatmap-canvas").remove();
 
-		$('#mainContainer').removeClass('mapContext');
+    $('#mainContainer').removeClass('mapContext');
     // Hide elements on canvas clear.
     $("#stop-simuation, #defence-tower, #sniper, #machineGun, #patroller, #run-simuation, #step2, #save-simuation, #heatMapShow, #heatMapHide, #contextToBase, #contextToMap").hide();
-if($('#Canvas').hasClass("mapBG")) {
-		$('#contextToMap').show();
-		$('#contextToBase').hide();
-	}
+    if ($('#Canvas').hasClass("mapBG")) {
+      $('#contextToMap').show();
+      $('#contextToBase').hide();
+    }
     // Show elements on canvas clear.
     $("#step1, #base").show();
   });
-  
+
   // On page load, set grass background image in canvas.
   $('#Canvas').addClass('grassBG');
-		$('#contextToMap').hide();
-		$('#contextToBase').hide();
+  $('#contextToMap').hide();
+  $('#contextToBase').hide();
   // Changes canvas background to grass image.
   $('#changeToGrass').click(function() {
-	  		$('#contextToMap').hide();
-		$('#contextToBase').hide();
+    $('#contextToMap').hide();
+    $('#contextToBase').hide();
     $('#Canvas').removeClass('sandBG');
-		$('#Canvas').removeClass('snowBG');
-		$('#Canvas').removeClass('mapBG');
-		$('#mainContainer').removeClass('mapContext');
-		$('#Canvas').addClass('grassBG');
-	});
+    $('#Canvas').removeClass('snowBG');
+    $('#Canvas').removeClass('mapBG');
+    $('#mainContainer').removeClass('mapContext');
+    $('#Canvas').addClass('grassBG');
+  });
 
   // Changes canvas background to sand image.
-	$('#changeToSand').click(function() {
-				$('#contextToMap').hide();
-		$('#contextToBase').hide();
+  $('#changeToSand').click(function() {
+    $('#contextToMap').hide();
+    $('#contextToBase').hide();
     $('#Canvas').removeClass('snowBG');
-		$('#Canvas').removeClass('grassBG');
-		$('#Canvas').removeClass('mapBG');
-		$('#mainContainer').removeClass('mapContext');
-		$('#Canvas').addClass('sandBG');
-	});
+    $('#Canvas').removeClass('grassBG');
+    $('#Canvas').removeClass('mapBG');
+    $('#mainContainer').removeClass('mapContext');
+    $('#Canvas').addClass('sandBG');
+  });
 
   // Changes canvas background to snow image.
-	$('#changeToSnow').click(function() {
+  $('#changeToSnow').click(function() {
     $('#Canvas').removeClass('grassBG');
-		$('#contextToMap').hide();
-		$('#contextToBase').hide();
-		$('#Canvas').removeClass('sandBG');
-		$('#Canvas').removeClass('mapBG');
-		$('#mainContainer').removeClass('mapContext');
-		$('#Canvas').addClass('snowBG');
-	});
-	
-	$('#changeToMap').click(function() {
-		$('#Canvas').removeClass('grassBG');
-		$('#Canvas').removeClass('sandBG');
-		$('#Canvas').removeClass('snowBG');
-		$('#Canvas').addClass('mapBG');
-		$('#mainContainer').addClass('mapContext');
-		$('#contextToMap').hide();
-		$('#contextToBase').show();
-		
-	});
+    $('#contextToMap').hide();
+    $('#contextToBase').hide();
+    $('#Canvas').removeClass('sandBG');
+    $('#Canvas').removeClass('mapBG');
+    $('#mainContainer').removeClass('mapContext');
+    $('#Canvas').addClass('snowBG');
+  });
 
-	
-	
+  $('#changeToMap').click(function() {
+    $('#Canvas').removeClass('grassBG');
+    $('#Canvas').removeClass('sandBG');
+    $('#Canvas').removeClass('snowBG');
+    $('#Canvas').addClass('mapBG');
+    $('#mainContainer').addClass('mapContext');
+    $('#contextToMap').hide();
+    $('#contextToBase').show();
+
+  });
+
+
+
   // Heatmap function.
-  function heatMapCreate(){
+  function heatMapCreate() {
     // create configuration object
     // minimal heatmap instance configuration
     canvasHeight = $('#CanvasContainer').height();
@@ -546,30 +557,26 @@ if($('#Canvas').hasClass("mapBG")) {
     heatmapInstance = h337.create({
       // only container is required, the rest will be defaults
       container: document.querySelector('#CanvasContainer'),
-	  maxOpacity: 0.5,
-	  //max: 10000000
+      maxOpacity: 0.5,
+      //max: 10000000
     });
-	
-	//
+
+    //
   }
 
-  function heatMapInterval (unitIndex, gunner, patrol) {
-    
+  function heatMapInterval(unitIndex, gunner, patrol) {
+
     // Heat map functionality. #
-    SimulateHeatMap = window.setInterval(function(){
-    	this.patrol = patrol !== false;
-    	if(typeof gunner != 'undefined'){
-    		if(gunner == true)
-    		{
-    			val = 0.01;
-    		}
-    		else	
-    		{
-    			val = 0.05;
-    		}
-      }
-      else {
-      	val = 0.05;
+    SimulateHeatMap = window.setInterval(function() {
+      this.patrol = patrol !== false;
+      if (typeof gunner != 'undefined') {
+        if (gunner == true) {
+          val = 0.01;
+        } else {
+          val = 0.05;
+        }
+      } else {
+        val = 0.05;
       }
 
       // console.log(PatrolIndex);
@@ -578,62 +585,62 @@ if($('#Canvas').hasClass("mapBG")) {
         if (typeof unitIndex != 'undefined') {
           unitIndex.setCoords();
           // console.log("Top::" + snipers[index].bottom);
-          attrunitBrX = Math.round(unitIndex.oCoords.mb.x); 
+          attrunitBrX = Math.round(unitIndex.oCoords.mb.x);
           attrunitBrY = Math.round(unitIndex.oCoords.mb.y);
 
-      			if(typeof patrol == 'undefined'){
-      					topX = Math.round(unitIndex.oCoords.mt.x); 
-      					topY = Math.round(unitIndex.oCoords.mt.y); 
+          if (typeof patrol == 'undefined') {
+            topX = Math.round(unitIndex.oCoords.mt.x);
+            topY = Math.round(unitIndex.oCoords.mt.y);
 
-      					//calculate step
-      				  xStep = (topX-attrunitBrX)/10;
-      				  yStep = (topY-attrunitBrY)/10;
-      				  
-      				  for(i=0; i<9; i++){
-      					  heatMapAdd(Math.round(attrunitBrX+(xStep*(i+1))),Math.round(attrunitBrY+(yStep*(i+1))), val);
-      				  }
-      				
-                //heatMapAdd(attrunitBrX, attrunitBrY);
-          		  heatMapAdd(Math.round(unitIndex.oCoords.bl.x), Math.round(unitIndex.oCoords.bl.y));
-          		  heatMapAdd(Math.round(unitIndex.oCoords.br.x), Math.round(unitIndex.oCoords.br.y));
-      				
-      			}
-      			else {
-      				heatMapAdd(attrunitBrX,attrunitBrY, 0.2);
-      			}
+            //calculate step
+            xStep = (topX - attrunitBrX) / 10;
+            yStep = (topY - attrunitBrY) / 10;
+
+            for (i = 0; i < 9; i++) {
+              heatMapAdd(Math.round(attrunitBrX + (xStep * (i + 1))), Math.round(attrunitBrY + (yStep * (i + 1))), val);
+            }
+
+            //heatMapAdd(attrunitBrX, attrunitBrY);
+            heatMapAdd(Math.round(unitIndex.oCoords.bl.x), Math.round(unitIndex.oCoords.bl.y));
+            heatMapAdd(Math.round(unitIndex.oCoords.br.x), Math.round(unitIndex.oCoords.br.y));
+
+          } else {
+            heatMapAdd(attrunitBrX, attrunitBrY, 0.2);
+          }
         }
       }
-     }, 400);
+    }, 400);
   }
-  
+
   // Add heatmap points for sniper.
-  function heatMapAdd(attrunitBrX, attrunitBrY, val){ 
-  	if(typeof val == 'undefined'){
-  		val = 0.05;
-  	}
+  function heatMapAdd(attrunitBrX, attrunitBrY, val) {
+    if (typeof val == 'undefined') {
+      val = 0.05;
+    }
     // datapoints to generate heatmap
-    var dataPointUnit = { 
+    var dataPointUnit = {
       x: attrunitBrX, // x coordinate of the datapoint, a number 
       y: attrunitBrY, // y coordinate of the datapoint, a number
       value: val, // the value at datapoint(x, y),
       radius: 70,
     };
-  	//check if points are being added multiple times, and if the "value" of the point is too high
-  	var currentData = heatmapInstance.getData();
-  	var arrPoints = $.map(currentData, function(el) { return el });
-  	notInArray = true;
-  	for(step=0; step<arrPoints.length-1; step++)
-  	{
-  		if(arrPoints[i].value > 0.95){
-  			arrPoints[i].value = 0.95;
-  		}
-  		if(dataPointUnit.x == arrPoints[i].x && dataPointUnit.y == arrPoints[i].y){
-  			notInArray = false;
-  		}
-  	}
-  	if(notInArray == true){
-  		heatmapInstance.addData(dataPointUnit);
-  	}
+    //check if points are being added multiple times, and if the "value" of the point is too high
+    var currentData = heatmapInstance.getData();
+    var arrPoints = $.map(currentData, function(el) {
+      return el
+    });
+    notInArray = true;
+    for (step = 0; step < arrPoints.length - 1; step++) {
+      if (arrPoints[i].value > 0.95) {
+        arrPoints[i].value = 0.95;
+      }
+      if (dataPointUnit.x == arrPoints[i].x && dataPointUnit.y == arrPoints[i].y) {
+        notInArray = false;
+      }
+    }
+    if (notInArray == true) {
+      heatmapInstance.addData(dataPointUnit);
+    }
   }
 
   // Save simulation function.
@@ -670,14 +677,16 @@ if($('#Canvas').hasClass("mapBG")) {
 
   // Clear heatmap
   function clearHeatMap() {
-    heatmapInstance.store.setDataSet({data:[]});
+    heatmapInstance.store.setDataSet({
+      data: []
+    });
   }
 
   // Save heatmap data.
   function saveHeatMap() {
     var currentData = heatmapInstance.getData();
     uuid = guid();
-    var stringUuid =String(uuid)
+    var stringUuid = String(uuid)
     console.log(stringUuid);
     localStorage.setItem(stringUuid, JSON.stringify(currentData));
   }
@@ -694,8 +703,8 @@ if($('#Canvas').hasClass("mapBG")) {
 
   // Check if data is in local storage and add buttons.
   if (localStorage.length >= 1) {
-    for (var i = 0; i < localStorage.length; i++){
-      $( '<button type="button" class="getScenario btn btn-primary scenario-button" value="' + i +'">Scenario ' + i + '</button>' ).appendTo( "#result");
+    for (var i = 0; i < localStorage.length; i++) {
+      $('<button type="button" class="getScenario btn btn-primary scenario-button" value="' + i + '">Scenario ' + i + '</button>').appendTo("#result");
     }
   }
 
@@ -712,10 +721,12 @@ if($('#Canvas').hasClass("mapBG")) {
   function getHeatMaps(selectedHeatMap) {
     // Clear data in heatmap.
     // heatmapInstance.setDataSet({data:[]});
-    var arrJson = $.map(localStorage, function(el) { return el });
+    var arrJson = $.map(localStorage, function(el) {
+      return el
+    });
     scenarioSelected = arrJson[selectedHeatMap];
     console.log(scenarioSelected);
-    if(typeof heatmapInstance == 'undefined'){
+    if (typeof heatmapInstance == 'undefined') {
       heatMapCreate();
     }
     heatmapInstance.setData(JSON.parse(scenarioSelected));
@@ -736,7 +747,7 @@ if($('#Canvas').hasClass("mapBG")) {
   function clearLocalStorage() {
     localStorage.clear();
   }
-  
+
 }); // End of document load javascript
 
 // This function detects keyboard press events which is used to move a Fabric.JS rectangle.
@@ -746,34 +757,34 @@ $(document).keypress(function(e) {
   e.preventDefault();
   animateKeypress(e)
 
-   // This function moves the enemy rectangle using w,a,s,d keyboard keys.
-   function animateKeypress(e) {
+  // This function moves the enemy rectangle using w,a,s,d keyboard keys.
+  function animateKeypress(e) {
 
     if (typeof enemyItem !== 'undefined') {
-      if(e.which == 119) {
+      if (e.which == 119) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('top', initPositionTop-=20 , { 
+        enemyItem.animate('top', initPositionTop -= 20, {
           duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-      if(e.which == 97) {
+      if (e.which == 97) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('left', initPositionleft-=20 , { 
+        enemyItem.animate('left', initPositionleft -= 20, {
           duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-      if(e.which == 100) {
+      if (e.which == 100) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('left', initPositionleft+=20 , { 
+        enemyItem.animate('left', initPositionleft += 20, {
           duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
       }
-      if(e.which == 115) {
+      if (e.which == 115) {
         console.log(canvas.enemyItem);
-        enemyItem.animate('top', initPositionTop+=20 , { 
+        enemyItem.animate('top', initPositionTop += 20, {
           duration: 100,
           onChange: canvas.renderAll.bind(canvas),
         });
